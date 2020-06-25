@@ -41,7 +41,7 @@ Breadcrumbs::for('create-parent', function ($trail) {
 
 // Kelas
 Breadcrumbs::for('student-class', function ($trail) {
-    $trail->push('Kelas', route('student-class'));
+    $trail->push('Manajemen Kelas', route('student-class'));
 });
 
 Breadcrumbs::for('create-student-class', function ($trail) {
@@ -54,8 +54,26 @@ Breadcrumbs::for('list-student-class', function ($trail) {
     $trail->push('Kelas Diikuti', route('student-class'));
 });
 
-// Siswa
+Breadcrumbs::for('class-data', function ($trail) {
+    $trail->parent('student-class');
+    $trail->push('Kelas Diikuti', route('list-student-class'));
+    $trail->push('Data Kelas', route('student-class'));
+});
 
+// Feed
+Breadcrumbs::for('class-feed', function ($trail) {
+    $trail->parent('student-class');
+    $trail->push('Kelas Diikuti', route('list-student-class'));
+    $trail->push('Feed Kelas', route('student-class'));
+});
+
+Breadcrumbs::for('feed-data', function ($trail) {
+    $trail->parent('student-class');
+    $trail->push('Kelas Diikuti', route('list-student-class'));
+    $trail->push('Data Posting', route('student-class'));
+});
+
+// Siswa
 Breadcrumbs::for('siswa', function ($trail) {
     $trail->push('Siswa', route('siswa'));
 });
