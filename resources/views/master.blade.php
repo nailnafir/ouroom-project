@@ -10,13 +10,21 @@
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
 
-    <!-- Bootstrap -->
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/main.css">
 
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/bootstrap-theme.min.css">
 
     <!-- Semantic UI -->
     <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/card.css">
+    <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/item.css">
+    <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/button.css">
+    <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/image.css">
+    <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/segment.css">
+    <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/grid.css">
+    <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/label.css">
 
     <!--   Core JS Files   -->
     <script src="<?= URL::to('/'); ?>/layout/assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
@@ -60,6 +68,7 @@
     <link href="<?= URL::to('/'); ?>/layout/assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
     <link href="<?= URL::to('/'); ?>/layout/assets/css/additional_css.css" rel="stylesheet" />
     <link href="<?= URL::to('/'); ?>/layout/assets/css/icon.css" rel="stylesheet">
+    <link href="<?= URL::to('/'); ?>/layout/assets/css/comment.css" rel="stylesheet">
     
 
     @stack('scripts')

@@ -43,7 +43,7 @@
 
   @if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN || $user->account_type == User::ACCOUNT_TYPE_TEACHER)
     <div style="padding-bottom: 20px">
-      <a  href="{{ route('create-student-class') }}" type="button" class="btn btn-info"> TAMBAH </a>
+      <a  href="{{ route('create-student-class') }}" type="button" class="btn btn-info custombtn"> TAMBAH </a>
     </div>
     <div class="table-responsive">
       <table class="table table-bordered data-table display nowrap" style="width:100%">
@@ -61,36 +61,30 @@
     </div>
   @endif
   <br>
-  Manage Kelas
-  <hr style="border-top: 1px solid black;">
-  <div class="ui six doubling cards">
-      <a  href="{{ route('list-student-class') }}">
-        <div class="ui link cards">
-          <div class="card">
-            <div class="image">
-              <img src="<?= URL::to('/layout_login/images/logo fix.png') ?>">
-            </div>
-            <div class="content">
-              <div class="header" style="padding: 0px">Nama Pelajaran</div>
-              <div class="meta">
-                Guru Pengampu
-              </div>
-              <div class="description">
-                Keterangan
-              </div>
-            </div>
-            <div class="extra content">
-              <span class="right floated">
-                Angkatan 20XY
-              </span>
-              <span>
-                <i class="glyphicon glyphicon-user"></i>
-                XX
-              </span>
-            </div>
+  <fieldset>
+	<legend>List Kelas</legend>
+  <div class="ui three stackable cards">
+    @foreach($data_kelas as $dk)
+      <a class="ui card" href="{{ route('list-student-class, ['class_id'=>$id]') }}">
+        <div class="content">
+          <div class="header" style="padding: 0px">{{$dk->class_name}}</div>
+          <div class="meta">
+            <span class="category">Angkatan {{$dk->angkatan}}</span>
+          </div>
+          <div class="description">
+            <p>{{$dk->note}}</p>
+          </div>
+        </div>
+        <div class="extra content">
+          <div class="right floated author">
+            <img class="ui avatar image" src="<?= URL::to('/layout_login/images/logo fix.png') ?>"> {{$dk->teacher_id}}
+          </div>
+          <div class="left floated author">
+            <i class="glyphicon glyphicon-user"></i> {{$dk->full_name}}
           </div>
         </div>
       </a>
+    @endforeach
   </div>
 
 @endsection
@@ -125,7 +119,7 @@
       </div> 
       <div class="form-group">
         <label>Catatan</label>
-        <input type="text" class="form-control" value="" name="note" id="note">
+        <input type="text" class="form-control" value="" name="note" id="note" maxlength="30">
       </div>
 
       <div class="modal-footer">

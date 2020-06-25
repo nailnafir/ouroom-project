@@ -38,7 +38,7 @@
 
 		<div class="form-group">
 			<label>Catatan</label>
-			<input type="text" class="form-control" value="" name="note">
+			<input type="text" class="form-control" value="" name="note" maxlength="30">
 			@if ($errors->has('note'))
 			    <div class="error"><p style="color: red"><span>&#42;</span> {{ $errors->first('note') }}</p></div>
 			@endif

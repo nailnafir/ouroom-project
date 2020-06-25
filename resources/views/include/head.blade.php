@@ -35,14 +35,14 @@
             @if($user->account_type == User::ACCOUNT_TYPE_CREATOR)
               <li><a href="<?= URL::to('/role'); ?>"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span>&nbsp Role</a></li>
             @endif
-            <li><a href="<?= URL::to('/alquran'); ?>"><span class="glyphicon glyphicon-book" aria-hidden="true"></span>&nbsp Qur'an </a></li>
-            <li><a href="<?= URL::to('/iqro'); ?>"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp Iqro </a></li>
+            <!-- <li><a href="<?= URL::to('/alquran'); ?>"><span class="glyphicon glyphicon-book" aria-hidden="true"></span>&nbsp Qur'an </a></li>
+            <li><a href="<?= URL::to('/iqro'); ?>"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp Iqro </a></li> -->
             <li><a href="<?= URL::to('/action-log'); ?>"><span class="glyphicon glyphicon-record" aria-hidden="true"></span>&nbsp Log Sistem </a></li>
           </ul>
         </li>
         @endif
 
-        @if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN || $user->account_type == User::ACCOUNT_TYPE_TEACHER)
+        <!-- @if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN || $user->account_type == User::ACCOUNT_TYPE_TEACHER)
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <span class="glyphicon glyphicon-book" aria-hidden="true"></span> &nbsp Laporan
@@ -52,7 +52,7 @@
               <li><a href="{{route('student-report')}}"> Laporan Persiswa </a></li>
             </ul>
           </li>
-        @endif
+        @endif -->
 
         @if($user->account_type == User::ACCOUNT_TYPE_CREATOR)
           <li>

@@ -35,7 +35,7 @@
 @section('content')
 
 <div style="padding-bottom: 20px">
-  <a href="{{ route('create-user') }}" type="button" class="btn btn-info"> TAMBAH </a>
+  <a href="{{ route('create-user') }}" type="button" class="btn btn-info custombtn"> TAMBAH </a>
 </div>
 
 <div style="width: 100%; padding-left: -10px;">
