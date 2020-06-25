@@ -4,7 +4,7 @@
 
 @section('content')
 
-	<form method="post" action="{{ route('do-update-role', ['role_id'=>$id])}}">
+	<form method="post" action="{{ route('do-update-role', ['role_id'=>$id]) }}">
 
 		@csrf
 

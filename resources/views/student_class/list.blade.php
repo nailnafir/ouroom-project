@@ -85,8 +85,8 @@
 	@endif
 
 	<fieldset>
-	<legend>Nama Kelas</legend>
-	@foreach ($data_feed as $df)
+	@foreach ($detail_kelas as $df)
+		<legend>{{$df->class_name}}</legend>
 		<div class="ui raised segment">
 			<div class="top-attribute">
 				@if($df->kategori == 'Artikel')

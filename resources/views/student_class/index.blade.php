@@ -65,7 +65,7 @@
 	<legend>List Kelas</legend>
   <div class="ui three stackable cards">
     @foreach($data_kelas as $dk)
-      <a class="ui card" href="{{ route('list-student-class, ['class_id'=>$id]') }}">
+      <a class="ui card" href="{{ route('list-student-class', ['class_id'=>$dk->id]) }}">
         <div class="content">
           <div class="header" style="padding: 0px">{{$dk->class_name}}</div>
           <div class="meta">
