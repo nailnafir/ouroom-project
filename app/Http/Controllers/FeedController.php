@@ -44,7 +44,7 @@ class FeedController extends Controller {
         $this->validate($request, [
             'kategori' => 'required',
             'detail' => 'required',
-            'file' => 'mimes:jped,jpg,png,pdf,word|max:2048',
+            'file' => 'mimes:jped,jpg,png,pdf,doc,docx|max:2048',
         ]);
         $feed = new Feed();
         $feed->judul = $request->get('judul');
