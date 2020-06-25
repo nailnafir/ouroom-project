@@ -65,7 +65,7 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  margin: -0.875em -0.5em;
+  margin: 0px 25px;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
 }
@@ -169,7 +169,7 @@
 .ui.card > .content > .header {
   display: block;
   margin: '';
-  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
   color: rgba(0, 0, 0, 0.85);
 }
 
@@ -734,7 +734,7 @@ a.ui.card:hover,
   margin-right: 0.75em;
 }
 .ui.six.cards {
-  margin: 15px auto;
+  margin: 0px auto;
 }
 .ui.six.cards > .card {
   width: calc( 16.66666667%  -  1.5em );
