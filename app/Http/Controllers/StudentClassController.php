@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use App\Model\User\User;
 use App\Model\StudentClass\StudentClass;
+use App\Model\StudentClass\Feed;
 use App\Http\Requests\StudentClass\StoreStudentClassRequest;
 use App\Http\Requests\StudentClass\UpdateStudentClassRequest;
 use App\Http\Resources\StudentClass\StudentClassResource;
@@ -48,14 +49,24 @@ class StudentClassController extends Controller {
                     ->toJson();
         }
         $data_guru = User::getTeacher();
+        $data_kelas = DB::table('tbl_class')
+            ->join('tbl_user', 'tbl_class.teacher_id', '=', 'tbl_user.id')
+            ->select('tbl_class.*', 'tbl_user.full_name')
+            ->get();
+        $class_id = $request->id;
+        $feed_id = $request->id;
+        $detail_kelas = array (
+            'kelas' => StudentClass::find($class_id),
+            'feed' => Feed::find($feed_id),
+        );
         $guru_option = '<select class="js-example-basic-single form-control" name="teacher_id" id="guru" style="width: 100%">';
-            foreach ($data_guru as $guru) {
-                $guru_option .= '<option value="'.$guru->id.'">'.$guru->full_name.'</option>';
-            }
+        foreach ($data_guru as $guru) {
+            $guru_option .= '<option value="'.$guru->id.'">'.$guru->full_name.'</option>';
+        }
         $guru_option .= '</select>';
         $years = array_combine(range(date("Y"), 2001), range(date("Y"), 2001));
         if($this->getUserPermission('index class')){
-            return view('student_class.index', ['active'=>'student_class','years'=>$years,'guru_option'=>$guru_option]);
+            return view('student_class.index', ['active'=>'student_class', 'years'=>$years, 'guru_option'=>$guru_option, 'data_kelas'=>$data_kelas, 'data_guru'=>$data_guru, 'detail_kelas'=>$detail_kelas]);
         } else {
             return view('error.unauthorized', ['active'=>'student_class']);
         }
@@ -171,13 +182,6 @@ class StudentClassController extends Controller {
             DB::commit();
             return $this->getResponse(true,200,'','Kelas berhasil dihapus');
         }
-    }
-
-    /**
-     *
-     */
-    public function showClass(Request $request) {
-        return view('student_class.list', ['active'=>'student_class']);
     }
 
     // ------------------------------ Aditional Function -------------------
