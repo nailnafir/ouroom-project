@@ -83,9 +83,8 @@
 		</div>
 	</form>
 	@endif
-
 	<fieldset>
-	@foreach ($detail_kelas as $df)
+	@foreach ($data_feed as $df)
 		<legend>{{$df->class_name}}</legend>
 		<div class="ui raised segment">
 			<div class="top-attribute">

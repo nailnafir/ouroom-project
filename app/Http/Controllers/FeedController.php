@@ -27,7 +27,8 @@ class FeedController extends Controller {
      *
      */
     public function showFeed(Request $request) {
-        return view('student_class.feed', ['active'=>'student_class']);
+        $data_feed = Feed::all();
+        return view('student_class.feed', ['active'=>'student_class', 'data_feed'=>$data_feed]);
     }
 
     public function showFeedData(Request $request) {
@@ -51,7 +52,7 @@ class FeedController extends Controller {
         $feed->kategori = $request->get('kategori');
         $feed->detail = $request->get('detail');
         $files = $request->file('file');
-        $files_name = time().'_'.$files->getClientOriginalName();
+        $files_name = now().'_'.$files->getClientOriginalName();
         $files->move(public_path('data_file'), $files_name);
         $feed->file = $files_name;
         $feed->deadline = $request->get('deadline');
@@ -61,7 +62,6 @@ class FeedController extends Controller {
         } else {
             return redirect()->back()->with('alert_success', 'Data Berhasil Disimpan');
         }
-        
     }
 
     /**

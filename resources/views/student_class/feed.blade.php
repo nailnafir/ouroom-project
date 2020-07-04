@@ -44,12 +44,13 @@
 	
 	@endif
 
+    @foreach($data_feed as $df)
 	<fieldset>
 	<legend>Nama Kelas</legend>
     <form method="POST" action="{{ route('upload-feed') }}" class="upload-container" enctype="multipart/form-data">
         <div class="ui raised segment">
             <div class="top-attribute">
-                <a class="ui red ribbon huge label">Kategori</a><span class="judul">Judul</span>
+                <a class="ui red ribbon huge label">{{$df->kategori}}</a><span class="judul">Judul</span>
                 <div class="ui red large label deadline">Deadline</div>
                 <a class="ui top right attached huge label">
                     <span class="date-post">Date-Post</span>
@@ -57,7 +58,7 @@
             </div>
             <p style="margin: 10px 0px">Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident amet et illum nisi sequi esse odit labore facilis neque voluptatibus? Soluta quibusdam unde sunt quidem libero quis dolor perferendis minus?</p>
             <p style="margin: 10px 0px">Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident amet et illum nisi sequi esse odit labore facilis neque voluptatibus? Soluta quibusdam unde sunt quidem libero quis dolor perferendis minus?</p>
-            <div class="attached-files"></div>
+            <div class="attached-files"><a href="{{ url('public/data_file'.'/'.$df->file) }}"></div>
             <hr>
             <label>Upload File</label>
             <div class="ui segments sfile">
@@ -68,6 +69,7 @@
             </div>
         </div>
     </form>
+    @endforeach
 @endsection
 
 @push ('scripts')

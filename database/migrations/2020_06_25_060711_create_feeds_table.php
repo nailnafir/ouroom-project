@@ -15,19 +15,13 @@ class CreateFeedsTable extends Migration
     {
         Schema::create('tbl_feed', function (Blueprint $table) {
             $table->bigIncrements('id', 20);
-            // $table->unsignedBigInteger('class_id');
             $table->string('judul');
             $table->string('kategori');
-            $table->text('detail')->nullable();
+            $table->text('detail');
             $table->string('file')->nullable();
-            $table->date('deadline');
+            $table->date('deadline')->nullable();
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
-
-            // $table->foreign('class_id')
-            //     ->references('id')
-            //     ->on('tbl_class')
-            //     ->onDelete('cascade');
         });
     }
 

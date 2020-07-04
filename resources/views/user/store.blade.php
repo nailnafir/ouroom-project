@@ -43,7 +43,6 @@
 			<select class="form-control" name="account_type">
 				<option value="{{ User::ACCOUNT_TYPE_ADMIN }}">Admin</option>
 				<option value="{{ User::ACCOUNT_TYPE_TEACHER }}">Guru</option>
-				<option value="{{ User::ACCOUNT_TYPE_SISWA }}">Siswa</option>
 			</select>
 		</div>
 
