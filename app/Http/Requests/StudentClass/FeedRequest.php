@@ -16,11 +16,6 @@ class FeedRequest extends FormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
         return [
@@ -32,16 +27,12 @@ class FeedRequest extends FormRequest
         ];
     }
 
-    /**
-     * Get the validation messages that apply to the request.
-     *
-     * @return array
-     */
     public function messages()
     {
         return [
             'judul.required' => 'Judul tidak boleh dikosongkan',
-            'kategori.required' => 'Kategori tidak boleh dikosongkan',         
+            'kategori.required' => 'Kategori tidak boleh dikosongkan', 
+            'detail.required' => 'Detail tidak boleh dikosongkan',         
         ];
     }
 }

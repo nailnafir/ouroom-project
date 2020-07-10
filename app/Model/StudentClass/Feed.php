@@ -32,4 +32,15 @@ class Feed extends Model
     /**
      * 
      */
+    // public static function validateFeed($class_name, $guru, $feed) {
+    //     $data = self::where('class_name',$class_name)->where('teacher_id',$guru)->where('feed_id',$feed)->first();
+    //     if($data != null) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
+
+    // public function getClass() {
+    //     return $this->hasMany('App\Model\StudentClass\Feed','id','class_id');
+    // }
 }

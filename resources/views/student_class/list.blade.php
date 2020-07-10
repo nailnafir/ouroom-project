@@ -57,6 +57,8 @@
 				<label>Judul</label>
 				<input type="text" class="form-control" id="judul" name="judul">
 
+				<input hidden type="number" name="id_kelas" value="{{ $class_id }}">
+
 				<label>Kategori</label>
 				<select class="form-control" name="kategori">
                     <option selected="true" disabled="disabled">Pilih Kategori</option> 
@@ -84,8 +86,9 @@
 	</form>
 	@endif
 	<fieldset>
-	@foreach ($data_feed as $df)
-		<legend>{{$df->class_name}}</legend>
+
+	<legend>{{ $nama_kelas }}</legend>
+		@foreach ($data_feed as $df)
 		<div class="ui raised segment">
 			<div class="top-attribute">
 				@if($df->kategori == 'Artikel')

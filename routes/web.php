@@ -77,11 +77,6 @@ $router->group(['prefix' => 'student-class'], function () use ($router) {
 	$router->get('/get-feed-data',  ['as'=>'feed-data','uses' => 'FeedController@showFeedData']);
 });
 
-// Untuk Feed
-// $router->group(['prefix' => 'class-feed'], function () use ($router) {
-	
-// });
-
 // Untuk Siswa
 $router->group(['prefix' => 'siswa'], function () use ($router) {
 	$router->get('/',  ['as'=>'siswa','uses' => 'SiswaController@index']);

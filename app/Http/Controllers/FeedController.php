@@ -7,20 +7,22 @@ use App\Model\StudentClass\StudentClass;
 use Illuminate\Http\Request;
 use App\Http\Requests\StudentClass\FeedRequest;
 use Illuminate\Support\Facades\Storage;
+use DB;
 
 class FeedController extends Controller {
     /**
      *
      */
     public function showClass(Request $request) {
-        $data_feed = Feed::all();
         $class_id = $request->id;
-        $feed_id = $request->id;
-        $detail_kelas = array (
-            'kelas' => StudentClass::find($class_id),
-            'feed' => Feed::find($feed_id),
-        );
-        return view('student_class.list', ['active'=>'student_class', 'data_feed'=>$data_feed, 'detail_kelas'=>$detail_kelas]);
+        $data_feed = DB::table('tbl_feed')
+            ->select('*')
+            ->where('class_id', $class_id)
+            ->get();
+        $nama_kelas = DB::table('tbl_class')
+            ->where('id', $class_id)
+            ->value('class_name');
+        return view('student_class.list', ['active'=>'student_class', 'class_id'=>$class_id, 'nama_kelas'=>$nama_kelas, 'data_feed'=>$data_feed]);
     }
 
     /**
@@ -43,9 +45,10 @@ class FeedController extends Controller {
      */
     public function uploadFeed(Request $request) {
         $this->validate($request, [
+            'judul' => 'required',
             'kategori' => 'required',
             'detail' => 'required',
-            'file' => 'mimes:jped,jpg,png,pdf,doc,docx|max:2048',
+            'file' => 'mimes:jpeg,jpg,png,pdf,doc,docx|max:2048',
         ]);
         $feed = new Feed();
         $feed->judul = $request->get('judul');
@@ -56,6 +59,7 @@ class FeedController extends Controller {
         $files->move(public_path('data_file'), $files_name);
         $feed->file = $files_name;
         $feed->deadline = $request->get('deadline');
+        $feed->class_id = $request->get('id_kelas');
         $feed->save();
         if(!$feed->save()) {
             return redirect()->back()->with('alert_error', 'Gagal Disimpan');
