@@ -53,12 +53,6 @@ class StudentClassController extends Controller {
             ->join('tbl_user', 'tbl_class.teacher_id', '=', 'tbl_user.id')
             ->select('tbl_class.*', 'tbl_user.full_name')
             ->get();
-        // $class_id = $request->id;
-        // $feed_id = $request->id;
-        // $detail_kelas = array (
-        //     'kelas' => StudentClass::find($class_id),
-        //     'feed' => Feed::find($feed_id),
-        // );
         $guru_option = '<select class="js-example-basic-single form-control" name="teacher_id" id="guru" style="width: 100%">';
         foreach ($data_guru as $guru) {
             $guru_option .= '<option value="'.$guru->id.'">'.$guru->full_name.'</option>';

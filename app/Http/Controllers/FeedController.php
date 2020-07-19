@@ -14,28 +14,45 @@ class FeedController extends Controller {
      *
      */
     public function showClass(Request $request) {
-        $class_id = $request->id;
+        $class_name = $request->nama_kelas;
         $data_feed = DB::table('tbl_feed')
-            ->select('*')
-            ->where('class_id', $class_id)
+            ->join('tbl_class', 'tbl_feed.class_id', '=', 'tbl_class.id')
+            ->where('class_name', $class_name)
             ->get();
         $nama_kelas = DB::table('tbl_class')
-            ->where('id', $class_id)
+            ->where('class_name', $class_name)
             ->value('class_name');
-        return view('student_class.list', ['active'=>'student_class', 'class_id'=>$class_id, 'nama_kelas'=>$nama_kelas, 'data_feed'=>$data_feed]);
+        $id_kelas = DB::table('tbl_class')
+            ->select('id')
+            ->where('class_name', $class_name)
+            ->get();
+        // $id_feed = DB::findOrFail(id):
+        // dd ($id_kelas);
+        return view('student_class.list', ['active'=>'student_class', 'id_kelas'=>$id_kelas, 'nama_kelas'=>$nama_kelas, 'data_feed'=>$data_feed]);
     }
 
     /**
      *
      */
     public function showFeed(Request $request) {
-        $data_feed = Feed::all();
-        return view('student_class.feed', ['active'=>'student_class', 'data_feed'=>$data_feed]);
+        $class_id = $request->id;
+        $data_feed = DB::table('tbl_feed')
+            ->select('*')
+            ->where('class_id', $class_id)
+            ->get();
+        return view('student_class.feed', ['active'=>'student_class', 'data_feed'=>$data_feed, 'class_id'=>$class_id]);
     }
 
     public function showFeedData(Request $request) {
+        $class_id = $request->id;
         $data_feed = Feed::all();
-        return view('student_class.data_class', ['active'=>'student_class', 'data_feed'=>$data_feed]);
+        return view('student_class.data_class', ['active'=>'student_class', 'data_feed'=>$data_feed, 'class_id'=>$class_id]);
+    }
+
+    public function showSiswaClass(Request $request) {
+        $class_id = $request->id;
+        $data_feed = Feed::all();
+        return view('student_class.data_siswa', ['active'=>'student_class', 'data_feed'=>$data_feed, 'class_id'=>$class_id]);
     }
 
     /**

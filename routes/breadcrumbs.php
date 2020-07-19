@@ -1,6 +1,9 @@
 <?php
 
 // Home
+
+use App\Model\StudentClass\StudentClass;
+
 Breadcrumbs::for('home', function ($trail) {
     $trail->push('Home', route('home'));
 });
@@ -49,28 +52,40 @@ Breadcrumbs::for('create-student-class', function ($trail) {
     $trail->push('Tambah Kelas', route('student-class'));
 });
 
-Breadcrumbs::for('list-student-class', function ($trail) {
+Breadcrumbs::for('list-student-class', function ($trail, $nama_kelas) {
     $trail->parent('student-class');
-    $trail->push('Kelas Diikuti', route('student-class'));
+    $trail->push($nama_kelas, route('student-class', $nama_kelas));
 });
 
-Breadcrumbs::for('class-data', function ($trail) {
-    $trail->parent('student-class');
-    $trail->push('Kelas Diikuti', route('list-student-class'));
-    $trail->push('Data Kelas', route('student-class'));
-});
+// Breadcrumbs::for('class-data', function ($trail, $id) {
+//     $trail->parent('student-class');
+//     $trail->push(StudentClass::findOrFail($id)->class_name, route('student-class', StudentClass::findOrFail($id)->class_name));
+//     $trail->push('Feed', route('student-class'));
+// });
+
+// Breadcrumbs::for('class-data', function ($trail) {
+//     $trail->parent('student-class');
+//     $trail->push('Kelas Diikuti', route('list-student-class'));
+//     $trail->push('Data Kelas', route('student-class'));
+// });
 
 // Feed
-Breadcrumbs::for('class-feed', function ($trail) {
+Breadcrumbs::for('class-feed', function ($trail, $nama_kelas) {
     $trail->parent('student-class');
-    $trail->push('Kelas Diikuti', route('list-student-class'));
+    $trail->push($nama_kelas, route('student-class', $nama_kelas));
     $trail->push('Feed Kelas', route('student-class'));
 });
 
-Breadcrumbs::for('feed-data', function ($trail) {
+Breadcrumbs::for('feed-data', function ($trail, $nama_kelas) {
+    $trail->parent('student-class');
+    $trail->push($nama_kelas, route('student-class', $nama_kelas));
+    $trail->push('Data Posting', route('student-class'));
+});
+
+Breadcrumbs::for('list-siswa', function ($trail) {
     $trail->parent('student-class');
     $trail->push('Kelas Diikuti', route('list-student-class'));
-    $trail->push('Data Posting', route('student-class'));
+    $trail->push('Daftar Siswa', route('list-siswa'));
 });
 
 // Siswa

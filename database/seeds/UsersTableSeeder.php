@@ -22,5 +22,21 @@ class UsersTableSeeder extends Seeder
             'status' => 10,
             'account_type' => 'Creator'
         ]);
+        DB::table('tbl_user')->insert([
+            'username' => 'guru1',
+            'email' => 'guru@gmail.com',
+            'password' => Hash::make('guruatm'),
+            'full_name' => 'Rifa al-Afghani',
+            'status' => 10,
+            'account_type' => 'Guru'
+        ]);
+        DB::table('tbl_user')->insert([
+            'username' => 'guru2',
+            'email' => 'g@gmail.com',
+            'password' => Hash::make('guruatm'),
+            'full_name' => 'Yayang Kurnia',
+            'status' => 10,
+            'account_type' => 'Guru'
+        ]);
     }
 }
