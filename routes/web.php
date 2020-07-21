@@ -75,11 +75,11 @@ $router->group(['prefix' => 'student-class'], function () use ($router) {
 });
 
 // Untuk Feed
-$router->group(['prefix' => 'student-class/get-list'], function () use ($router) {
-	$router->get('/{id}',  ['as'=>'class-feed','uses' => 'FeedController@showFeed']);
-	$router->get('/get-data',  ['as'=>'class-data','uses' => 'FeedController@showClassData']);
-	$router->get('/get-feed-data',  ['as'=>'feed-data','uses' => 'FeedController@showFeedData']);
-	$router->get('/get-list-siswa',  ['as'=>'list-siswa','uses' => 'FeedController@showSiswaClass']);
+$router->group(['prefix' => 'student-class/{nama_kelas}'], function () use ($router) {
+	$router->get('/{feed_title}',  ['as'=>'class-feed','uses' => 'FeedController@showFeed']);
+	$router->get('/class-data',  ['as'=>'class-data','uses' => 'FeedController@showClassData']);
+	$router->get('/feed-data',  ['as'=>'feed-data','uses' => 'FeedController@showFeedData']);
+	$router->get('/list-siswa',  ['as'=>'list-siswa','uses' => 'FeedController@showSiswaClass']);
 });
 
 // Untuk Siswa

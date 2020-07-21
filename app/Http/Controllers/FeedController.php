@@ -23,11 +23,8 @@ class FeedController extends Controller {
             ->where('class_name', $class_name)
             ->value('class_name');
         $id_kelas = DB::table('tbl_class')
-            ->select('id')
             ->where('class_name', $class_name)
-            ->get();
-        // $id_feed = DB::findOrFail(id):
-        // dd ($id_kelas);
+            ->value('id');
         return view('student_class.list', ['active'=>'student_class', 'id_kelas'=>$id_kelas, 'nama_kelas'=>$nama_kelas, 'data_feed'=>$data_feed]);
     }
 
@@ -35,12 +32,20 @@ class FeedController extends Controller {
      *
      */
     public function showFeed(Request $request) {
-        $class_id = $request->id;
-        $data_feed = DB::table('tbl_feed')
+        $class_name = $request->nama_kelas;
+        $feed_title = $request->feed_title;
+        $nama_kelas = DB::table('tbl_class')
+            ->where('class_name', $class_name)
+            ->value('class_name');
+        $id_kelas = DB::table('tbl_class')
+            ->where('class_name', $class_name)
+            ->value('id');
+        $feed = DB::table('tbl_feed')
+            ->where('judul', $feed_title)
             ->select('*')
-            ->where('class_id', $class_id)
             ->get();
-        return view('student_class.feed', ['active'=>'student_class', 'data_feed'=>$data_feed, 'class_id'=>$class_id]);
+        // dd($feed);
+        return view('student_class.feed', ['active'=>'student_class', 'id_kelas'=>$id_kelas, 'nama_kelas'=>$nama_kelas, 'feed'=>$feed, 'feed_title'=>$feed_title]);
     }
 
     public function showFeedData(Request $request) {
