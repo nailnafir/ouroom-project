@@ -17,15 +17,11 @@ class CreateClassTable extends Migration {
             $table->string('class_name');
             $table->string('note')->nullable();
             $table->unsignedBigInteger('teacher_id');
-            $table->unsignedBigInteger('siswa_id')->nullable();
+            $table->string('token')->unique();
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
 
             $table->foreign('teacher_id')
-                ->references('id')
-                ->on('tbl_user')
-                ->onDelete('cascade');
-            $table->foreign('siswa_id')
                 ->references('id')
                 ->on('tbl_user')
                 ->onDelete('cascade');

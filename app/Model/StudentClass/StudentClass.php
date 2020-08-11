@@ -74,4 +74,8 @@ class StudentClass extends Model{
     public function getSiswa() {
         return $this->belongsTo('App\Model\Siswa\Siswa');
     }
+
+    public function hasUser(){
+        return $this->belongsToMany(User::class, 'tbl_class_user', 'user_id', 'class_id');
+    }
 }

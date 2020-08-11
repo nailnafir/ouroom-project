@@ -48,16 +48,10 @@ class FeedController extends Controller {
         return view('student_class.feed', ['active'=>'student_class', 'id_kelas'=>$id_kelas, 'nama_kelas'=>$nama_kelas, 'feed'=>$feed, 'feed_title'=>$feed_title]);
     }
 
-    public function showFeedData(Request $request) {
-        $class_id = $request->id;
-        $data_feed = Feed::all();
-        return view('student_class.data_class', ['active'=>'student_class', 'data_feed'=>$data_feed, 'class_id'=>$class_id]);
-    }
-
     public function showSiswaClass(Request $request) {
-        $class_id = $request->id;
+        $class_name = $request->nama_kelas;
         $data_feed = Feed::all();
-        return view('student_class.data_siswa', ['active'=>'student_class', 'data_feed'=>$data_feed, 'class_id'=>$class_id]);
+        return view('student_class.data_siswa', ['active'=>'student_class', 'data_feed'=>$data_feed]);
     }
 
     /**
@@ -100,61 +94,5 @@ class FeedController extends Controller {
         $data = Feed::findOrFail($id);
         $data->delete();
         return redirect()->back()->with('success', 'Data is successfully deleted');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Feed  $feed
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Feed $feed)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Feed  $feed
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Feed $feed)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Feed  $feed
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Feed $feed)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Feed  $feed
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Feed $feed)
-    {
-        //
     }
 }

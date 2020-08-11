@@ -46,6 +46,11 @@ Breadcrumbs::for('student-class', function ($trail) {
     $trail->push('Manajemen Kelas', route('student-class'));
 });
 
+Breadcrumbs::for('user-class', function ($trail) {
+    $trail->parent('student-class');
+    $trail->push('Kelas', route('user-class'));
+});
+
 Breadcrumbs::for('create-student-class', function ($trail) {
     $trail->parent('student-class');
     $trail->push('Tambah Kelas', route('student-class'));
@@ -63,16 +68,16 @@ Breadcrumbs::for('class-feed', function ($trail, $nama_kelas, $feed_title) {
     $trail->push($feed_title, route('class-feed', [$nama_kelas, $feed_title]));
 });
 
-Breadcrumbs::for('feed-data', function ($trail, $nama_kelas) {
+Breadcrumbs::for('class-data', function ($trail, $nama_kelas) {
     $trail->parent('student-class');
     $trail->push($nama_kelas, route('list-student-class', $nama_kelas));
-    $trail->push('Data Posting', route('feed-data'));
+    $trail->push('Data Feed Kelas', route('class-data', $nama_kelas));
 });
 
 Breadcrumbs::for('list-siswa', function ($trail, $nama_kelas) {
     $trail->parent('student-class');
     $trail->push($nama_kelas, route('list-student-class', $nama_kelas));
-    $trail->push('Daftar Siswa', route('list-siswa'));
+    $trail->push('Daftar Siswa', route('list-siswa', $nama_kelas));
 });
 
 // Siswa

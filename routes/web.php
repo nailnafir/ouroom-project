@@ -67,19 +67,25 @@ $router->group(['prefix' => 'student-class'], function () use ($router) {
 	$router->post('/delete',  ['as'=>'delete-student-class','uses' => 'StudentClassController@delete']);
 	$router->post('/get-detail',  ['as'=>'detail-student','uses' => 'StudentClassController@show']);
 	$router->post('/update',  ['as'=>'update-student','uses' => 'StudentClassController@update']);
+	$router->get('/join', ['as'=>'join-class','uses' => 'StudentClassController@join']);
+	$router->post('/join', ['as'=>'join-student-class','uses' => 'StudentClassController@joinClass']);
 
 	// Class Feed
-	$router->get('/{nama_kelas}', ['as'=>'list-student-class','uses' => 'FeedController@showClass']);
 	$router->post('/upload',  ['as'=>'upload-feed','uses' => 'FeedController@uploadFeed']);
 	$router->post('/delete',  ['as'=>'delete-feed','uses' => 'FeedController@deleteFeed']);
+	$router->get('/{nama_kelas}', ['as'=>'list-student-class','uses' => 'FeedController@showClass']);
+});
+
+$router->group(['prefix' => 'user-class'], function () use ($router) {
+	$router->get('/', ['as'=>'user-class','uses' => 'StudentClassController@userIndex']);
+	$router->post('/', ['as'=>'join-student-class','uses' => 'StudentClassController@joinClass']);
 });
 
 // Untuk Feed
 $router->group(['prefix' => 'student-class/{nama_kelas}'], function () use ($router) {
-	$router->get('/{feed_title}',  ['as'=>'class-feed','uses' => 'FeedController@showFeed']);
 	$router->get('/class-data',  ['as'=>'class-data','uses' => 'FeedController@showClassData']);
-	$router->get('/feed-data',  ['as'=>'feed-data','uses' => 'FeedController@showFeedData']);
 	$router->get('/list-siswa',  ['as'=>'list-siswa','uses' => 'FeedController@showSiswaClass']);
+	$router->get('/{feed_title}',  ['as'=>'class-feed','uses' => 'FeedController@showFeed']);
 });
 
 // Untuk Siswa
@@ -112,7 +118,6 @@ $router->group(['prefix' => 'iqro'], function () use ($router) {
 	$router->post('/get-detail',  ['as'=>'detail-iqro','uses' => 'IqroController@show']);
 	$router->post('/update',  ['as'=>'update-iqro','uses' => 'IqroController@update']);
 });
-
 
 // Untuk Alquran (Surah)
 $router->group(['prefix' => 'alquran'], function () use ($router) {
