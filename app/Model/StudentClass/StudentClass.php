@@ -76,6 +76,6 @@ class StudentClass extends Model{
     }
 
     public function hasUser(){
-        return $this->belongsToMany(User::class, 'tbl_class_user', 'user_id', 'class_id');
+        return $this->belongsToMany(User::class, 'tbl_class_user', 'class_id', 'user_id');
     }
 }

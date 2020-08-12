@@ -13,6 +13,7 @@ use App\Http\Resources\StudentClass\StudentClassResource;
 use App\Http\Resources\StudentClass\StudentClassCollection;
 use Auth;
 use DB;
+use Illuminate\Support\Facades\Log;
 
 class StudentClassController extends Controller {
 	/**
@@ -64,9 +65,9 @@ class StudentClassController extends Controller {
             if($this->getUserLogin()->account_type == User::ACCOUNT_TYPE_SISWA || User::ACCOUNT_TYPE_TEACHER){
                 $data_kelas = DB::table('tbl_class')
                     ->join('tbl_user', 'tbl_class.teacher_id', '=', 'tbl_user.id')
-                    // ->where('username', $user)
-                    ->select('tbl_class.*', 'tbl_user.*')
+                    ->select('tbl_class.*', 'tbl_user.full_name')
                     ->get();
+                // dd($data_kelas);
             } else {
                 $data_kelas = DB::table('tbl_class')
                     ->join('tbl_user', 'tbl_class.teacher_id', '=', 'tbl_user.id')
@@ -81,7 +82,6 @@ class StudentClassController extends Controller {
 
     public function userIndex() {
         $user = Auth::id();
-        // $data_kelas = StudentClass::with('hasUser')->where('user_id', '=', $user)->get();
         $data_kelas = User::where('id', '=', $user)
             ->with('hasClass')
             ->get();
@@ -98,19 +98,7 @@ class StudentClassController extends Controller {
         $id_kelas = DB::table('tbl_class')
             ->where('token', $token_kelas)
             ->value('id');
-        $user->hasClass()->attach($id_kelas);
-        // $data_kelas = DB::table('tbl_class')
-        //     ->join('tbl_user', 'tbl_class.teacher_id', '=', 'tbl_user.id')
-        //     ->select('tbl_class.*', 'tbl_user.*')
-        //     ->get();
-        // dd($user);
-        // dd($data_kelas);
-        // if(!$data_siswa->save()) {
-        //     return redirect()->back()->with('alert_error', 'Token Tidak Terdaftar');
-        // } else {
-        //     return redirect('student-class', ['active'=>'student_class', 'data_kelas'=>$data_kelas])->with('alert_success', 'Berhasil Join Kelas');
-        // }
-        // return view('student_class.user_index', ['active'=>'student_class', 'data_kelas'=>$data_kelas])->with('alert_success', 'Berhasil Join Kelas');
+        $user->hasClass()->syncWithoutDetaching($id_kelas);
         return redirect()->back()->with('alert_success', 'Berhasil Join Kelas');
     }
 
@@ -211,9 +199,6 @@ class StudentClassController extends Controller {
         }
     }
 
-    /**
-     *
-     */
     public function delete(Request $request) {
         if ($request->ajax()) {
             DB::beginTransaction();
@@ -227,7 +212,4 @@ class StudentClassController extends Controller {
         }
     }
 
-    // ------------------------------ Aditional Function -------------------
-   
-    
 }
