@@ -27,9 +27,11 @@ class RoleTableSeeder extends Seeder{
             // Assigning User to ROLE first time
             $user->assignRole('Creator');
             $user->assignRole('Administrator');
+
             // Assign All Permission to creator role
             $role_creator->givePermissionTo(Permission::all());
             $role_admin->givePermissionTo(Permission::all());
+
             // Assign Default Permission to Teacher
             $role_guru->givePermissionTo('index home');
             $role_guru->givePermissionTo('all report');
@@ -38,11 +40,19 @@ class RoleTableSeeder extends Seeder{
             $role_guru->givePermissionTo('index assessment');
             $role_guru->givePermissionTo('create assessment');
             $role_guru->givePermissionTo('change password');
+            $role_guru->givePermissionTo('index class');
+            $role_guru->givePermissionTo('view class');
+            $role_guru->givePermissionTo('create class');
+            $role_guru->givePermissionTo('update class');
+            $role_guru->givePermissionTo('delete class');
+
             // Assign Default Permission to Siswa
             $role_siswa->givePermissionTo('index home');
             $role_siswa->givePermissionTo('index profile');
             $role_siswa->givePermissionTo('update profile');
             $role_siswa->givePermissionTo('change password');
+            $role_siswa->givePermissionTo('index class');
+            $role_siswa->givePermissionTo('view class');
         }
     }
 

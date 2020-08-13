@@ -16,20 +16,10 @@ use DB;
 use Illuminate\Support\Facades\Log;
 
 class StudentClassController extends Controller {
-	/**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct() {
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application index.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index(Request $request) {
         if ($request->ajax()) {
             $data = StudentClass::all();
@@ -63,12 +53,11 @@ class StudentClassController extends Controller {
         $years = array_combine(range(date("Y"), 2001), range(date("Y"), 2001));
 
         if($this->getUserPermission('index class')){
-            if($this->getUserLogin()->account_type == User::ACCOUNT_TYPE_SISWA || User::ACCOUNT_TYPE_TEACHER){
+            if($this->getUserLogin()->account_type == User::ACCOUNT_TYPE_CREATOR || $this->getUserLogin()->account_type == User::ACCOUNT_TYPE_ADMIN){
                 $data_kelas = DB::table('tbl_class')
                     ->join('tbl_user', 'tbl_class.teacher_id', '=', 'tbl_user.id')
                     ->select('tbl_class.*', 'tbl_user.full_name')
                     ->get();
-                // dd($data_kelas);
             } else {
                 $data_kelas = User::where('id', '=', $user_id)
                     ->with('hasClass')
@@ -78,15 +67,6 @@ class StudentClassController extends Controller {
         } else {
             return view('error.unauthorized', ['active'=>'student_class']);
         }
-    }
-
-    public function userIndex() {
-        $user = Auth::id();
-        $data_kelas = User::where('id', '=', $user)
-            ->with('hasClass')
-            ->get();
-        // dd($data_kelas);
-        return view('student_class.user_index', ['active'=>'student_class', 'data_kelas'=>$data_kelas]);
     }
 
     public function joinClass(Request $request) {
@@ -102,9 +82,6 @@ class StudentClassController extends Controller {
         return redirect()->back()->with('alert_success', 'Berhasil Join Kelas');
     }
 
-    /**
-     * @return void
-     */
     public function create(){
         if($this->getUserPermission('create class')){
             $years = array_combine(range(date("Y"), 2015), range(date("Y"), 2015));
@@ -114,9 +91,6 @@ class StudentClassController extends Controller {
         }
     }
 
-    /**
-     * @return void
-     */
     public function update(UpdateStudentClassRequest $request){
         if ($request->ajax()) {
             DB::beginTransaction();
@@ -138,9 +112,6 @@ class StudentClassController extends Controller {
         }
     }
 
-    /**
-     * @return void
-     */
     public function store(StoreStudentClassRequest $request) {
         DB::beginTransaction();
         $student_class = new StudentClass();
@@ -166,9 +137,6 @@ class StudentClassController extends Controller {
         }
     }
 
-    /**
-     * @return void
-     */
     public function getUserTeacher(Request $request) {
         if ($request->ajax()) {
             if($request->has('search')){
@@ -189,9 +157,6 @@ class StudentClassController extends Controller {
         }
     }
 
-    /**
-     *
-     */
     public function show(Request $request) {
         if ($request->ajax()) {
             $student_class = StudentClass::findOrFail($request->get('idclass'));
@@ -211,5 +176,4 @@ class StudentClassController extends Controller {
             return $this->getResponse(true,200,'','Kelas berhasil dihapus');
         }
     }
-
 }

@@ -42,7 +42,6 @@ class FeedController extends Controller
             ->where('judul', $feed_title)
             ->select('*')
             ->get();
-        // dd($feed);
         return view('student_class.feed', ['active' => 'student_class', 'id_kelas' => $id_kelas, 'nama_kelas' => $nama_kelas, 'feed' => $feed, 'feed_title' => $feed_title]);
     }
 
