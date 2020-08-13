@@ -12,9 +12,6 @@ use DB;
 
 class FeedController extends Controller
 {
-    /**
-     *
-     */
     public function showClass(Request $request)
     {
         $class_name = $request->nama_kelas;
@@ -31,9 +28,6 @@ class FeedController extends Controller
         return view('student_class.list', ['active' => 'student_class', 'id_kelas' => $id_kelas, 'nama_kelas' => $nama_kelas, 'data_feed' => $data_feed]);
     }
 
-    /**
-     *
-     */
     public function showFeed(Request $request)
     {
         $class_name = $request->nama_kelas;
@@ -54,54 +48,23 @@ class FeedController extends Controller
 
     public function showSiswaClass(Request $request)
     {
-        // $class_name = $request->nama_kelas;
-        // $id_kelas = StudentClass::where('class_name', $class_name)->value('id');
-        // $data_siswa = StudentClass::where('id', '=', $id_kelas)
-        //     ->with('hasUser')
-        //     ->get();
-        // dd($data_siswa);
-        // return view('student_class.data_siswa', ['active' => 'student_class', 'data_siswa' => $data_siswa]);
-        if ($request->ajax()) {
-            $class_name = $request->nama_kelas;
-            $id_kelas = StudentClass::where('class_name', $class_name)
-                ->value('id');
-            $data_siswa = StudentClass::where('id', '=', $id_kelas)
-                ->with('hasUser')
-                ->get();
-            return Datatables::of($data_siswa)
-                ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $delete = '<button onclick="btnDel(' . $row->id . ')" name="btnDel" type="button" class="btn btn-info"><span class="glyphicon glyphicon-trash"></span></button>';
-                    return $delete;
-                })
-                ->rawColumns(['action'])
-                ->toJson();
-        }
+        $class_name = $request->nama_kelas;
+        $id_kelas = StudentClass::where('class_name', $class_name)->value('id');
+        $data_siswa = StudentClass::where('id', '=', $id_kelas)
+            ->with('hasUser')
+            ->get();
         if ($this->getUserPermission('index class')) {
-            return view('student_class.data_siswa', ['active' => 'student_class']);
+            return view('student_class.data_siswa', ['active' => 'student_class', 'data_siswa' => $data_siswa]);
         } else {
             return view('error.unauthorized', ['active' => 'student_class']);
         }
     }
 
-    public function deleteSiswaClass(Request $request) {
-        if ($request->ajax()) {
-            DB::beginTransaction();
-            $siswaClass = StudentClass::findOrFail($request->iduser);
-            if(!$siswaClass->delete()) {
-                DB::rollBack();
-                return $this->getResponse(false,400,'','Kelas gagal dihapus');
-            }
-            DB::commit();
-            return $this->getResponse(true,200,'','Kelas berhasil dihapus');
-        }
+    public function deleteSiswaClass($id) {
+        DB::table('tbl_user')->where('id', $id)->delete();
+        return redirect()->back()->with('alert_success', 'Data Berhasil Hapus');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function uploadFeed(Request $request)
     {
         $this->validate($request, [
@@ -128,11 +91,6 @@ class FeedController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function deleteFeed()
     {
         $data = Feed::findOrFail($id);

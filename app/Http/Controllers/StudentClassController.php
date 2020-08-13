@@ -53,6 +53,7 @@ class StudentClassController extends Controller {
         $data_guru = User::getTeacher();
         $data_user = Auth::user()->full_name;
         $user = User::findOrFail(Auth::user()->id);
+        $user_id = Auth::id();
 
         $guru_option = '<select class="js-example-basic-single form-control" name="teacher_id" id="guru" style="width: 100%">';
         foreach ($data_guru as $guru) {
@@ -69,9 +70,8 @@ class StudentClassController extends Controller {
                     ->get();
                 // dd($data_kelas);
             } else {
-                $data_kelas = DB::table('tbl_class')
-                    ->join('tbl_user', 'tbl_class.teacher_id', '=', 'tbl_user.id')
-                    ->select('tbl_class.*', 'tbl_user.full_name')
+                $data_kelas = User::where('id', '=', $user_id)
+                    ->with('hasClass')
                     ->get();
             }
             return view('student_class.index', ['active'=>'student_class', 'years'=>$years, 'guru_option'=>$guru_option, 'data_kelas'=>$data_kelas, 'data_guru'=>$data_guru, 'data_user'=>$data_user]);
