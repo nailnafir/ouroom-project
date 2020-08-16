@@ -41,55 +41,58 @@
 	?>
 
 	@if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN || $user->account_type == User::ACCOUNT_TYPE_TEACHER)
-	<div class="data-tugas">
-		<a  href="{{ route('feed-data') }}" type="button" class="btn btn-info custombtn"> DATA POSTING </a>
-    </div>
-	<hr style="border-top: 1px solid #c6c6c6">
-	<form method="POST" action="{{ route('upload-feed') }}" class="upload-container" enctype="multipart/form-data">
-
-		@csrf
-
-		<div class="ui raised segments">
-			<div class="ui segment">
-				<a class="ui blue ribbon huge label">Tambahkan Sesuatu</a>
-			</div>
-			<div class="upload">
-				<label>Judul</label>
-				<input type="text" class="form-control" id="judul" name="judul">
-
-				<input hidden type="number" name="id_kelas" value="{{ $class_id }}">
-
-				<label>Kategori</label>
-				<select class="form-control" name="kategori">
-                    <option selected="true" disabled="disabled">Pilih Kategori</option> 
-                    <option value="Artikel">Artikel</option>
-					<option value="Tugas">Tugas</option>
-					<option value="Ujian">Ujian</option>
-				</select>
-			</div>
-			<div class="ui segments">
-				<textarea class="form-control" placeholder="Detail" rows="10" id="detail" name="detail"></textarea>
-			</div>
-			<div class="upload">
-				<label>Upload File</label>
-				<input type="file" class="form-control" id="file" name="file">
-
-				<label>Tenggat Waktu</label>
-				<input type="date" min="2020-01-01" class="form-control" id="deadline" name="deadline">
-			</div>
-			<div class="ui segments">
-				<button type="submit" class="ui primary fluid bottom huge button">
-					POST
-				</button>
+		<div class="feed-control">
+			<div class="feed-control-button">
+				<a  href="{{ route('list-siswa', ['nama_kelas'=>$nama_kelas]) }}" type="button" class="btn btn-info custombtn"> DAFTAR SISWA </a>
 			</div>
 		</div>
-	</form>
+		
+		<hr style="border-top: 1px solid #c6c6c6">
+		<form method="POST" action="{{ route('upload-feed') }}" class="upload-container" enctype="multipart/form-data">
+
+			@csrf
+
+			<div id="customSegments" class="ui raised segments">
+				<div class="ui segment">
+					<a class="ui blue ribbon huge label">Tambahkan Sesuatu</a>
+				</div>
+				<div class="upload">
+					<label>Judul</label>
+					<input type="text" class="form-control" id="judul" name="judul">
+
+					<input type="hidden" name="id_kelas" value="{{ $id_kelas }}">
+
+					<label>Kategori</label>
+					<select class="form-control" name="kategori">
+						<option selected="true" disabled="disabled">Pilih Kategori</option> 
+						<option value="Artikel">Artikel</option>
+						<option value="Tugas">Tugas</option>
+						<option value="Ujian">Ujian</option>
+					</select>
+				</div>
+				<div class="ui segments">
+					<textarea class="form-control" placeholder="Detail" rows="10" id="detail" name="detail"></textarea>
+				</div>
+				<div class="upload">
+					<label>Upload File</label>
+					<input type="file" class="form-control" id="file" name="file">
+
+					<label>Tenggat Waktu</label>
+					<input type="date" min="2020-01-01" class="form-control" id="deadline" name="deadline">
+				</div>
+				<div class="ui segments">
+					<button type="submit" class="ui primary fluid bottom huge button">
+						POST
+					</button>
+				</div>
+			</div>
+		</form>
 	@endif
 	<fieldset>
 
 	<legend>{{ $nama_kelas }}</legend>
 		@foreach ($data_feed as $df)
-		<div class="ui raised segment">
+		<div id="customSegments" class="ui raised segment">
 			<div class="top-attribute">
 				@if($df->kategori == 'Artikel')
 					<a class="ui green ribbon huge label">{{$df->kategori}}
@@ -111,8 +114,8 @@
 					@endif
 				</a>
 			</div>
-			<p style="margin: 10px 0px">{{$df->detail}}</p>
-			<a href="{{ route('class-feed') }}" class="ui bottom attached large button">
+			<pre class="detail-section">{{$df->detail}}</pre>
+			<a href="{{ route('class-feed', ['nama_kelas'=>$nama_kelas, 'feed_title'=>$df->judul]) }}" class="ui bottom attached large button">
 				Lihat
 			</a>
 		</div>

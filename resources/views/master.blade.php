@@ -13,18 +13,21 @@
     <!-- Main CSS -->
     <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/main.css">
 
+    <!-- Semantic UI -->
+    <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/semantic.min.css">
+
     <!-- Bootstrap -->
     <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/bootstrap-theme.min.css">
 
-    <!-- Semantic UI -->
-    <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/card.css">
+     <!-- Semantic UI -->
+     <!-- <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/card.css">
     <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/item.css">
     <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/button.css">
     <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/image.css">
     <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/segment.css">
     <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/grid.css">
-    <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/label.css">
+    <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/label.css"> -->
 
     <!--   Core JS Files   -->
     <script src="<?= URL::to('/'); ?>/layout/assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
@@ -122,17 +125,20 @@
 </body>
     
 
-	<!--  Charts Plugin -->
-	<script src="<?= URL::to('/'); ?>/layout/assets/js/chartist.min.js"></script>
+	<!-- Charts Plugin -->
+    <script src="<?= URL::to('/'); ?>/layout/assets/js/chartist.min.js"></script>
 
-    <!--  Notifications Plugin    -->
+    <!-- Semantic UI  -->
+    <!-- <script src="<?= URL::to('/'); ?>/layout/assets/js/semantic.min.js"></script> -->
+
+    <!-- Notifications Plugin    -->
     <script src="<?= URL::to('/'); ?>/layout/assets/js/bootstrap-notify.js"></script>
 
     <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
 	<script src="<?= URL::to('/'); ?>/layout/assets/js/light-bootstrap-dashboard.js?v=1.4.0"></script>
 
 	<!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
-	<script src="<?= URL::to('/'); ?>/layout/assets/js/demo.js"></script>
+	<!-- <script src="<?= URL::to('/'); ?>/layout/assets/js/demo.js"></script> -->
 
 	<script type="text/javascript">
     	

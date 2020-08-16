@@ -1,5 +1,5 @@
 @extends('master')
- 
+
 @section('title', '')
 
 @section('alert')
@@ -41,7 +41,7 @@
     $user = Auth::user();
   ?>
 
-  @if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN || $user->account_type == User::ACCOUNT_TYPE_TEACHER)
+  @if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN)
     <div style="padding-bottom: 20px">
       <a  href="{{ route('create-student-class') }}" type="button" class="btn btn-info custombtn"> TAMBAH </a>
     </div>
@@ -52,6 +52,7 @@
                   <th style="text-align: center">Kelas</th>
                   <th style="text-align: center">Guru</th>
                   <th style="text-align: center">Angkatan</th>
+                  <th style="text-align: center">Token</th>
                   <th style="text-align: center" width="90px">Action</th>
               </tr>
           </thead>
@@ -59,77 +60,178 @@
           </tbody>
       </table>
     </div>
+    <br>
+
+    <fieldset>
+    <legend>List Kelas</legend>
+    <div class="ui three stackable cards">
+      @foreach($data_kelas as $dk)
+        <a id="customCards" class="ui card" href="{{ route('list-student-class', ['nama_kelas'=>$dk->class_name]) }}">
+          <div class="content">
+            <div class="header" style="padding: 0px">
+              {{$dk->class_name}}
+            </div>
+            <div class="meta">
+              <span class="category">Angkatan {{$dk->angkatan}}</span>
+            </div>
+            <div class="description">
+              <p>{{$dk->note}}</p>
+            </div>
+          </div>
+          <div class="extra content">
+            <div class="right floated author">
+            </div>
+            <div class="left floated author">
+              <i class="glyphicon glyphicon-user"></i> {{$dk->full_name}}
+            </div>
+          </div>
+        </a>
+      @endforeach
+    </div>
   @endif
-  <br>
-  <fieldset>
-	<legend>List Kelas</legend>
-  <div class="ui three stackable cards">
-    @foreach($data_kelas as $dk)
-      <a class="ui card" href="{{ route('list-student-class', ['class_id'=>$dk->id]) }}">
-        <div class="content">
-          <div class="header" style="padding: 0px">{{$dk->class_name}}</div>
-          <div class="meta">
-            <span class="category">Angkatan {{$dk->angkatan}}</span>
+
+  @if($user->account_type == User::ACCOUNT_TYPE_TEACHER)
+    <div style="padding-bottom: 20px">
+      <a  href="{{ route('create-student-class') }}" type="button" class="btn btn-info custombtn"> TAMBAH </a>
+    </div>
+
+    <fieldset>
+    <legend>List Kelas</legend>
+    <div class="ui three stackable cards">
+      @foreach($data_kelas as $dk)
+        @foreach($dk->hasClass as $c)
+        <a id="customCards" class="ui card" href="{{ route('list-student-class', ['nama_kelas'=>$c->class_name]) }}">
+          <div class="content">
+            <div class="header" style="padding: 0px">
+              {{$c->class_name}}
+            </div>
+            <div class="meta">
+              <span class="category">Angkatan {{$c->angkatan}}</span>
+            </div>
+            <div class="description">
+              <p>{{$dk->note}}</p>
+            </div>
           </div>
-          <div class="description">
-            <p>{{$dk->note}}</p>
+          <div class="extra content">
+            <div class="center aligned author">
+              TOKEN
+            </div>
           </div>
+          <div onclick="editClass()" class="ui bottom attached big button">
+            Edit Kelas
+          </div>
+        </a>
+        @endforeach
+      @endforeach
+    </div>
+  @endif
+
+  @if($user->account_type == User::ACCOUNT_TYPE_SISWA)
+    <form action="{{ route('join-student-class' )}}" method="post">
+
+    @csrf
+
+    <div class="ui raised segment center aligned">
+        <h5 class="ui top attached header">
+        <div class="ui action huge input">
+            <input name="token" type="text" placeholder="Token Kelas">
+                <button class="ui primary right attached huge button">
+                    Join Kelas
+                </button>
+            </div>
+        </h5>
+        <div class="ui bottom attached warning message">
+            Hubungi Guru yang bersangkutan untuk Join Kelas!
         </div>
-        <div class="extra content">
-          <div class="right floated author">
-            <img class="ui avatar image" src="<?= URL::to('/layout_login/images/logo fix.png') ?>"> {{$dk->teacher_id}}
+    </div>
+    </form>
+    <br>
+
+    <fieldset>
+    <legend>List Kelas</legend>
+    <div class="ui three stackable cards">
+      @foreach($data_kelas as $dk)
+        @foreach($dk->hasClass as $c)
+        <a id="customCards" class="ui card" href="{{ route('list-student-class', ['nama_kelas'=>$c->class_name]) }}">
+          <div class="content">
+            <div class="header" style="padding: 0px">{{$c->class_name}}</div>
+            <div class="meta">
+              <span class="category">Angkatan {{$c->angkatan}}</span>
+            </div>
+            <div class="description">
+              <p>{{$c->note}}</p>
+            </div>
           </div>
-          <div class="left floated author">
-            <i class="glyphicon glyphicon-user"></i> {{$dk->full_name}}
+          <div class="extra content">
+            <div class="right floated author">
+              <img class="ui avatar image" src="<?= URL::to('/layout_login/images/logo fix.png') ?>"> {{$c->teacher_id}}
+            </div>
+            <div class="left floated author">
+              <i class="glyphicon glyphicon-user"></i> {{$c->full_name}}
+            </div>
           </div>
-        </div>
-      </a>
-    @endforeach
-  </div>
+        </a>
+        @endforeach
+      @endforeach
+    </div>
+  @endif
 
 @endsection
 
 @section('modal')
-
-<div class="modal fade" id="detailModal" role="dialog" >
-  <div class="modal-dialog modal-md">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <p class="modal-title">Detail Kelas</p>
-      </div>
-      <div class="modal-body">
-
-      <div class="form-group">
-        <label>Angkatan</label>
-        <select class="form-control" id="angkatan" name="angkatan" style="width: 100%">
-          @foreach ($years as $year)
-              <option value="{{ $year }}"> {{ $year }} </option>
-          @endforeach
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Guru</label>
-        <?= $guru_option ?>
-      </div>
-      <div class="form-group">
-        <label>Kelas</label>
-        <input type="text" class="form-control" value="" name="class_name" id="class_name">
-      </div> 
-      <div class="form-group">
-        <label>Catatan</label>
-        <input type="text" class="form-control" value="" name="note" id="note" maxlength="30">
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger pull-right" id="hapus_action">Hapus</button>
-        <button type="button" id="update_data" class="btn btn-default pull-left">Update</button>
+  <div class="modal fade" id="detailModal" role="dialog" >
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <p class="modal-title">Detail Kelas</p>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Kelas</label>
+            <input type="text" class="form-control" value="" name="class_name" id="class_name">
+          </div> 
+          <div class="form-group">
+            <label>Guru</label>
+            <?= $guru_option ?>
+          </div>
+          <div class="form-group">
+            <label>Angkatan</label>
+            <select class="form-control" id="angkatan" name="angkatan" style="width: 100%">
+              @foreach ($years as $year)
+                  <option value="{{ $year }}"> {{ $year }} </option>
+              @endforeach
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Catatan</label>
+            <input type="text" class="form-control" value="" name="note" id="note" maxlength="30">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger pull-right" id="hapus_action">Hapus</button>
+          <button type="button" id="update_data" class="btn btn-default pull-left">Update</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
+  <div class="modal fade" id="editClassModal" role="dialog" >
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <p class="modal-title">Detail Kelas</p>
+        </div>
+        <div class="modal-body">
+          
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger pull-right" id="hapus_action">Hapus</button>
+          <button type="button" id="update_data" class="btn btn-default pull-left">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection
 
 @push('scripts')
@@ -141,9 +243,13 @@
       $('#class_name').val('');
       $("#guru").val([]).trigger("change");
       $('#angkatan').val('');
+      $('#token').val('');
       $('#note').val('');
     }
 
+    function editClass(){
+      $('#editClassModal').modal('toggle');
+    }
     function btnUbah(id) {
       clearAll();
       callGuru();
@@ -191,8 +297,8 @@
                 swal(data.message, { button:false, icon: "error", timer: 1000});
               }
               table.ajax.reload();
-          },
-          error: function(error) {
+            },
+            error: function(error) {
               swal('Terjadi kegagalan sistem', { button:false, icon: "error", timer: 1000});
             }
           });
@@ -232,6 +338,7 @@
               {data: 'class_name', name: 'class_name'},
               {data: 'guru', name: 'guru'},
               {data: 'angkatan', name: 'angkatan'},
+              {data: 'token', name: 'token'},
               {data: 'action', name: 'action', orderable: false, searchable: false},
           ]
       });

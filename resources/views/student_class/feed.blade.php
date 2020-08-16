@@ -42,34 +42,68 @@
 
 	@if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN || $user->account_type == User::ACCOUNT_TYPE_TEACHER)
 	
-	@endif
-
-    @foreach($data_feed as $df)
+    @endif
 	<fieldset>
-	<legend>Nama Kelas</legend>
-    <form method="POST" action="{{ route('upload-feed') }}" class="upload-container" enctype="multipart/form-data">
-        <div class="ui raised segment">
-            <div class="top-attribute">
-                <a class="ui red ribbon huge label">{{$df->kategori}}</a><span class="judul">Judul</span>
-                <div class="ui red large label deadline">Deadline</div>
-                <a class="ui top right attached huge label">
-                    <span class="date-post">Date-Post</span>
-                </a>
+    @foreach($feed as $f)
+        <legend>{{ $f->judul }}</legend>
+        <form method="POST" action="{{ route('upload-feed') }}" class="upload-container" enctype="multipart/form-data">
+            <div id="customSegments" class="ui raised segment">
+                <div class="top-attribute">
+                    @if($f->kategori == 'Artikel')
+                        <div class="ui green ribbon huge label">{{$f->kategori}}</div>
+                    @endif
+                    @if($f->kategori == 'Tugas')
+                        <div class="ui orange ribbon huge label">{{$f->kategori}}</div>
+                    @endif
+                    @if($f->kategori == 'Ujian')
+                        <div class="ui red ribbon huge label">{{$f->kategori}}</div>
+                    @endif
+                    <div class="ui red large label deadline">{{ $f->deadline }}</div>
+                    <a class="ui top right attached huge label">
+                        <span class="date-post">{{ $f->created_at }}</span>
+                    </a>
+                </div>
+                <pre class="detail-section2">{{ $f->detail }}</pre>
+                <div class="ui blue segment">
+                    <h5> 
+                        <a href="{{ url('/data_file'.'/'.$f->file) }}">
+                            <img height"100" width="100" src="{{ url('/data_file'.'/'.$f->file) }}" target="_blank"> {{ $f->file }} </img>
+                        </a>
+                    </h5>
+                </div>
+                <div class="attached-files"><a href="{{ url('public/data_file'.'/'.$f->file) }}"></div>
+                @if($user->account_type == User::ACCOUNT_TYPE_SISWA)
+                    <hr>
+                    <label>Upload File</label>
+                    <div class="ui segments sfile">
+                        <input type="file" id="file" name="file[]">
+                    </div>
+
+                    <div class="ui bottom attached huge buttons">
+                        <button onclick="change()" class="ui button markbtn" id="mark" value="Belum Selesai">Tandai Selesai</button>
+                    </div>
+                @endif
+                
             </div>
-            <p style="margin: 10px 0px">Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident amet et illum nisi sequi esse odit labore facilis neque voluptatibus? Soluta quibusdam unde sunt quidem libero quis dolor perferendis minus?</p>
-            <p style="margin: 10px 0px">Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident amet et illum nisi sequi esse odit labore facilis neque voluptatibus? Soluta quibusdam unde sunt quidem libero quis dolor perferendis minus?</p>
-            <div class="attached-files"><a href="{{ url('public/data_file'.'/'.$df->file) }}"></div>
-            <hr>
-            <label>Upload File</label>
-            <div class="ui segments sfile">
-                <input type="file" id="file" name="file[]">
-            </div>
-            <div class="ui bottom attached huge buttons">
-                <button onclick="change()" class="ui button markbtn" id="mark" value="Belum Selesai">Tandai Selesai</button>
-            </div>
-        </div>
-    </form>
+        </form>
     @endforeach
+    </fieldset>
+    <hr>
+    <div class="table-responsive">
+        <table class="table table-bordered data-table display nowrap" style="width:100%">
+            <thead>
+                <tr>
+                    <th style="text-align: center">Nama</th>
+                    <th style="text-align: center">Tugas</th>
+                    <th style="text-align: center">Tanggal</th>
+                    <th style="text-align: center">Nilai</th>
+                    <th style="text-align: center" width="90px">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
 @endsection
 
 @push ('scripts')

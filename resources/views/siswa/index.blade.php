@@ -86,14 +86,9 @@
 
         <div class="form-group">
           <label for="sel1">Tipe Akun</label>
-          <select class="form-control" id="tipe_akun">
+          <select class="form-control" id="tipe_akun" disabled>
             <option value="{{ User::ACCOUNT_TYPE_SISWA }}">Siswa</option>
           </select>
-        </div>
-
-        <div class="form-group">
-        <label>Kelas </label>
-        <?= $class_option ?>
         </div>
 
         <label>Alamat</label>

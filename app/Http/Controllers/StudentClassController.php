@@ -62,6 +62,7 @@ class StudentClassController extends Controller {
                 $data_kelas = User::where('id', '=', $user_id)
                     ->with('hasClass')
                     ->get();
+                // foreach($data_kelas->hasClass())
             }
             return view('student_class.index', ['active'=>'student_class', 'years'=>$years, 'guru_option'=>$guru_option, 'data_kelas'=>$data_kelas, 'data_guru'=>$data_guru, 'data_user'=>$data_user]);
         } else {
@@ -167,7 +168,7 @@ class StudentClassController extends Controller {
     public function delete(Request $request) {
         if ($request->ajax()) {
             DB::beginTransaction();
-            $classModel = StudentClass::findOrFail($request->idclass);
+            $classModel = StudentClass::findOrFail($request->nama_kelas);
             if(!$classModel->delete()) {
                 DB::rollBack();
                 return $this->getResponse(false,400,'','Kelas gagal dihapus');

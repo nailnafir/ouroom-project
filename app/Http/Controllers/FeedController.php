@@ -90,6 +90,7 @@ class FeedController extends Controller
         }
     }
 
+
     public function deleteFeed()
     {
         $data = Feed::findOrFail($id);
