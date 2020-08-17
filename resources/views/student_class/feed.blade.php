@@ -66,7 +66,7 @@
                 <pre class="detail-section2">{{ $f->detail }}</pre>
                 <div class="ui blue segment">
                     <h5> 
-                        <a href="{{ url('/data_file'.'/'.$f->file) }}">
+                        <a href="{{ url($nama_kelas.'/'.$f->judul.'/'.$f->file) }}">
                             <img height"100" width="100" src="{{ url('/data_file'.'/'.$f->file) }}" target="_blank"> {{ $f->file }} </img>
                         </a>
                     </h5>

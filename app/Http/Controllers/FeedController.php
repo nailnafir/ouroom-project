@@ -6,6 +6,7 @@ use App\Model\User\User;
 use App\Model\StudentClass\StudentClass;
 use App\Model\StudentClass\Feed;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use App\Http\Requests\StudentClass\FeedRequest;
 use Illuminate\Support\Facades\Storage;
 use DB;
@@ -59,7 +60,8 @@ class FeedController extends Controller
         }
     }
 
-    public function deleteSiswaClass($id) {
+    public function deleteSiswaClass($id)
+    {
         DB::table('tbl_user')->where('id', $id)->delete();
         return redirect()->back()->with('alert_success', 'Data Berhasil Hapus');
     }
@@ -72,16 +74,32 @@ class FeedController extends Controller
             'detail' => 'required',
             'file' => 'mimes:jpeg,jpg,png,pdf,doc,docx|max:2048',
         ]);
-        $feed = new Feed();
-        $feed->judul = $request->get('judul');
-        $feed->kategori = $request->get('kategori');
-        $feed->detail = $request->get('detail');
-        $files = $request->file('file');
-        $files_name = now() . '_' . $files->getClientOriginalName();
-        $files->move(public_path('data_file'), $files_name);
-        $feed->file = $files_name;
-        $feed->deadline = $request->get('deadline');
-        $feed->class_id = $request->get('id_kelas');
+
+        if ($request->has('file')) {
+            $id = $request->id_kelas;
+            $class_name = StudentClass::where('id', '=', $id)->value('class_name');
+            $feed = new Feed();
+            $feed->judul = $request->get('judul');
+            $feed->kategori = $request->get('kategori');
+            $feed->detail = $request->get('detail');
+            $files = $request->file('file');
+            $path = public_path($class_name.'/'.$feed->judul);
+            if(!File::isDirectory($path)){
+                File::makeDirectory($path, 0777, true, true);
+            }
+            $files_name = now() . '_' . $files->getClientOriginalName();
+            $files->move($path, $files_name);
+            $feed->file = $files_name;
+            $feed->deadline = $request->get('deadline');
+            $feed->class_id = $request->get('id_kelas');
+        } else {
+            $feed = new Feed();
+            $feed->judul = $request->get('judul');
+            $feed->kategori = $request->get('kategori');
+            $feed->detail = $request->get('detail');
+            $feed->deadline = $request->get('deadline');
+            $feed->class_id = $request->get('id_kelas');
+        }
         $feed->save();
         if (!$feed->save()) {
             return redirect()->back()->with('alert_error', 'Gagal Disimpan');
@@ -89,7 +107,6 @@ class FeedController extends Controller
             return redirect()->back()->with('alert_success', 'Data Berhasil Disimpan');
         }
     }
-
 
     public function deleteFeed()
     {
