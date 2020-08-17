@@ -15,7 +15,7 @@ class CreateFeedTable extends Migration
     {
         Schema::create('tbl_feed', function (Blueprint $table) {
             $table->bigIncrements('id', 20);
-            $table->string('judul')->unique();
+            $table->string('judul');
             $table->string('kategori');
             $table->text('detail');
             $table->string('file')->nullable();
