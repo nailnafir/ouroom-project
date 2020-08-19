@@ -382,5 +382,4 @@
     }
 
   </script>
-
 @endpush

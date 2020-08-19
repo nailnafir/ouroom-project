@@ -62,7 +62,6 @@ class StudentClassController extends Controller {
                 $data_kelas = User::where('id', '=', $user_id)
                     ->with('hasClass')
                     ->get();
-                // foreach($data_kelas->hasClass())
             }
             return view('student_class.index', ['active'=>'student_class', 'years'=>$years, 'guru_option'=>$guru_option, 'data_kelas'=>$data_kelas, 'data_guru'=>$data_guru, 'data_user'=>$data_user]);
         } else {

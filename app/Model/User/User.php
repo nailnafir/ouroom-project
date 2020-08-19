@@ -3,6 +3,7 @@
 namespace App\Model\User;
 
 use App\Model\StudentClass\StudentClass;
+use App\Model\StudentClass\Tugas;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use App\Notifications\ResetPasswordNotification;
@@ -175,6 +176,10 @@ class User extends Authenticatable {
 
     public function hasClass(){
         return $this->belongsToMany(StudentClass::class, 'tbl_class_user', 'user_id', 'class_id');
+    }
+
+    public function hasTugas(){
+        return $this->hasMany(Tugas::class);
     }
 
     /**

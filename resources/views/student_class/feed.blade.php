@@ -40,14 +40,16 @@
 		$user = Auth::user();
 	?>
 
-	@if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN || $user->account_type == User::ACCOUNT_TYPE_TEACHER)
-	
-    @endif
 	<fieldset>
     @foreach($feed as $f)
         <legend>{{ $f->judul }}</legend>
-        <form method="POST" action="{{ route('upload-feed') }}" class="upload-container" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('upload-tugas') }}" class="upload-container" enctype="multipart/form-data">
+
+        @csrf
+
             <div id="customSegments" class="ui raised segment">
+                <input type="hidden" name="nama_kelas" value="{{$nama_kelas}}">
+                <input type="hidden" name="nama_feed" value="{{$f->judul}}">
                 <div class="top-attribute">
                     @if($f->kategori == 'Artikel')
                         <div class="ui green ribbon huge label">{{$f->kategori}}</div>
@@ -65,45 +67,61 @@
                 </div>
                 <pre class="detail-section2">{{ $f->detail }}</pre>
                 <div class="ui blue segment">
-                    <h5> 
-                        <a href="{{ url($nama_kelas.'/'.$f->judul.'/'.$f->file) }}">
-                            <img height"100" width="100" src="{{ url('/data_file'.'/'.$f->file) }}" target="_blank"> {{ $f->file }} </img>
+                    <h5>
+                        <a href="{{ url($nama_kelas.'/'.$f->judul.'/'.$f->file) }}" target="_blank">
+                            <img height"100" width="100" src="{{ url('/data_file'.'/'.$f->file) }}"> {{ $f->file }} </img>
                         </a>
                     </h5>
                 </div>
-                <div class="attached-files"><a href="{{ url('public/data_file'.'/'.$f->file) }}"></div>
+                <div class="attached-files"><a href="{{ url('public/data_file'.'/'.$f->file) }}"></a></div>
                 @if($user->account_type == User::ACCOUNT_TYPE_SISWA)
                     <hr>
                     <label>Upload File</label>
                     <div class="ui segments sfile">
-                        <input type="file" id="file" name="file[]">
+                        <input type="file" id="file" name="file">
                     </div>
 
                     <div class="ui bottom attached huge buttons">
-                        <button onclick="change()" class="ui button markbtn" id="mark" value="Belum Selesai">Tandai Selesai</button>
+                        <button type="submit" onclick="change()" class="ui button markbtn" id="mark" value="Belum Selesai">Tandai Selesai</button>
                     </div>
                 @endif
-                
             </div>
         </form>
     @endforeach
     </fieldset>
-    <hr>
-    <div class="table-responsive">
-        <table class="table table-bordered data-table display nowrap" style="width:100%">
-            <thead>
-                <tr>
-                    <th style="text-align: center">Nama</th>
-                    <th style="text-align: center">Tugas</th>
-                    <th style="text-align: center">Tanggal</th>
-                    <th style="text-align: center">Nilai</th>
-                    <th style="text-align: center" width="90px">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
+    @if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN || $user->account_type == User::ACCOUNT_TYPE_TEACHER)
+        <hr>
+        <div class="table-responsive">
+            <table class="table table-bordered data-table display nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th style="text-align: center">Nama</th>
+                        <th style="text-align: center">Tugas</th>
+                        <th style="text-align: center">Tanggal</th>
+                        <th style="text-align: center">Nilai</th>
+                        <th style="text-align: center" width="90px">Action</th>
+                    </tr>
+                </thead>
+                @foreach($data_tugas as $dt)
+                    <tbody>
+                        <tr>
+                            <td>{{User::where('id', $dt->siswa_id)->value('full_name')}}</td>
+                            <td>{{$dt->file}}</td>
+                            <td>{{$dt->created_at}}</td>
+                            <td>{{$dt->nilai}}</td>
+                            <td style="text-align: center" width="90px">
+                                <a href="{{ route('show-tugas', ['nama_kelas'=>$nama_kelas, 'feed_title'=>$feed_title, 'siswa_id'=>$dt->siswa_id]) }}" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                @endforeach
+            </table>
+        </div>
+    @endif
+@endsection
+
+@section('modal')
+
 @endsection
 
 @push ('scripts')

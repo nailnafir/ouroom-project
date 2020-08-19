@@ -68,6 +68,13 @@ Breadcrumbs::for('class-feed', function ($trail, $nama_kelas, $feed_title) {
     $trail->push($feed_title, route('class-feed', [$nama_kelas, $feed_title]));
 });
 
+Breadcrumbs::for('show-tugas', function ($trail, $nama_kelas, $feed_title, $siswa_id) {
+    $trail->parent('student-class');
+    $trail->push($nama_kelas, route('list-student-class', $nama_kelas));
+    $trail->push($feed_title, route('class-feed', [$nama_kelas, $feed_title]));
+    $trail->push('Penilaian Tugas', route('show-tugas', [$nama_kelas, $feed_title, $siswa_id]));
+});
+
 Breadcrumbs::for('class-data', function ($trail, $nama_kelas) {
     $trail->parent('student-class');
     $trail->push($nama_kelas, route('list-student-class', $nama_kelas));
