@@ -163,11 +163,8 @@
             </div>
           </div>
           <div class="extra content">
-            <div class="right floated author">
-              <img class="ui avatar image" src="<?= URL::to('/layout_login/images/logo fix.png') ?>"> {{$c->teacher_id}}
-            </div>
             <div class="left floated author">
-              <i class="glyphicon glyphicon-user"></i> {{$c->full_name}}
+              <i class="glyphicon glyphicon-user"></i> {{User::where('id', $c->teacher_id)->value('full_name')}}
             </div>
           </div>
         </a>

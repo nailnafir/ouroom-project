@@ -51,7 +51,13 @@ class FeedController extends Controller
         $data_tugas = DB::table('tbl_tugas')
             ->where('feed_id', $id_feed)
             ->get();
-        return view('student_class.feed', ['active' => 'student_class', 'id_kelas' => $id_kelas, 'nama_kelas' => $nama_kelas, 'feed' => $feed, 'feed_title' => $feed_title, 'data_tugas' => $data_tugas]);
+        $nilai_tugas = DB::table('tbl_tugas')
+            ->where('feed_id', $id_feed)
+            ->value('nilai');
+        $tugas = DB::table('tbl_tugas')
+            ->where('feed_id', $id_feed)
+            ->value('file');
+        return view('student_class.feed', ['active' => 'student_class', 'id_kelas' => $id_kelas, 'nama_kelas' => $nama_kelas, 'feed' => $feed, 'feed_title' => $feed_title, 'data_tugas' => $data_tugas, 'tugas' => $tugas, 'nilai' => $nilai_tugas]);
     }
 
     public function showTugas(Request $request)
@@ -65,11 +71,15 @@ class FeedController extends Controller
         $id_kelas = DB::table('tbl_class')
             ->where('class_name', $class_name)
             ->value('id');
+        $id_feed = DB::table('tbl_feed')
+            ->where('judul', $feed_title)
+            ->value('id');
         $deadline = DB::table('tbl_feed')
             ->where('judul', $feed_title)
             ->value('deadline');
         $data_tugas = DB::table('tbl_tugas')
             ->where('siswa_id', $siswa_id)
+            ->where('feed_id', $id_feed)
             ->get();
         return view('student_class.assessment', ['active' => 'student_class', 'id_kelas' => $id_kelas, 'nama_kelas' => $nama_kelas, 'deadline' => $deadline, 'feed_title' => $feed_title, 'siswa_id' => $siswa_id, 'data_tugas' => $data_tugas]);
     }
@@ -115,7 +125,7 @@ class FeedController extends Controller
             if (!File::isDirectory($path)) {
                 File::makeDirectory($path, 0777, true, true);
             }
-            $files_name = now() . '_' . $files->getClientOriginalName();
+            $files_name = $files->getClientOriginalName();
             $files->move($path, $files_name);
             $feed->file = $files_name;
             $feed->deadline = $request->get('deadline');
@@ -151,12 +161,6 @@ class FeedController extends Controller
             ->value('id');
         $id_feed = Feed::where('judul', '=', $nama_feed)
             ->value('id');
-        $data_tugas = DB::table('tbl_tugas')
-            ->join('tbl_class', 'tbl_tugas.class_id', '=', 'tbl_class.id')
-            ->join('tbl_feed', 'tbl_tugas.feed_id', '=', 'tbl_feed.id')
-            ->join('tbl_user', 'tbl_tugas.siswa_id', '=', 'tbl_user.id')
-            ->where('judul', $nama_feed)
-            ->get();
         $tugas = new Tugas();
         $files = $request->file('file');
         $path = public_path($nama_kelas . '/' . $nama_feed . '/' . $nama_siswa);

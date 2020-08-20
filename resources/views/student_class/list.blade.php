@@ -95,15 +95,15 @@
 		<div id="customSegments" class="ui raised segment">
 			<div class="top-attribute">
 				@if($df->kategori == 'Artikel')
-					<a class="ui green ribbon huge label">{{$df->kategori}}
+					<a class="ui green ribbon huge label">{{$df->kategori}}</a>
 				@endif
 				@if($df->kategori == 'Tugas')
-					<a class="ui orange ribbon huge label">{{$df->kategori}}
+					<a class="ui orange ribbon huge label">{{$df->kategori}}</a>
 				@endif
 				@if($df->kategori == 'Ujian')
-					<a class="ui red ribbon huge label">{{$df->kategori}}
+					<a class="ui red ribbon huge label">{{$df->kategori}}</a>
 				@endif
-				</a><span class="judul">{{$df->judul}}</span>
+				<span class="judul">{{$df->judul}}</span>
 				<div class="ui red large label deadline">{{$df->deadline}}</div>
 				<a class="ui top right attached huge image label">
 					<span class="date-post">{{$df->created_at}}</span>

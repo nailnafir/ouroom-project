@@ -48,17 +48,15 @@
             <label>Kelas</label>
             <input type="text" class="form-control" value="{{ $nama_kelas }}" name="nama_kelas" disabled>
         </div>
-
         <div class="form-group">
             <label>Feed</label>
             <input type="text" class="form-control" value="{{ $feed_title }}" name="feed_title" disabled>
         </div>
-
         <div class="form-group">
             <label>Deadline</label>
             <input type="text" class="form-control" value="{{ $deadline }}" name="deadline" disabled>
         </div>
-        <hr>
+        <hr style="border-top: 1px solid #c6c6c6">
 
         @foreach($data_tugas as $dt)
             <div class="form-group">
@@ -66,8 +64,8 @@
             </div>
             <div class="ui blue segment">
                 <h5>
-                    <a href="#" target="_blank">
-                        <img height"100" width="100" src="{{ url('/data_file'.'/'.$dt->file) }}"> {{ $dt->file }} </img>
+                    <a href="{{ url($nama_kelas.'/'.$feed_title.'/'.User::where('id', $dt->siswa_id)->value('full_name').'/'.$dt->file) }}" target="_blank">
+                        <img height"80" width="80" src="{{ asset('asset/file_thumb.png') }}"> {{ $dt->file }} </img>
                     </a>
                 </h5>
             </div>
@@ -75,12 +73,18 @@
                 <label>Nama Siswa</label>
                 <input type="text" class="form-control" value="{{User::where('id', $dt->siswa_id)->value('full_name')}}" name="nama_siswa" disabled>
             </div>
-
+            <div class="form-group">
+                <label>Jurusan</label>
+                <input type="text" class="form-control" value="{{User::where('id', $dt->siswa_id)->value('jurusan')}}" name="jurusan" disabled>
+            </div>
+            <div class="form-group">
+                <label>Angkatan</label>
+                <input type="text" class="form-control" value="{{User::where('id', $dt->siswa_id)->value('angkatan')}}" name="angkatan" disabled>
+            </div>
             <div class="form-group">
                 <label>Tanggal Upload</label>
                 <input type="text" class="form-control" value="{{ $dt->created_at }}" name="created_at" disabled>
             </div>
-
             <div class="form-group">
                 <label>Nilai</label>
                 <input type="text" class="form-control" value="{{$dt->nilai}}" name="nilai" min="0" max="100" placeholder="0-100">
@@ -94,7 +98,6 @@
             <button type="submit" class="btn btn-info"> NILAI TUGAS </button>
             <a href="{{ route('class-feed', ['nama_kelas'=>$nama_kelas, 'feed_title'=>$feed_title]) }}" class="btn btn-info" style="float:right"> KEMBALI </a>
         </div>
-
     </form>
 @endsection
 

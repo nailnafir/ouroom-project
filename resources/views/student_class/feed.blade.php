@@ -60,21 +60,26 @@
                     @if($f->kategori == 'Ujian')
                         <div class="ui red ribbon huge label">{{$f->kategori}}</div>
                     @endif
+                    @if($user->account_type == User::ACCOUNT_TYPE_SISWA)
+                        <span class="judul" style="font-weight:bold">NILAI : {{ $nilai }}</span>
+                    @endif
                     <div class="ui red large label deadline">{{ $f->deadline }}</div>
                     <a class="ui top right attached huge label">
                         <span class="date-post">{{ $f->created_at }}</span>
                     </a>
                 </div>
                 <pre class="detail-section2">{{ $f->detail }}</pre>
-                <div class="ui blue segment">
-                    <h5>
-                        <a href="{{ url($nama_kelas.'/'.$f->judul.'/'.$f->file) }}" target="_blank">
-                            <img height"100" width="100" src="{{ url('/data_file'.'/'.$f->file) }}"> {{ $f->file }} </img>
-                        </a>
-                    </h5>
-                </div>
+                @if($f->file != null)
+                    <div class="ui blue segment">
+                        <h5>
+                            <a href="{{ url($nama_kelas.'/'.$f->judul.'/'.$f->file) }}" target="_blank">
+                                <img height"80" width="80" src="{{ asset('asset/file_thumb.png') }}"> {{ $f->file }} </img>
+                            </a>
+                        </h5>
+                    </div>
+                @endif
                 <div class="attached-files"><a href="{{ url('public/data_file'.'/'.$f->file) }}"></a></div>
-                @if($user->account_type == User::ACCOUNT_TYPE_SISWA)
+                @if($user->account_type == User::ACCOUNT_TYPE_SISWA && $tugas == null)
                     <hr>
                     <label>Upload File</label>
                     <div class="ui segments sfile">

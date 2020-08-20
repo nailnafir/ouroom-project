@@ -5,10 +5,36 @@ import 'file-upload-with-preview/dist/file-upload-with-preview.min.css';
     color: white !important;
 }
 
+#customSegments {
+    margin: 0 18px 10px 18px !important;
+}
+
+#customCards{
+    margin-bottom: 15px !important;
+}
+
+#customJoinClass{
+    font-size: 70px;
+}
+
+#customInput{
+    padding-top: 15px !important;
+}
+
+#customDivider{
+    padding: 0px !important;
+}
+.joinClass{
+    font-size: 18px;
+}
 /* -- List Page -- */
-.data-tugas{
-    display: block;
-    text-align: center;
+.feed-control{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.feed-control-button{
+    margin: 0 10px;
 }
 .upload-container{
     padding: 0px 0px 15px 0px;
@@ -39,4 +65,23 @@ input[type="date"] {
 }
 .markbtn{
     border-radius: 5px !important;
+}
+.detail-section{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 15px;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 10px 0;
+    border: none;
+    background: none;
+}
+.detail-section2{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 15px;
+    margin: 10px 0;
+    border: none;
+    background: none;
 }
