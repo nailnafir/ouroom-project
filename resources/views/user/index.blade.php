@@ -98,7 +98,6 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger pull-right" id="non_aktif_button">Non Aktifkan</button>
         <button type="button" id="update_data" class="btn btn-default pull-left">Update</button>
       </div>
     </div>
@@ -119,12 +118,12 @@
         </div>
 
         <div class="form-group">
-          <label>Password</label>
+          <label>Password Baru</label>
           <input type="password" class="form-control" value="" id="password">
         </div>
 
         <div class="form-group">
-          <label>Re Password</label>
+          <label>Konfirmasi Password</label>
           <input type="password" class="form-control" value="" id="password_confirmation">
         </div>
       </div>
@@ -188,8 +187,8 @@
     function btnDel(id) {
       iduser = id;
       swal({
-          title: "Menon Aktifkan User",
-          text: 'User yang telah dinon aktifkan tidak dapat diaktifkan kembali',
+          title: "Hapus User",
+          text: 'User yang telah dihapus tidak dapat direstorasi',
           icon: "warning",
           buttons: true,
           dangerMode: true,

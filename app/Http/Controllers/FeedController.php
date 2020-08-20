@@ -35,6 +35,7 @@ class FeedController extends Controller
     {
         $class_name = $request->nama_kelas;
         $feed_title = $request->feed_title;
+        $siswa_id = Auth::id();
         $nama_kelas = DB::table('tbl_class')
             ->where('class_name', $class_name)
             ->value('class_name');
@@ -56,6 +57,7 @@ class FeedController extends Controller
             ->value('nilai');
         $tugas = DB::table('tbl_tugas')
             ->where('feed_id', $id_feed)
+            ->where('siswa_id', $siswa_id)
             ->value('file');
         return view('student_class.feed', ['active' => 'student_class', 'id_kelas' => $id_kelas, 'nama_kelas' => $nama_kelas, 'feed' => $feed, 'feed_title' => $feed_title, 'data_tugas' => $data_tugas, 'tugas' => $tugas, 'nilai' => $nilai_tugas]);
     }
@@ -167,7 +169,7 @@ class FeedController extends Controller
         if (!File::isDirectory($path)) {
             File::makeDirectory($path, 0777, true, true);
         }
-        $files_name = now() . '_' . $files->getClientOriginalName();
+        $files_name = $files->getClientOriginalName();
         $files->move($path, $files_name);
         $tugas->file = $files_name;
         $tugas->siswa_id = $id_siswa;
@@ -199,8 +201,8 @@ class FeedController extends Controller
 
     public function deleteFeed()
     {
-        $data = Feed::findOrFail($id);
-        $data->delete();
-        return redirect()->back()->with('success', 'Data is successfully deleted');
+        // $data = Feed::findOrFail($id);
+        // $data->delete();
+        // return redirect()->back()->with('success', 'Data is successfully deleted');
     }
 }

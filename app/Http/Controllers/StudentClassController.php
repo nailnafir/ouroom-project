@@ -26,12 +26,11 @@ class StudentClassController extends Controller {
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){  
-                    $btn = '<button onclick="btnUbah('.$row->id.')" name="btnUbah" type="button" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></button>';
-                    $delete = '<button onclick="btnDel('.$row->id.')" name="btnDel" type="button" class="btn btn-info"><span class="glyphicon glyphicon-trash"></span></button>';
-                    return $btn .'&nbsp'. $delete; 
+                    $btn = '<button onclick="btnUbah('.$row->id.')" name="btnUbah" type="button" class="btn btn-info" style="text-align: center"><span class="glyphicon glyphicon-edit"></span></button>';
+                    return $btn; 
                 })
                 ->addColumn('guru', function(StudentClass $class) {
-                    if($class->getTeacher->status != User::USER_STATUS_ACTIVE || $class->getTeacher->account_type != User::ACCOUNT_TYPE_TEACHER){
+                    if($class->getTeacher->account_type != User::ACCOUNT_TYPE_TEACHER){
                         return 'Guru sudah tidak aktif';
                     } else {
                         return $class->getTeacher->full_name;
@@ -42,7 +41,6 @@ class StudentClassController extends Controller {
         }
         $data_guru = User::getTeacher();
         $data_user = Auth::user()->full_name;
-        $user = User::findOrFail(Auth::user()->id);
         $user_id = Auth::id();
 
         $guru_option = '<select class="js-example-basic-single form-control" name="teacher_id" id="guru" style="width: 100%">';
@@ -56,6 +54,12 @@ class StudentClassController extends Controller {
             if($this->getUserLogin()->account_type == User::ACCOUNT_TYPE_CREATOR || $this->getUserLogin()->account_type == User::ACCOUNT_TYPE_ADMIN){
                 $data_kelas = DB::table('tbl_class')
                     ->join('tbl_user', 'tbl_class.teacher_id', '=', 'tbl_user.id')
+                    ->select('tbl_class.*', 'tbl_user.full_name')
+                    ->get();
+            } else if($this->getUserLogin()->account_type == User::ACCOUNT_TYPE_TEACHER){
+                $data_kelas = DB::table('tbl_class')
+                    ->join('tbl_user', 'tbl_class.teacher_id', '=', 'tbl_user.id')
+                    ->where('teacher_id', $user_id)
                     ->select('tbl_class.*', 'tbl_user.full_name')
                     ->get();
             } else {
@@ -83,9 +87,10 @@ class StudentClassController extends Controller {
     }
 
     public function create(){
+        $user_id = Auth::id();
         if($this->getUserPermission('create class')){
             $years = array_combine(range(date("Y"), 2015), range(date("Y"), 2015));
-            return view('student_class.store', ['active'=>'student_class','years'=>$years]);
+            return view('student_class.store', ['active'=>'student_class','years'=>$years, 'user_id'=>$user_id]);
         } else {
             return view('error.unauthorized', ['active'=>'student_class']);
         }
@@ -113,16 +118,29 @@ class StudentClassController extends Controller {
     }
 
     public function store(StoreStudentClassRequest $request) {
-        DB::beginTransaction();
-        $student_class = new StudentClass();
-        if(StudentClass::validateClass($request->get('angkatan'),$request->get('class_name'),$request->get('teacher_id'))) {
-            return redirect('student-class')->with('alert_error', 'Kelas dengan tahun yang sama dan guru yang sama sudah dibuat sebelumnya');
+        if($this->getUserLogin()->account_type == User::ACCOUNT_TYPE_CREATOR || $this->getUserLogin()->account_type == User::ACCOUNT_TYPE_ADMIN){
+            DB::beginTransaction();
+            $student_class = new StudentClass();
+            if(StudentClass::validateClass($request->get('angkatan'),$request->get('class_name'),$request->get('teacher_id'))) {
+                return redirect('student-class')->with('alert_error', 'Kelas dengan tahun yang sama dan guru yang sama sudah dibuat sebelumnya');
+            }
+            $student_class->angkatan = $request->get('angkatan');
+            $student_class->class_name = $request->get('class_name');
+            $student_class->note = $request->get('note');
+            $student_class->teacher_id = $request->get('teacher_id');
+            $student_class->token = str_random(8);
+        } else if($this->getUserLogin()->account_type == User::ACCOUNT_TYPE_TEACHER){
+            DB::beginTransaction();
+            $student_class = new StudentClass();
+            if(StudentClass::validateClass($request->get('angkatan'),$request->get('class_name'),$request->get('teacher_id'))) {
+                return redirect('student-class')->with('alert_error', 'Kelas dengan tahun yang sama dan guru yang sama sudah dibuat sebelumnya');
+            }
+            $student_class->angkatan = $request->get('angkatan');
+            $student_class->class_name = $request->get('class_name');
+            $student_class->note = $request->get('note');
+            $student_class->teacher_id = Auth::id();
+            $student_class->token = str_random(8);
         }
-        $student_class->angkatan = $request->get('angkatan');
-        $student_class->class_name = $request->get('class_name');
-        $student_class->note = $request->get('note');
-        $student_class->teacher_id = $request->get('teacher_id');
-        $student_class->token = str_random(8);
         if(!$student_class->save()) {
             DB::rollBack();
             return redirect('student-class')->with('alert_error', 'Gagal Disimpan');
@@ -166,14 +184,9 @@ class StudentClassController extends Controller {
 
     public function delete(Request $request) {
         if ($request->ajax()) {
-            DB::beginTransaction();
-            $classModel = StudentClass::findOrFail($request->nama_kelas);
-            if(!$classModel->delete()) {
-                DB::rollBack();
-                return $this->getResponse(false,400,'','Kelas gagal dihapus');
-            }
-            DB::commit();
+            StudentClass::findOrFail($request->idclass)->delete();
             return $this->getResponse(true,200,'','Kelas berhasil dihapus');
         }
+        return redirect()->back()->with('alert_success', 'Berhasil Join Kelas');
     }
 }

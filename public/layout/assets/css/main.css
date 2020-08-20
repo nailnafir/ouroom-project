@@ -85,3 +85,9 @@ input[type="date"] {
     border: none;
     background: none;
 }
+.token{
+    color: black;
+    text-transform: none !important;
+    font-size: 15px !important;
+    letter-spacing: 2px;
+}

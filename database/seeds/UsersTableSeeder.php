@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Faker\Factory as Faker;
 
 class UsersTableSeeder extends Seeder
 {
@@ -19,24 +20,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'creator@gmail.com',
             'password' => Hash::make('creatoratm'),
             'full_name' => 'Super Admin',
-            'status' => 10,
             'account_type' => 'Creator'
-        ]);
-        DB::table('tbl_user')->insert([
-            'username' => 'guru1',
-            'email' => 'guru@gmail.com',
-            'password' => Hash::make('guruatm'),
-            'full_name' => 'Rifa al-Afghani',
-            'status' => 10,
-            'account_type' => 'Guru'
-        ]);
-        DB::table('tbl_user')->insert([
-            'username' => 'guru2',
-            'email' => 'g@gmail.com',
-            'password' => Hash::make('guruatm'),
-            'full_name' => 'Yayang Kurnia',
-            'status' => 10,
-            'account_type' => 'Guru'
         ]);
     }
 }

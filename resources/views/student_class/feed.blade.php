@@ -80,7 +80,7 @@
                 @endif
                 <div class="attached-files"><a href="{{ url('public/data_file'.'/'.$f->file) }}"></a></div>
                 @if($user->account_type == User::ACCOUNT_TYPE_SISWA && $tugas == null)
-                    <hr>
+                    <hr style="border-top: 1px solid #c6c6c6">
                     <label>Upload File</label>
                     <div class="ui segments sfile">
                         <input type="file" id="file" name="file">

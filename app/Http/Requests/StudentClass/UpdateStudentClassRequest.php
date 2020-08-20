@@ -26,7 +26,6 @@ class UpdateStudentClassRequest extends FormRequest
         return [
             'angkatan'      => 'required|min:2',
             'class_name'    => 'required',
-            'note'          => 'string',
             'teacher_id'    => 'integer'
         ];
     }
@@ -42,7 +41,6 @@ class UpdateStudentClassRequest extends FormRequest
             'angkatan.required' => 'Tahun Angkatan tidak boleh dikosongkan',
             'angkatan.min' => 'Angkatan tidak memenuhi kereteria',
             'class_name.required' => 'Kelas tidak boleh dikosongkan',
-            'note.string' => 'Inputkan catatan dengan benar',
             'teacher_id.integer' => 'Format guru tidak diterima oleh sistem'            
         ];
     }

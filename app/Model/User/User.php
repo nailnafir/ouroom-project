@@ -21,8 +21,6 @@ class User extends Authenticatable {
     protected $table = 'tbl_user';
     protected $guard_name = 'web';
 
-    const USER_STATUS_ACTIVE = 10;
-    const USER_STATUS_NOT_ACTIVE = 20;
     const ACCOUNT_TYPE_CREATOR = "Creator";
     const ACCOUNT_TYPE_ADMIN = "Administrator";
     const ACCOUNT_TYPE_PARENT = "Parent";
@@ -46,7 +44,6 @@ class User extends Authenticatable {
      */
     protected $attributes = [
         'account_type' => self::ACCOUNT_TYPE_PARENT,
-        'status' => self::USER_STATUS_ACTIVE
     ];
 
     public static $rules = [
@@ -56,28 +53,27 @@ class User extends Authenticatable {
         'address' => 'string',
         'full_name' => 'required | string',
         'account_type' => 'required | string',
-        'status' => 'required | integer',
     ];
 
     /**
      * 
      */
     public static function getUser(){
-        return self::where('status', self::USER_STATUS_ACTIVE)->whereNotIn('account_type', [User::ACCOUNT_TYPE_CREATOR, User::ACCOUNT_TYPE_SISWA])->get();
+        return self::whereNotIn('account_type', [User::ACCOUNT_TYPE_CREATOR, User::ACCOUNT_TYPE_SISWA])->get();
     }
 
     /**
      * 
      */
     public static function getTeacher($search = null){
-        return self::where('status', self::USER_STATUS_ACTIVE)->where('account_type', User::ACCOUNT_TYPE_TEACHER)->where('full_name', 'like', '%' . $search . '%')->get();
+        return self::where('account_type', User::ACCOUNT_TYPE_TEACHER)->where('full_name', 'like', '%' . $search . '%')->get();
     }
 
     /**
      * 
      */
     public static function getSiswa($search = null){
-        return self::where('status', self::USER_STATUS_ACTIVE)->where('account_type', User::ACCOUNT_TYPE_SISWA)->where('full_name', 'like', '%' . $search . '%')->get();
+        return self::where('account_type', User::ACCOUNT_TYPE_SISWA)->where('full_name', 'like', '%' . $search . '%')->get();
     }
 
     /**
@@ -88,13 +84,6 @@ class User extends Authenticatable {
             return true;
         }
         return false;
-    }
-
-    /**
-     * 
-     */
-    public static function getParent($search = null){
-        return self::where('status', self::USER_STATUS_ACTIVE)->where('account_type', User::ACCOUNT_TYPE_PARENT)->where('full_name', 'like', '%' . $search . '%')->get();
     }
 
     /**
@@ -110,7 +99,7 @@ class User extends Authenticatable {
      * @var array
      */
     public static function userByUsername($username){
-        $data = static::where('username', $username)->where('status', static::USER_STATUS_ACTIVE)->first();
+        $data = static::where('username', $username)->first();
         return $data;
     }
 

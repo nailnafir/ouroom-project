@@ -4,6 +4,14 @@
 
 @section('content')
 
+	<?php 
+		use Yajra\Datatables\Datatables; 
+		use App\Model\User\User;
+
+		// get user auth
+		$user = Auth::user();
+	?>
+
 	<form method="post" action="{{ route('store-student-class') }}">
 
 		@csrf
@@ -20,13 +28,15 @@
 			@endif
         </div>
 
+		@if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN)
 		<div class="form-group">
 			<label>Guru</label>
             <select class="js-example-basic-single form-control" id="guru" name="teacher_id" style="width: 100%"></select>
             @if ($errors->has('teacher_id'))
 			    <div class="error"><p style="color: red"><span>&#42;</span> {{ $errors->first('teacher_id') }}</p></div>
 			@endif
-        </div>
+		</div>
+		@endif
 
 		<div class="form-group">
 			<label>Kelas</label>

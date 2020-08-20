@@ -64,7 +64,7 @@
 
     <fieldset>
     <legend>List Kelas</legend>
-    <div class="ui three stackable cards">
+    <div id="card-list1" class="ui three stackable cards">
       @foreach($data_kelas as $dk)
         <a id="customCards" class="ui card" href="{{ route('list-student-class', ['nama_kelas'=>$dk->class_name]) }}">
           <div class="content">
@@ -91,37 +91,35 @@
   @endif
 
   @if($user->account_type == User::ACCOUNT_TYPE_TEACHER)
-    <div style="padding-bottom: 20px">
+    <div style="padding-bottom: 20px; text-align:center">
       <a  href="{{ route('create-student-class') }}" type="button" class="btn btn-info custombtn"> TAMBAH </a>
     </div>
 
     <fieldset>
     <legend>List Kelas</legend>
-    <div class="ui three stackable cards">
+    <div id="card-list" class="ui three stackable cards">
       @foreach($data_kelas as $dk)
-        @foreach($dk->hasClass as $c)
-        <a id="customCards" class="ui card" href="{{ route('list-student-class', ['nama_kelas'=>$c->class_name]) }}">
+        <a id="customCards" class="ui card" href="{{ route('list-student-class', ['nama_kelas'=>$dk->class_name]) }}">
           <div class="content">
             <div class="header" style="padding: 0px">
-              {{$c->class_name}}
+              {{($dk->class_name)}}
             </div>
             <div class="meta">
-              <span class="category">Angkatan {{$c->angkatan}}</span>
+              <span class="category">Angkatan {{$dk->angkatan}}</span>
             </div>
             <div class="description">
               <p>{{$dk->note}}</p>
             </div>
           </div>
           <div class="extra content">
-            <div class="center aligned author">
-              TOKEN
+            <div class="center aligned author token">
+              {{$dk->token}}
             </div>
           </div>
           <div onclick="editClass()" class="ui bottom attached big button">
             Edit Kelas
           </div>
         </a>
-        @endforeach
       @endforeach
     </div>
   @endif
@@ -152,7 +150,7 @@
     <div class="ui three stackable cards">
       @foreach($data_kelas as $dk)
         @foreach($dk->hasClass as $c)
-        <a id="customCards" class="ui card" href="{{ route('list-student-class', ['nama_kelas'=>$c->class_name]) }}">
+        <a id="customCards" class="ui card" href="{{ route('list-student-class', ['nama_kelas'=>$c->class_name]) }}" loading="lazy">
           <div class="content">
             <div class="header" style="padding: 0px">{{$c->class_name}}</div>
             <div class="meta">
@@ -289,7 +287,10 @@
             success:function(data) {
               if(data.status != false) {
                 swal(data.message, { button:false, icon: "success", timer: 1000});
-                $("#detailModal .close").click()
+                $("#detailModal .close").click();
+                setTimeout(function(){
+                  location.reload();
+                }, 1000); 
               } else {
                 swal(data.message, { button:false, icon: "error", timer: 1000});
               }
@@ -297,8 +298,10 @@
             },
             error: function(error) {
               swal('Terjadi kegagalan sistem', { button:false, icon: "error", timer: 1000});
+              console.log(data);
             }
           });
+          
       })
     }
 
@@ -341,10 +344,15 @@
       });
     });
 
+    function btnDel(id) {
+      idclass = id;
+      hapus(idclass);
+    }
+
     function hapus(idclass) {
       swal({
-          title: "Menghapus",
-          text: 'Dengan anda menghapus kelas, maka seluruh data nilai siswa dan data siswa dalam kelas ini akan ikut terhapus', 
+          title: "Hapus Kelas",
+          text: 'Semua data yang terdapat didalam Kelas ini akan dihapus secara permanen', 
           icon: "warning",
           buttons: true,
           dangerMode: true,
@@ -356,7 +364,8 @@
             url: base_url + '/student-class/delete',
             data:{
               idclass:idclass, 
-              "_token": "{{ csrf_token() }}",},
+              "_token": "{{ csrf_token() }}",
+            },
             success:function(data) {
               if(data.status != false) {
                 swal(data.message, { button:false, icon: "success", timer: 1000});
@@ -364,6 +373,7 @@
                 swal(data.message, { button:false, icon: "error", timer: 1000});
               }
               table.ajax.reload();
+              $("#card-list").load(" #card-list");
             },
             error: function(error) {
               swal('Terjadi kegagalan sistem', { button:false, icon: "error", timer: 1000});
@@ -372,11 +382,5 @@
         }
       });
     }
-
-    function btnDel(id) {
-      idclass = id;
-      hapus(idclass);
-    }
-
   </script>
 @endpush

@@ -13,7 +13,8 @@ class CreateTugasTable extends Migration {
     public function up() {
         Schema::create('tbl_tugas', function (Blueprint $table) {
             $table->bigIncrements('id', 20);
-            $table->string('tugas')->nullable();
+            $table->string('file')->nullable();
+            $table->integer('nilai')->nullable();
             $table->unsignedBigInteger('siswa_id');
             $table->unsignedBigInteger('class_id');
             $table->unsignedBigInteger('feed_id');

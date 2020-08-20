@@ -74,7 +74,7 @@ $router->group(['prefix' => 'student-class'], function () use ($router) {
 	$router->get('/{nama_kelas}', ['as'=>'list-student-class','uses' => 'FeedController@showClass']);
 	$router->post('/upload',  ['as'=>'upload-feed','uses' => 'FeedController@uploadFeed']);
 	$router->post('/upload-tugas',  ['as'=>'upload-tugas','uses' => 'FeedController@uploadTugas']);
-	$router->post('/delete',  ['as'=>'delete-feed','uses' => 'FeedController@deleteFeed']);
+	$router->post('/delete-feed',  ['as'=>'delete-feed','uses' => 'FeedController@deleteFeed']);
 });
 
 // Untuk Feed

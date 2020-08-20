@@ -115,9 +115,7 @@ class UserController extends Controller {
         $user->address = $request->get('address');
         $user->full_name = $request->get('full_name');
         $user->password = $request->get('password');
-        $user->status = $request->get('status');
         $user->account_type = $request->get('account_type');
-        $user->status = User::USER_STATUS_ACTIVE;
         $user->assignRole(User::getAccountMeaning($user->account_type));
         if(!$user->save()) {
             $this->systemLog(true,'Gagal menyimpan user');
@@ -150,7 +148,6 @@ class UserController extends Controller {
         $user->password = $request->get('password');
         $user->status = $request->get('status');
         $user->account_type = 'Siswa';
-        $user->status = User::USER_STATUS_ACTIVE;
         $user->assignRole('Siswa');
         if(!$user->save()) {
             $this->systemLog(true,'Gagal menyimpan user');
@@ -173,17 +170,9 @@ class UserController extends Controller {
      */
     public function delete(Request $request) {
         if ($request->ajax()) {
-            DB::beginTransaction();
-            $userModel = User::findOrFail($request->iduser);
-            $userModel->status = User::USER_STATUS_NOT_ACTIVE;
-            if(!$userModel->save()) {
-                $this->systemLog(true,'Gagal menghapus user');
-                DB::rollBack();
-                return $this->getResponse(false,400,'','User gagal dinonaktifkan');
-            }
+            User::findOrFail($request->iduser)->delete();
             if($this->getUserPermission('create user')) {
                 $this->systemLog(false,'Berhasil menghapus user');
-                DB::commit();
                 return $this->getResponse(true,200,'','User berhasil dinonaktifkan');
             } else {
                 $this->systemLog(true,'Gagal menghapus user');
