@@ -197,7 +197,7 @@
           if (willDelete) {
             $.ajax({
               type: 'POST',
-              url: base_url + '/user/delete',
+              url: '/user/delete',
               data: {
                 iduser: iduser,
                 "_token": "{{ csrf_token() }}",
@@ -372,5 +372,4 @@
       })
     });
   </script>
-
 @endpush

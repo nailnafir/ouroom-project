@@ -43,14 +43,6 @@
                     <p>Siswa</p>
                 </a>
             </li>
-            @if($user->account_type == User::ACCOUNT_TYPE_CREATOR)
-            <li class="<?= $active == 'assessment' ? 'active' : '' ?>">
-                <a href="<?= URL::to('/assessment'); ?>">
-                    <i class="pe-7s-note2"></i>
-                    <p>Penilaian Siswa</p>
-                </a>
-            </li>
-            @endif
         @endif
 
         @if($user->account_type == User::ACCOUNT_TYPE_TEACHER)
@@ -58,13 +50,6 @@
                 <a href="<?= URL::to('/student-class'); ?>">
                     <i class="pe-7s-study"></i>
                     <p>Kelas</p>
-                </a>
-            </li>
-            
-            <li class="<?= $active == 'assessment' ? 'active' : '' ?>">
-                <a href="<?= URL::to('/assessment'); ?>">
-                    <i class="pe-7s-note2"></i>
-                    <p>Penilaian Siswa</p>
                 </a>
             </li>
         @endif

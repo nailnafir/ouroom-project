@@ -78,12 +78,25 @@ class StudentClassController extends Controller {
             'token' => 'required'
         ]);
         $user = User::findOrFail(Auth::user()->id);
+        $id_user = Auth::id();
         $token_kelas = $request->get('token');
+        $user_data = DB::table('tbl_user')
+            ->where('id', $id_user)
+            ->select('angkatan', 'jurusan')
+            ->get();
+        $class_data = DB::table('tbl_class')
+            ->where('token', $token_kelas)
+            ->select('angkatan', 'jurusan')
+            ->get();
         $id_kelas = DB::table('tbl_class')
             ->where('token', $token_kelas)
             ->value('id');
-        $user->hasClass()->syncWithoutDetaching($id_kelas);
-        return redirect()->back()->with('alert_success', 'Berhasil Join Kelas');
+        if($user_data == $class_data){
+            $user->hasClass()->syncWithoutDetaching($id_kelas);
+            return redirect()->back()->with('alert_success', 'Berhasil Join Kelas');
+        } else {
+            return redirect()->back()->with('alert_error', 'Hanya bisa join kelas dengan Jurusan dan Angkatan yang sama.');
+        }
     }
 
     public function create(){
@@ -100,8 +113,9 @@ class StudentClassController extends Controller {
         if ($request->ajax()) {
             DB::beginTransaction();
             $student_class = StudentClass::findOrFail($request->get('idclass'));
-            $student_class->angkatan = $request->get('angkatan');
             $student_class->class_name = $request->get('class_name');
+            $student_class->angkatan = $request->get('angkatan');
+            $student_class->jurusan = $request->get('jurusan');
             $student_class->note = $request->get('note');
             $student_class->teacher_id = $request->get('teacher_id');
             if(!$student_class->save()){
@@ -124,8 +138,9 @@ class StudentClassController extends Controller {
             if(StudentClass::validateClass($request->get('angkatan'),$request->get('class_name'),$request->get('teacher_id'))) {
                 return redirect('student-class')->with('alert_error', 'Kelas dengan tahun yang sama dan guru yang sama sudah dibuat sebelumnya');
             }
-            $student_class->angkatan = $request->get('angkatan');
             $student_class->class_name = $request->get('class_name');
+            $student_class->angkatan = $request->get('angkatan');
+            $student_class->jurusan = $request->get('jurusan');
             $student_class->note = $request->get('note');
             $student_class->teacher_id = $request->get('teacher_id');
             $student_class->token = str_random(8);
@@ -135,8 +150,9 @@ class StudentClassController extends Controller {
             if(StudentClass::validateClass($request->get('angkatan'),$request->get('class_name'),$request->get('teacher_id'))) {
                 return redirect('student-class')->with('alert_error', 'Kelas dengan tahun yang sama dan guru yang sama sudah dibuat sebelumnya');
             }
-            $student_class->angkatan = $request->get('angkatan');
             $student_class->class_name = $request->get('class_name');
+            $student_class->angkatan = $request->get('angkatan');
+            $student_class->jurusan = $request->get('jurusan');
             $student_class->note = $request->get('note');
             $student_class->teacher_id = Auth::id();
             $student_class->token = str_random(8);

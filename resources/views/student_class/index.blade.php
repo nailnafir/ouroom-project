@@ -52,6 +52,7 @@
                   <th style="text-align: center">Kelas</th>
                   <th style="text-align: center">Guru</th>
                   <th style="text-align: center">Angkatan</th>
+                  <th style="text-align: center">Jurusan</th>
                   <th style="text-align: center">Token</th>
                   <th style="text-align: center" width="90px">Action</th>
               </tr>
@@ -66,13 +67,13 @@
     <legend>List Kelas</legend>
     <div id="card-list1" class="ui three stackable cards">
       @foreach($data_kelas as $dk)
-        <a id="customCards" class="ui card" href="{{ route('list-student-class', ['nama_kelas'=>$dk->class_name]) }}">
+        <a id="customCards" class="ui card" href="{{ route('list-student-class', ['id_kelas'=>$dk->id]) }}">
           <div class="content">
             <div class="header" style="padding: 0px">
               {{$dk->class_name}}
             </div>
             <div class="meta">
-              <span class="category">Angkatan {{$dk->angkatan}}</span>
+              <span class="category">{{$dk->full_name}}</span>
             </div>
             <div class="description">
               <p>{{$dk->note}}</p>
@@ -80,9 +81,10 @@
           </div>
           <div class="extra content">
             <div class="right floated author">
+              {{$dk->angkatan}}
             </div>
             <div class="left floated author">
-              <i class="glyphicon glyphicon-user"></i> {{$dk->full_name}}
+              {{$dk->jurusan}}
             </div>
           </div>
         </a>
@@ -99,25 +101,25 @@
     <legend>List Kelas</legend>
     <div id="card-list" class="ui three stackable cards">
       @foreach($data_kelas as $dk)
-        <a id="customCards" class="ui card" href="{{ route('list-student-class', ['nama_kelas'=>$dk->class_name]) }}">
+        <a id="customCards" class="ui card" href="{{ route('list-student-class', ['id_kelas'=>$dk->id]) }}">
           <div class="content">
             <div class="header" style="padding: 0px">
               {{($dk->class_name)}}
             </div>
             <div class="meta">
-              <span class="category">Angkatan {{$dk->angkatan}}</span>
+              <span class="category">{{$dk->full_name}}</span>
             </div>
             <div class="description">
               <p>{{$dk->note}}</p>
             </div>
           </div>
           <div class="extra content">
-            <div class="center aligned author token">
-              {{$dk->token}}
+            <div class="right floated author">
+              {{$dk->angkatan}}
             </div>
-          </div>
-          <div onclick="editClass()" class="ui bottom attached big button">
-            Edit Kelas
+            <div class="left floated author">
+              {{$dk->jurusan}}
+            </div>
           </div>
         </a>
       @endforeach
@@ -150,19 +152,22 @@
     <div class="ui three stackable cards">
       @foreach($data_kelas as $dk)
         @foreach($dk->hasClass as $c)
-        <a id="customCards" class="ui card" href="{{ route('list-student-class', ['nama_kelas'=>$c->class_name]) }}" loading="lazy">
+        <a id="customCards" class="ui card" href="{{ route('list-student-class', ['id_kelas'=>$c->id]) }}" loading="lazy">
           <div class="content">
             <div class="header" style="padding: 0px">{{$c->class_name}}</div>
             <div class="meta">
-              <span class="category">Angkatan {{$c->angkatan}}</span>
+              <span class="category">{{User::where('id', $c->teacher_id)->value('full_name')}}</span>
             </div>
             <div class="description">
               <p>{{$c->note}}</p>
             </div>
           </div>
           <div class="extra content">
+            <div class="right floated author">
+              {{$c->angkatan}}
+            </div>
             <div class="left floated author">
-              <i class="glyphicon glyphicon-user"></i> {{User::where('id', $c->teacher_id)->value('full_name')}}
+              {{$c->jurusan}}
             </div>
           </div>
         </a>
@@ -196,6 +201,14 @@
               @foreach ($years as $year)
                   <option value="{{ $year }}"> {{ $year }} </option>
               @endforeach
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Jurusan</label>
+            <select id="jurusan" class="form-control" name="jurusan">
+              <option value="Pemasaran">Pemasaran</option>
+              <option value="Pariwisata">Pariwisata</option>
+              <option value="Peternakan">Peternakan</option>
             </select>
           </div>
           <div class="form-group">
@@ -238,6 +251,7 @@
       $('#class_name').val('');
       $("#guru").val([]).trigger("change");
       $('#angkatan').val('');
+      $('#jurusan').val('');
       $('#token').val('');
       $('#note').val('');
     }
@@ -258,6 +272,7 @@
             $('#class_name').val(data.data.class_name);
             $('#guru').val(data.data.teacher.id).trigger('change');
             $('#angkatan').val(data.data.angkatan);
+            $('#jurusan').val(data.data.jurusan);
             $('#note').val(data.data.note);
         }
       });
@@ -269,6 +284,7 @@
 
       $('#update_data').click(function() {
           var angkatan = $('#angkatan').val();
+          var jurusan = $('#jurusan').val();
           var teacher_id = $('#guru').val();
           var class_name = $('#class_name').val();
           var note = $('#note').val();
@@ -280,6 +296,7 @@
                   idclass:idclass, 
                   "_token": "{{ csrf_token() }}",
                   angkatan : angkatan,
+                  jurusan : jurusan,
                   teacher_id : teacher_id,
                   class_name : class_name,
                   note : note
@@ -338,6 +355,7 @@
               {data: 'class_name', name: 'class_name'},
               {data: 'guru', name: 'guru'},
               {data: 'angkatan', name: 'angkatan'},
+              {data: 'jurusan', name: 'jurusan'},
               {data: 'token', name: 'token'},
               {data: 'action', name: 'action', orderable: false, searchable: false},
           ]

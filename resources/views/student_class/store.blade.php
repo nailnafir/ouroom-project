@@ -17,6 +17,22 @@
 		@csrf
 
 		<div class="form-group">
+			<label>Kelas</label>
+			<input type="text" class="form-control" value="" name="class_name">
+			@if ($errors->has('class_name'))
+			    <div class="error"><p style="color: red"><span>&#42;</span> {{ $errors->first('class_name') }}</p></div>
+			@endif
+		</div>
+		@if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN)
+			<div class="form-group">
+				<label>Guru</label>
+				<select class="js-example-basic-single form-control" id="guru" name="teacher_id" style="width: 100%"></select>
+				@if ($errors->has('teacher_id'))
+					<div class="error"><p style="color: red"><span>&#42;</span> {{ $errors->first('teacher_id') }}</p></div>
+				@endif
+			</div>
+		@endif
+		<div class="form-group">
 			<label>Angkatan</label>
             <select class="form-control" id="angkatan" name="angkatan" style="width: 100%">
             	@foreach ($years as $year)
@@ -27,25 +43,15 @@
 			    <div class="error"><p style="color: red"><span>&#42;</span> {{ $errors->first('teacher_id') }}</p></div>
 			@endif
         </div>
-
-		@if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN)
 		<div class="form-group">
-			<label>Guru</label>
-            <select class="js-example-basic-single form-control" id="guru" name="teacher_id" style="width: 100%"></select>
-            @if ($errors->has('teacher_id'))
-			    <div class="error"><p style="color: red"><span>&#42;</span> {{ $errors->first('teacher_id') }}</p></div>
-			@endif
-		</div>
-		@endif
-
-		<div class="form-group">
-			<label>Kelas</label>
-			<input type="text" class="form-control" value="" name="class_name">
-			@if ($errors->has('class_name'))
-			    <div class="error"><p style="color: red"><span>&#42;</span> {{ $errors->first('class_name') }}</p></div>
-			@endif
-		</div>
-
+            <label>Jurusan</label>
+            <select class="form-control" name="jurusan">
+				<option selected="true" disabled="disabled">Jurusan</option> 
+				<option value="Pemasaran">Pemasaran</option>
+				<option value="Pariwisata">Pariwisata</option>
+        	    <option value="Peternakan">Peternakan</option>
+            </select>
+        </div>
 		<div class="form-group">
 			<label>Catatan</label>
 			<input type="text" class="form-control" value="" name="note" maxlength="30">
@@ -53,13 +59,10 @@
 			    <div class="error"><p style="color: red"><span>&#42;</span> {{ $errors->first('note') }}</p></div>
 			@endif
 		</div>
-
 		<div class="form-group">
 			<button type="submit" class="btn btn-info"> TAMBAH </button>
 		</div>
-
 	</form>
-	
 @endsection
 
 @push('scripts')

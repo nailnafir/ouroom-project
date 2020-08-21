@@ -13,8 +13,9 @@ class CreateClassTable extends Migration {
     public function up() {
         Schema::create('tbl_class', function (Blueprint $table) {
             $table->bigIncrements('id', 20);
-            $table->string('angkatan');
             $table->string('class_name');
+            $table->string('angkatan');
+            $table->string('jurusan');
             $table->string('note')->nullable();
             $table->unsignedBigInteger('teacher_id');
             $table->string('token')->unique();

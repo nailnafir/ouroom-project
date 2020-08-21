@@ -60,11 +60,39 @@ input[type="date"] {
 }
 
 /* -- Feed Page -- */
+.class-attribute{
+    font-size: 3rem !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+.class-attribute .sub-class-attribute{
+    font-size: 2rem !important;
+}
+.class-attribute .sub-class-attribute2{
+    font-size: 1rem !important;
+}
 .sfile{
     margin: 0px 0px 10px 0px !important;
 }
 .markbtn{
     border-radius: 5px !important;
+}
+.btn-edit{
+    float: right;
+    font-size: 15px !important;
+}
+.btn-bottom-right{
+    text-align: center !important;
+    border-radius: 5px 0 0 5px !important;
+}
+.btn-bottom-left{
+    text-align: center !important;
+    border-radius: 0 5px 5px 0 !important;
+}
+.btnfeed{
+    text-transform: uppercase !important;
+    text-align: center !important;
+    font-size: 13px !important;
 }
 .detail-section{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -90,4 +118,22 @@ input[type="date"] {
     text-transform: none !important;
     font-size: 15px !important;
     letter-spacing: 2px;
+}
+#token{
+    min-width: 155px !important;
+}
+#token:hover span{
+    display:none;
+}
+#token:hover:before{
+    content:"Copy Token";
+    letter-spacing: 1px;
+}
+#token:hover:before{
+    content:"Copy Token";
+    letter-spacing: 1px;
+}
+#token:focus{
+    background: #2185d0;
+    color: white;
 }

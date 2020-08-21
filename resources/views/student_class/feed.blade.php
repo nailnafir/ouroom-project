@@ -40,6 +40,53 @@
 		$user = Auth::user();
 	?>
 
+    @if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN || $user->account_type == User::ACCOUNT_TYPE_TEACHER)
+    <form method="POST" action="{{ route('update-feed', ['id_kelas'=>$id_kelas, 'id_feed'=>$id_feed]) }}" class="upload-container" enctype="multipart/form-data">
+
+        @csrf
+        @foreach($feed as $f)
+        <div id="customSegments" class="ui raised segments">
+            <div class="ui segment">
+                <a class="ui blue ribbon huge label">Edit Feed</a>
+            </div>
+            <div class="upload">
+                <label>Judul</label>
+                <input type="text" class="form-control" id="judul" name="judul" value="{{$f->judul}}">
+
+                <input type="hidden" name="id_kelas" value="{{ $id_kelas }}">
+
+                <label>Kategori</label>
+                <select class="form-control" name="kategori">
+                    <option selected="true" disabled="disabled" value="{{$f->kategori}}">{{$f->kategori}}</option> 
+                    <option value="Artikel">Artikel</option>
+                    <option value="Tugas">Tugas</option>
+                    <option value="Ujian">Ujian</option>
+                </select>
+            </div>
+            <div class="ui segments">
+                <textarea class="form-control" placeholder="Detail" rows="10" id="detail" name="detail">{{$f->detail}}</textarea>
+            </div>
+            <div class="upload">
+                <label>Upload File</label>
+                <input type="file" class="form-control" id="file" name="file">
+
+                <label>Tenggat Waktu</label>
+                <input type="date" min="2020-01-01" class="form-control" id="deadline" name="deadline">
+            </div>
+            <div class="ui segments">
+                <div class="ui two buttons">
+                    <button type="submit" class="ui right attached huge primary button btn-bottom-right">
+                        UPDATE
+                    </button>
+                    <a href="/delete/{{$id_kelas}}/{{$f->id}}" type="button" class="ui left attached huge button btn-bottom-left">
+                        HAPUS
+                    </a>
+                </div>
+            </div>
+        </div>
+        @endforeach
+    </form>
+    @endif
 	<fieldset>
     @foreach($feed as $f)
         <legend>{{ $f->judul }}</legend>
@@ -115,7 +162,7 @@
                             <td>{{$dt->created_at}}</td>
                             <td>{{$dt->nilai}}</td>
                             <td style="text-align: center" width="90px">
-                                <a href="{{ route('show-tugas', ['nama_kelas'=>$nama_kelas, 'feed_title'=>$feed_title, 'siswa_id'=>$dt->siswa_id]) }}" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a href="{{ route('show-tugas', ['id_kelas'=>$id_kelas, 'feed_title'=>$feed_title, 'siswa_id'=>$dt->siswa_id]) }}" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></a>
                             </td>
                         </tr>
                     </tbody>

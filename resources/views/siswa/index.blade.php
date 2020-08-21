@@ -95,7 +95,6 @@
         <textarea class="form-control" placeholder="" rows="3" id="alamat"></textarea>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger pull-right" id="non_aktif_button">Non Aktifkan</button>
         <button type="button" id="update_data" class="btn btn-default pull-left">Update</button>
       </div>
     </div>

@@ -146,7 +146,6 @@ class UserController extends Controller {
         $user->angkatan = $request->get('angkatan');
         $user->username = $request->get('username');
         $user->password = $request->get('password');
-        $user->status = $request->get('status');
         $user->account_type = 'Siswa';
         $user->assignRole('Siswa');
         if(!$user->save()) {

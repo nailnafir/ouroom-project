@@ -21,6 +21,7 @@ class StudentClass extends Model{
         'class_name', 
         'note', 
         'angkatan',
+        'jurusan',
         'teacher_id',
         'teacher_name'
     ];
@@ -28,6 +29,7 @@ class StudentClass extends Model{
     public static $rules = [
         'class_name' => 'required',
         'angkatan' => 'string',
+        'jurusan' => 'string',
         'note' => 'string',
         'teacher_id' => 'required | interger',
         'teacher_name' => 'string'

@@ -40,7 +40,7 @@
 		$user = Auth::user();
 	?>
 
-    <form method="post" action="{{ route('update-tugas', ['nama_kelas'=>$nama_kelas, 'feed_title'=>$feed_title, 'siswa_id'=>$siswa_id]) }}">
+    <form method="post" action="{{ route('update-tugas', ['id_kelas'=>$id_kelas, 'feed_title'=>$feed_title, 'siswa_id'=>$siswa_id]) }}">
 
         @csrf
 
@@ -96,7 +96,7 @@
 
         <div class="form-group">
             <button type="submit" class="btn btn-info"> NILAI TUGAS </button>
-            <a href="{{ route('class-feed', ['nama_kelas'=>$nama_kelas, 'feed_title'=>$feed_title]) }}" class="btn btn-info" style="float:right"> KEMBALI </a>
+            <a href="{{ route('class-feed', ['id_kelas'=>$id_kelas, 'feed_title'=>$feed_title]) }}" class="btn btn-info" style="float:right"> KEMBALI </a>
         </div>
     </form>
 @endsection

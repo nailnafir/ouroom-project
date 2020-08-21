@@ -22,5 +22,17 @@ class UsersTableSeeder extends Seeder
             'full_name' => 'Super Admin',
             'account_type' => 'Creator'
         ]);
+
+        $faker = Faker::create('id_ID');
+
+        for($i = 1; $i <= 50; $i++){
+            DB::table('tbl_user')->insert([
+                'username' => $faker->username,
+                'email' => $faker->email,
+                'password' => $faker->password,
+                'full_name' => $faker->name,
+                'account_type' => 'Guru'
+            ]);
+        }
     }
 }

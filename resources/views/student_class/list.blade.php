@@ -41,12 +41,17 @@
 	?>
 
 	@if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN || $user->account_type == User::ACCOUNT_TYPE_TEACHER)
-		<div class="feed-control">
-			<div class="feed-control-button">
-				<a  href="{{ route('list-siswa', ['nama_kelas'=>$nama_kelas]) }}" type="button" class="btn btn-info custombtn"> DAFTAR SISWA </a>
-			</div>
-		</div>
-		
+		@foreach($data_kelas as $dk)
+			<a class="ui big inverted primary button btn-edit" href="{{ route('edit-class', ['id_kelas'=>$id_kelas]) }}">
+				Edit Kelas
+			</a>
+			<h1 class="ui header class-attribute">
+				{{$dk->class_name}}
+				<div class="sub header sub-class-attribute">{{User::where('id', '=', $dk->teacher_id)->value('full_name')}}</div>
+				<div class="sub header sub-class-attribute2">{{$dk->note}}</div>
+				<button id="token" class="ui big button token" value="{{$dk->token}}" onclick="copyToken()" onmouseout="outFunc()"><span>{{$dk->token}}</span></button>
+			</h1>
+		@endforeach
 		<hr style="border-top: 1px solid #c6c6c6">
 		<form method="POST" action="{{ route('upload-feed') }}" class="upload-container" enctype="multipart/form-data">
 
@@ -107,17 +112,25 @@
 				<div class="ui red large label deadline">{{$df->deadline}}</div>
 				<a class="ui top right attached huge image label">
 					<span class="date-post">{{$df->created_at}}</span>
-					@if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN || $user->account_type == User::ACCOUNT_TYPE_TEACHER)
-					<div class="detail">
-						<i class="glyphicon glyphicon-trash"></i>
-					</div>
-					@endif
 				</a>
 			</div>
 			<pre class="detail-section">{{$df->detail}}</pre>
-			<a href="{{ route('class-feed', ['nama_kelas'=>$nama_kelas, 'feed_title'=>$df->judul]) }}" class="ui bottom attached large button">
+			<a href="{{ route('class-feed', ['id_kelas'=>$id_kelas, 'id_feed'=>$df->id]) }}" class="ui bottom attached big button btnfeed">
 				Lihat
 			</a>
 		</div>
-	@endforeach
+		@endforeach
 @endsection
+
+@push('scripts')
+<script type="text/javascript">
+	function copyToken(elementID) {
+		let element = document.getElementById("token"); //select the element
+		let elementText = element.textContent; //get the text content from the element
+		copyText(elementText); //use the copyText function below
+	}
+	function copyText(text) {
+		navigator.clipboard.writeText(text);
+	}
+</script>
+@endpush
