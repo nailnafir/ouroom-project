@@ -3,6 +3,7 @@
 // Home
 
 use App\Model\StudentClass\StudentClass;
+use App\Model\StudentClass\Feed;
 
 Breadcrumbs::for('home', function ($trail) {
     $trail->push('Home', route('home'));
@@ -56,35 +57,42 @@ Breadcrumbs::for('create-student-class', function ($trail) {
     $trail->push('Tambah Kelas', route('student-class'));
 });
 
-Breadcrumbs::for('list-student-class', function ($trail, $nama_kelas) {
+Breadcrumbs::for('list-student-class', function ($trail, $id_kelas) {
+    $nama_kelas = StudentClass::findOrFail($id_kelas);
     $trail->parent('student-class');
-    $trail->push($nama_kelas, route('student-class', $nama_kelas));
+    $trail->push($nama_kelas->class_name, route('student-class', $id_kelas));
 });
 
 // Feed
-Breadcrumbs::for('class-feed', function ($trail, $nama_kelas, $feed_title) {
+Breadcrumbs::for('class-feed', function ($trail, $id_kelas, $id_feed) {
+    $nama_kelas = StudentClass::findOrFail($id_kelas);
+    $nama_feed = Feed::findOrFail($id_feed);
     $trail->parent('student-class');
-    $trail->push($nama_kelas, route('list-student-class', $nama_kelas));
-    $trail->push($feed_title, route('class-feed', [$nama_kelas, $feed_title]));
+    $trail->push($nama_kelas->class_name, route('list-student-class', $id_kelas));
+    $trail->push($nama_feed->judul, route('class-feed', [$id_kelas, $nama_feed]));
 });
 
-Breadcrumbs::for('show-tugas', function ($trail, $nama_kelas, $feed_title, $siswa_id) {
+Breadcrumbs::for('show-tugas', function ($trail, $id_kelas, $id_feed, $siswa_id) {
+    $nama_kelas = StudentClass::findOrFail($id_kelas);
+    $nama_feed = Feed::findOrFail($id_feed);
     $trail->parent('student-class');
-    $trail->push($nama_kelas, route('list-student-class', $nama_kelas));
-    $trail->push($feed_title, route('class-feed', [$nama_kelas, $feed_title]));
-    $trail->push('Penilaian Tugas', route('show-tugas', [$nama_kelas, $feed_title, $siswa_id]));
+    $trail->push($nama_kelas->class_name, route('list-student-class', $id_kelas));
+    $trail->push($nama_feed->judul, route('class-feed', [$id_kelas, $id_feed]));
+    $trail->push('Penilaian Tugas', route('show-tugas', [$id_kelas, $id_feed, $siswa_id]));
 });
 
-Breadcrumbs::for('class-data', function ($trail, $nama_kelas) {
+Breadcrumbs::for('class-data', function ($trail, $id_kelas) {
+    $nama_kelas = StudentClass::findOrFail($id_kelas);
     $trail->parent('student-class');
-    $trail->push($nama_kelas, route('list-student-class', $nama_kelas));
-    $trail->push('Data Feed Kelas', route('class-data', $nama_kelas));
+    $trail->push($nama_kelas->class_name, route('list-student-class', $id_kelas));
+    $trail->push('Data Feed Kelas', route('class-data', $id_kelas));
 });
 
-Breadcrumbs::for('list-siswa', function ($trail, $nama_kelas) {
+Breadcrumbs::for('edit-class', function ($trail, $id_kelas) {
+    $nama_kelas = StudentClass::findOrFail($id_kelas);
     $trail->parent('student-class');
-    $trail->push($nama_kelas, route('list-student-class', $nama_kelas));
-    $trail->push('Daftar Siswa', route('list-siswa', $nama_kelas));
+    $trail->push($nama_kelas->class_name, route('list-student-class', $id_kelas));
+    $trail->push('Edit Kelas', route('edit-class', $id_kelas));
 });
 
 // Siswa

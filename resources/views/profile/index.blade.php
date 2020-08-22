@@ -96,8 +96,8 @@
 
 @section('profile_picture')
 
-<div style="text-align: center">
-    <img src="<?= $data_user->profile_picture != null ? URL::to('/').'/uploads/profile/'.$data_user->profile_picture : URL::to('/').'/layout/assets/img/default-avatar.png';?>" style="width:200px;height:200px;" class="img-thumbnail center-cropped" id="profile_pic"> 
+<div style="text-align: center; height: 100%; width: 100%">
+    <img src="{{ url('asset_user/'.$data_user->account_type.'/'.$data_user->full_name.'/'.$data_user->profile_picture) }}" class="img-thumbnail" id="profile_pic" style="object-fit: cover; height: 300px; width: 300px"/> 
 </div>
 <div style="text-align: center; padding-top: 10px">
   @if ($data_user->profile_picture != null)

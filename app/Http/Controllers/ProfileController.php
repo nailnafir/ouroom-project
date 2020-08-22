@@ -64,47 +64,43 @@ class ProfileController extends Controller
      */
     public function update(ProfileRequest $request)
     {
-		DB::beginTransaction();
+        $this->validate($request, [
+            'file' => 'mimes:jpeg,jpg,png|max:2048',
+        ]);
 
-		$user = User::findOrFail(Auth::user()->id);
-
-		$user->email = $request->get('email');
-		$user->address = $request->get('address');
-		$user->full_name = $request->get('full_name');
-		$user->account_type = $user->account_type;
-
-        if($request->hasFile('file'))
-        {
-            $image      = $request->file('file');
-            $fileName   = time() . '.' . $image->getClientOriginalExtension();
-
-            $img = Image::make($image->getRealPath());
-            $img->resize(300, 300, function ($constraint) {
-                $constraint->aspectRatio();                 
-            });
-
-            $img->stream();
-
-            Storage::disk('public_uploads')->put('profile/'.$fileName, $img);
-
-            $user->profile_picture = $fileName;
+        if($request->hasFile('file')) {
+            DB::beginTransaction();
+            $user = User::findOrFail(Auth::user()->id);
+            $user->email = $request->get('email');
+            $user->address = $request->get('address');
+            $user->full_name = $request->get('full_name');
+            $user->account_type = $user->account_type;
+            $files = $request->file('file');
+            $path = public_path('asset_user' . '/' . $user->account_type . '/' . $user->full_name);
+            if (!File::isDirectory($path)) {
+                File::makeDirectory($path, 0777, true, true);
+            }
+            $files_name = $files->getClientOriginalName();
+            $files->move($path, $files_name);
+            $user->profile_picture = $files_name;
+        } else {
+            DB::beginTransaction();
+            $user = User::findOrFail(Auth::user()->id);
+            $user->email = $request->get('email');
+            $user->address = $request->get('address');
+            $user->full_name = $request->get('full_name');
+            $user->account_type = $user->account_type;
         }
-    		            
-		if(!$user->save())
-		{
+		if(!$user->save()) {
             $this->systemLog(true,'Gagal mengupdate Profile');
 		    DB::rollBack();
 		    return redirect('profile')->with('alert_error', 'Gagal Disimpan');
 		}
-
-        if($this->getUserPermission('update profile'))
-        {
+        if($this->getUserPermission('update profile')) {
             $this->systemLog(false,'Berhasil mengupdate Profile');
             DB::commit();
             return redirect('profile')->with('alert_success', 'Berhasil Disimpan');
-        }
-        else
-        {
+        } else {
             $this->systemLog(true,'Gagal mengupdate Profile');
             DB::rollBack();
             return view('error.unauthorized', ['active'=>'profile']);

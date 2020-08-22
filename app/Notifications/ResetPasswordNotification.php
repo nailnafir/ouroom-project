@@ -26,7 +26,7 @@ class ResetPasswordNotification extends ResetPassword
         return (new MailMessage)
             ->line('Kami telah menerima permintaan reset password dari akun anda.')
             ->action('Reset Password', route('password.reset.token',['token' => $this->token]))
-            ->line('Abaikan pesan ini apabila anda tidak melakukan permintaan permintaan ini.')
+            ->line('Abaikan pesan ini apabila anda tidak melakukan permintaan ini.')
             ->subject('Permintaan perubahan Password');
     }
 }

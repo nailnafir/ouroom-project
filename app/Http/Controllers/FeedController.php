@@ -19,12 +19,10 @@ class FeedController extends Controller
     public function showClass(Request $request)
     {
         $user = User::findOrFail(Auth::user()->id);
+        $user_id = $user->id;
+        $role = User::where('id', '=', $user->id)->value('account_type');
         $id_kelas = $request->id_kelas;
-        $validation = DB::table('tbl_class')
-            ->where('id', $id_kelas)
-            ->value('token');
-        $kelas = $user->hasClass->first();
-        if($validation == $kelas->token){
+        if ($role == 'Creator' || $role == 'Administrator') {
             $data_feed = DB::table('tbl_feed')
                 ->join('tbl_class', 'tbl_feed.class_id', '=', 'tbl_class.id')
                 ->where('tbl_class.id', $request->id_kelas)
@@ -37,8 +35,29 @@ class FeedController extends Controller
                 ->where('id', $id_kelas)
                 ->get();
             return view('student_class.list', ['active' => 'student_class', 'id_kelas' => $id_kelas, 'nama_kelas' => $nama_kelas, 'data_kelas' => $data_kelas, 'data_feed' => $data_feed]);
-        } else {
-            return view('error.unauthorized', ['active'=>'student_class']);
+        } else if ($role == 'Guru' || $role == 'Siswa') {
+            $validation = DB::table('tbl_class')
+                ->where('id', $id_kelas)
+                ->value('token');
+            $vara = User::where('id', '=', $user_id)
+                ->first();
+            $token = $vara->hasClass->where('token', '=', $validation)->first();
+            if ($validation == $token) {
+                $data_feed = DB::table('tbl_feed')
+                    ->join('tbl_class', 'tbl_feed.class_id', '=', 'tbl_class.id')
+                    ->where('tbl_class.id', $request->id_kelas)
+                    ->select('tbl_feed.*')
+                    ->get();
+                $nama_kelas = DB::table('tbl_class')
+                    ->where('id', $id_kelas)
+                    ->value('class_name');
+                $data_kelas = DB::table('tbl_class')
+                    ->where('id', $id_kelas)
+                    ->get();
+                return view('student_class.list', ['active' => 'student_class', 'id_kelas' => $id_kelas, 'nama_kelas' => $nama_kelas, 'data_kelas' => $data_kelas, 'data_feed' => $data_feed]);
+            } else if ($token == null){
+                return view('error.unauthorized', ['active' => 'student_class']);
+            }
         }
     }
 
@@ -92,23 +111,21 @@ class FeedController extends Controller
             $data = StudentClass::where('id', '=', $id_kelas)
                 ->with('hasUser')
                 ->get();
-            foreach($data as $du)
-                {
-                    return Datatables::of($du->hasUser)
-                        ->addIndexColumn()
-                        ->addColumn('action', function($row){  
-                            $delete = '<button onclick="btnDel('.$row->id.')" name="btnDel" type="button" class="btn btn-info"><span class="glyphicon glyphicon-trash"></span></button>';
-                            return $delete; 
-                        })
-                        ->rawColumns(['action'])
-                        ->make(true);
-                }
-            
+            foreach ($data as $du) {
+                return Datatables::of($du->hasUser)
+                    ->addIndexColumn()
+                    ->addColumn('action', function ($row) {
+                        $delete = '<button onclick="btnDel(' . $row->id . ')" name="btnDel" type="button" class="btn btn-info"><span class="glyphicon glyphicon-trash"></span></button>';
+                        return $delete;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
         }
         $data_kelas = StudentClass::where('id', '=', $id_kelas)
             ->get();
         if ($this->getUserPermission('index class')) {
-            return view('student_class.edit_class', ['active' => 'student_class', 'id_kelas' => $id_kelas, 'data_kelas'=>$data_kelas]);
+            return view('student_class.edit_class', ['active' => 'student_class', 'id_kelas' => $id_kelas, 'data_kelas' => $data_kelas]);
         } else {
             return view('error.unauthorized', ['active' => 'student_class']);
         }
@@ -120,8 +137,8 @@ class FeedController extends Controller
         if ($request->ajax()) {
             $user = User::findOrFail($request->iduser);
             $user->hasClass()->detach($id_kelas);
-            $this->systemLog(false,'Berhasil menghapus user');
-            return $this->getResponse(true,200,'','User berhasil dihapus');
+            $this->systemLog(false, 'Berhasil menghapus user');
+            return $this->getResponse(true, 200, '', 'User berhasil dihapus');
         }
     }
 
@@ -221,13 +238,31 @@ class FeedController extends Controller
     public function updateFeed(Request $request)
     {
         $id_feed = $request->id_feed;
-        DB::table('tbl_feed')->where('id', $id_feed)->update([
-            'judul' => $request->judul,
-            'kategori' => $request->kategori,
-            'detail' => $request->detail,
-            'file' => $request->file,
-            'deadline' => $request->deadline
-        ]);
+        if ($request->has('file')) {
+            $id = $request->id_kelas;
+            $class_name = StudentClass::where('id', '=', $id)->value('class_name');
+            $files = $request->file('file');
+            $files_name = $files->getClientOriginalName();
+            DB::table('tbl_feed')->where('id', $id_feed)->update([
+                'judul' => $request->judul,
+                'kategori' => $request->kategori,
+                'detail' => $request->detail,
+                'file' => $files_name,
+                'deadline' => $request->deadline
+            ]);
+            $path = public_path($class_name . '/' . $request->judul);
+            if (!File::isDirectory($path)) {
+                File::makeDirectory($path, 0777, true, true);
+            }
+            $files->move($path, $files_name);
+        } else {
+            DB::table('tbl_feed')->where('id', $id_feed)->update([
+                'judul' => $request->judul,
+                'kategori' => $request->kategori,
+                'detail' => $request->detail,
+                'deadline' => $request->deadline
+            ]);
+        }
         return redirect()->back()->with('alert_success', 'Data Berhasil Disimpan');
     }
 
@@ -235,7 +270,8 @@ class FeedController extends Controller
     {
         DB::table('tbl_feed')->where('id', $id)->delete();
         return redirect()->action(
-            'FeedController@showClass', ['id_kelas' => $id_kelas]
+            'FeedController@showClass',
+            ['id_kelas' => $id_kelas]
         )->with('alert_success', 'Feed Berhasil Dihapus');
     }
 }

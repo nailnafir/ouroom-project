@@ -71,21 +71,23 @@ $router->group(['prefix' => 'student-class'], function () use ($router) {
 	$router->post('/join', ['as'=>'join-student-class','uses' => 'StudentClassController@joinClass']);
 
 	// Class Feed
-	$router->get('/{nama_kelas}', ['as'=>'list-student-class','uses' => 'FeedController@showClass']);
+	$router->get('/{id_kelas}', ['as'=>'list-student-class','uses' => 'FeedController@showClass']);
 	$router->post('/upload',  ['as'=>'upload-feed','uses' => 'FeedController@uploadFeed']);
 	$router->post('/upload-tugas',  ['as'=>'upload-tugas','uses' => 'FeedController@uploadTugas']);
 	$router->post('/delete-feed',  ['as'=>'delete-feed','uses' => 'FeedController@deleteFeed']);
 });
 
 // Untuk Feed
-$router->group(['prefix' => 'student-class/{nama_kelas}'], function () use ($router) {
+$router->group(['prefix' => 'student-class/{id_kelas}'], function () use ($router) {
 	$router->get('/class-data',  ['as'=>'class-data','uses' => 'FeedController@showClassData']);
-	$router->get('/list-siswa',  ['as'=>'list-siswa','uses' => 'FeedController@showSiswaClass']);
-	$router->get('/{feed_title}',  ['as'=>'class-feed','uses' => 'FeedController@showFeed']);
-	$router->get('/{feed_title}/{siswa_id}',  ['as'=>'show-tugas','uses' => 'FeedController@showTugas']);
+	$router->get('/edit-class',  ['as'=>'edit-class','uses' => 'FeedController@showEditClass']);
+	$router->post('/delete-siswa',  ['as'=>'delete-siswa','uses' => 'FeedController@deleteSiswaClass']);
+	$router->get('/{id_feed}',  ['as'=>'class-feed','uses' => 'FeedController@showFeed']);
+	$router->post('/{id_feed}',  ['as'=>'update-feed','uses' => 'FeedController@updateFeed']);
+	$router->get('/{id_feed}/{siswa_id}',  ['as'=>'show-tugas','uses' => 'FeedController@showTugas']);
 	$router->post('/update-tugas',  ['as'=>'update-tugas','uses' => 'FeedController@updateTugas']);
 });
-Route::get('/delete/{id}','FeedController@deleteSiswaClass');
+Route::get('/delete/{id_kelas}/{id}','FeedController@deleteFeed');
 
 // Untuk Siswa
 $router->group(['prefix' => 'siswa'], function () use ($router) {
@@ -93,7 +95,7 @@ $router->group(['prefix' => 'siswa'], function () use ($router) {
 	$router->post('/get-user-parent',  ['as'=>'get-user-parent','uses' => 'SiswaController@getUserParent']);	
 	$router->get('/get-class',  ['as'=>'get-class','uses' => 'SiswaController@getClass']);
 	// $router->post('/store',  ['as'=>'store-siswa','uses' => 'SiswaController@store']);
-	$router->post('/delete',  ['as'=>'delete-siswa','uses' => 'SiswaController@delete']);
+	// $router->post('/delete',  ['as'=>'delete-siswa','uses' => 'SiswaController@delete']);
 	$router->post('/get-detail',  ['as'=>'detail-siswa','uses' => 'SiswaController@show']);
 	$router->post('/update',  ['as'=>'update-siswa','uses' => 'SiswaController@update']);
 });
