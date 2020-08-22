@@ -78,13 +78,6 @@
       @endif
     </div>
     @endif
-    <div class="form-group">
-      <label>Alamat</label>
-      <input type="text" value="{{ $data_user->address }}" class="form-control" value="" name="address">
-      @if ($errors->has('address'))
-          <div class="error"><p style="color: red"><span>&#42;</span> {{ $errors->first('address') }}</p></div>
-      @endif
-    </div>
 
     <input type="hidden" value="{{ $data_user->id }}" class="form-control" value="" name="iduser">
   
@@ -101,17 +94,15 @@
 </div>
 <div style="text-align: center; padding-top: 10px">
   @if ($data_user->profile_picture != null)
-
-  <button type="button" class="btn btn-info" id="delete_image">
-      <span class="glyphicon glyphicon-trash"></span>
-  </button>
-
+    <button type="button" class="btn btn-info" id="delete_image">
+        <span class="glyphicon glyphicon-trash"></span>
+    </button>
   @else
 
   <input type="file" name="file" id="file" class="inputfile" accept="image/x-png,image/gif,image/jpeg"/>
   <label for="file"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Pilih Gambar</label>
 
-  <p> Gambar Max. 2 MB </p>
+  <h6> Gambar Max. 2 MB </h6>
   
   @endif
   

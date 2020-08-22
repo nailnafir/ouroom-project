@@ -23,7 +23,6 @@ class User extends Authenticatable {
 
     const ACCOUNT_TYPE_CREATOR = "Creator";
     const ACCOUNT_TYPE_ADMIN = "Administrator";
-    const ACCOUNT_TYPE_PARENT = "Parent";
     const ACCOUNT_TYPE_TEACHER = "Guru";
     const ACCOUNT_TYPE_SISWA = "Siswa";
 
@@ -33,24 +32,14 @@ class User extends Authenticatable {
      * @var array
      */
     protected $fillable = [
-        'username', 'jenis_kelamin', 'email', 'address', 'full_name', 'jurusan', 'angkatan', 'account_type', 'password', 'status', 'profile_picture', 'last_login_at',
+        'username', 'jenis_kelamin', 'email', 'full_name', 'jurusan', 'angkatan', 'account_type', 'password', 'status', 'profile_picture', 'last_login_at',
         'last_login_ip'
-    ];
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $attributes = [
-        'account_type' => self::ACCOUNT_TYPE_PARENT,
     ];
 
     public static $rules = [
         'username' => 'required | unique',
         'email' => 'required | unique',
         'profile_picture' => 'string',
-        'address' => 'string',
         'full_name' => 'required | string',
         'account_type' => 'required | string',
     ];
@@ -104,26 +93,12 @@ class User extends Authenticatable {
     }
 
     /**
-     * @var Bol
-     */
-    public static function checkIfParent($id){
-        $data = static::where(['account_type' => static::ACCOUNT_TYPE_PARENT, 'id' => $id])->first();
-        if ($data != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * 
      */
     public static function getAccountMeaning($acount){
         switch ($acount) {
             case static::ACCOUNT_TYPE_CREATOR:
                 return 'Creator';
-            case static::ACCOUNT_TYPE_PARENT:
-                return 'Orangtua';
             case static::ACCOUNT_TYPE_TEACHER:
                 return 'Guru';
             case static::ACCOUNT_TYPE_ADMIN:
@@ -157,10 +132,6 @@ class User extends Authenticatable {
         } else {
             return false;
         }
-    }
-
-    public function hasParent(){
-        return $this->hasMany('App\Model\SiswaHasParent\SiswaHasParent', 'parent_id', 'id');
     }
 
     public function hasClass(){

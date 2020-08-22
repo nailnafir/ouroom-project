@@ -21,24 +21,13 @@
 
 	<!-- User Type Guru -->
 	@if($user->account_type == User::ACCOUNT_TYPE_TEACHER)
-		<div class="col-md-6">
+		<div class="col-md-12">
 			<div class="card">
 				<div class="header">   
-					<p style="text-align: center; font-weight: bold;"> Total Kelas </p>
+					<p style="text-align: center; font-weight: bold;"> Total Kelas Anda</p>
 				</div>
 				<div class="content">
 					<h3 style="text-align: center;"> {{ $class }} </h3>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-md-6">
-			<div class="card">
-				<div class="header">   
-					<p style="text-align: center; font-weight: bold;"> Total Siswa </p>
-				</div>
-				<div class="content">
-					<h3 style="text-align: center;"> {{ $siswa }} </h3>
 				</div>
 			</div>
 		</div>

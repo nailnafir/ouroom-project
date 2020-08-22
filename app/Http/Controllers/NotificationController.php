@@ -82,10 +82,9 @@ class NotificationController extends Controller{
             $this->systemLog(true, 'Gagal Menyimpan Notification');
             return redirect('notification')->with('alert_error', 'Gagal Disimpan');
         }
-        if ($request->notification_type != Notification::NOTIFICATION_TYPE_PARENT) {
-            $all_user_teacher = User::whereNotIn('account_type', [User::ACCOUNT_TYPE_PARENT, User::ACCOUNT_TYPE_CREATOR])->get();
+        if ($request->notification_type) {
+            $all_user_teacher = User::where('account_type', '=', 'Guru')->get();
             foreach ($all_user_teacher as $user_teacher) {
-                // Input ke User Notifikasi
                 $user_notification = new UserNotification();
                 $user_notification->notification_id = $notification->id;
                 $user_notification->user_id = $user_teacher->id;

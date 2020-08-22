@@ -112,7 +112,6 @@ class UserController extends Controller {
         $user = new User();
         $user->username = $request->get('username');
         $user->email = $request->get('email');
-        $user->address = $request->get('address');
         $user->full_name = $request->get('full_name');
         $user->password = $request->get('password');
         $user->account_type = $request->get('account_type');
@@ -208,7 +207,6 @@ class UserController extends Controller {
             $user = User::findOrFail($request->iduser);
             $user->username = $request->get('username');
             $user->email = $request->get('email');
-            $user->address = $request->get('address');
             $user->full_name = $request->get('full_name');
             $old_account_type = $user->account_type;
             $user->account_type = $request->get('account_type');

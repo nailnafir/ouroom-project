@@ -90,9 +90,6 @@
             <option value="{{ User::ACCOUNT_TYPE_SISWA }}">Siswa</option>
           </select>
         </div>
-
-        <label>Alamat</label>
-        <textarea class="form-control" placeholder="" rows="3" id="alamat"></textarea>
       </div>
       <div class="modal-footer">
         <button type="button" id="update_data" class="btn btn-default pull-left">Update</button>
@@ -144,7 +141,6 @@
       $('#angkatan').val('');
       $('#username').val('');
       $('#email').val('');
-      $('#alamat').val('');
     }
 
     $(function() {
@@ -269,7 +265,6 @@
           $('#username').val(data.data.username);
           $('#email').val(data.data.email);
           $('#nama_lengkap').val(data.data.full_name);
-          $('#alamat').val(data.data.address);
           $('#tipe_akun').val(data.data.account_type);
         }
       });
@@ -329,7 +324,6 @@
         var username = $('#username').val();
         var email = $('#email').val();
         var full_name = $('#nama_lengkap').val();
-        var address = $('#alamat').val();
         var account_type = $('#tipe_akun').val();
         $.ajax({
           type: 'POST',

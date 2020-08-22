@@ -22,7 +22,7 @@
 
                 <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                     <div class="wrap-input100" data-validate="Valid email is required: ex@abc.xyz">
-                    <input id="email" class="form-control input100 @error('email') is-invalid @enderror" name="email" type="email" value="{{ $email ?? old('email') }}" required autocomplete="email">
+                        <input id="email" class="input100" name="email" type="email" value="{{ $email ?? old('email') }}" placeholder="Email">
                         <span class="focus-email"></span>
                     </div>
                     @error('email')

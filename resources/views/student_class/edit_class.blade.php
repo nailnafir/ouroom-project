@@ -33,7 +33,7 @@
 @endsection
 
 @section('content')
-        <form method="POST" action="" class="upload-container" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('update-kelas', ['id_kelas'=>$id_kelas]) }}" class="upload-container">
 
 			@csrf
             @foreach($data_kelas as $dk)
@@ -45,10 +45,16 @@
                     </div>
 				</div>
 				<div class="upload">
+                    <input type="hidden" name="id_kelas" value="{{ $dk->id }}">
 					<label>Nama Kelas</label>
-                    <input type="text" class="form-control" id="judul" name="judul" value="{{$dk->class_name}}">
+                    <input type="text" class="form-control" id="judul" name="class_name" value="{{$dk->class_name}}">
                     <label>Angkatan</label>
-                    <input type="text" class="form-control" id="judul" name="judul" value="{{$dk->angkatan}}">
+                    <select type="text" class="form-control" id="judul" name="angkatan">
+                        <option selected="true" disabled="disabled">{{$dk->angkatan}}</option>
+                        @foreach ($years as $year)
+                            <option value="{{ $year }}"> {{ $year }} </option>
+                        @endforeach
+                    </select>
                     <label>Jurusan</label>
                     <select id="jurusan" class="form-control" name="jurusan">
                         <option selected="true" disabled="disabled">{{$dk->jurusan}}</option> 
@@ -57,15 +63,20 @@
                         <option value="Peternakan">Peternakan</option>
                     </select>
                     <label>Catatan</label>
-					<input type="text" class="form-control" id="judul" name="judul" value="{{$dk->catatan}}">
+					<input type="text" class="form-control" id="note" name="note" value="{{$dk->catatan}}">
 
 					<input type="hidden" name="id_kelas" value="">
 
 				</div>
 				<div class="ui segments">
-					<button type="submit" class="ui primary fluid bottom huge button">
-						SIMPAN
-					</button>
+                    <div class="ui two buttons">
+                        <button type="submit" class="ui right attached huge primary button btn-bottom-right">
+                            UPDATE
+                        </button>
+                        <a href="" type="button" class="ui left attached huge button btn-bottom-left">
+                            HAPUS
+                        </a>
+                    </div>
 				</div>
             </div>
             @endforeach

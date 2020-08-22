@@ -46,17 +46,6 @@
 			</select>
 		</div>
 
-		<div class="form-group">
-			<label>Alamat</label>
-			<textarea class="form-control" rows="3" name="address">
-				</textarea>
-			@if ($errors->has('address'))
-			<div class="address">
-				<p style="color: red"><span>&#42;</span> {{ $errors->first('address') }}</p>
-			</div>
-			@endif
-		</div>
-
 		<div class="form-group col-md-6" style="padding-left: 0px">
 			<label>Password</label>
 			<input type="password" class="form-control" value="" name="password">

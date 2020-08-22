@@ -9,6 +9,7 @@ use App\Model\StudentClass\Tugas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\StudentClass\UpdateTugasRequest;
+use App\Http\Requests\StudentClass\UpdateStudentClassRequest;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Storage;
 use Auth;
@@ -35,13 +36,37 @@ class FeedController extends Controller
                 ->where('id', $id_kelas)
                 ->get();
             return view('student_class.list', ['active' => 'student_class', 'id_kelas' => $id_kelas, 'nama_kelas' => $nama_kelas, 'data_kelas' => $data_kelas, 'data_feed' => $data_feed]);
-        } else if ($role == 'Guru' || $role == 'Siswa') {
+        } else if ($role == 'Guru') {
+            $id_kelas = DB::table('tbl_class')
+                ->where('id', $id_kelas)
+                ->value('id');
+            $validation = DB::table('tbl_class')
+                ->where('id', $id_kelas)
+                ->value('teacher_id');
+            $checkUser = Auth::id();
+            if ($validation == $checkUser) {
+                $data_feed = DB::table('tbl_feed')
+                    ->join('tbl_class', 'tbl_feed.class_id', '=', 'tbl_class.id')
+                    ->where('tbl_class.id', $request->id_kelas)
+                    ->select('tbl_feed.*')
+                    ->get();
+                $nama_kelas = DB::table('tbl_class')
+                    ->where('id', $id_kelas)
+                    ->value('class_name');
+                $data_kelas = DB::table('tbl_class')
+                    ->where('id', $id_kelas)
+                    ->get();
+                return view('student_class.list', ['active' => 'student_class', 'id_kelas' => $id_kelas, 'nama_kelas' => $nama_kelas, 'data_kelas' => $data_kelas, 'data_feed' => $data_feed]);
+            } else {
+                return view('error.unauthorized', ['active' => 'student_class']);
+            }
+        } else if ($role == 'Siswa') {
             $validation = DB::table('tbl_class')
                 ->where('id', $id_kelas)
                 ->value('token');
-            $vara = User::where('id', '=', $user_id)
+            $checkUser = User::where('id', '=', $user_id)
                 ->first();
-            $token = $vara->hasClass->where('token', '=', $validation)->first();
+            $token = $checkUser->hasClass->where('token', '=', $validation)->first();
             if ($validation == $token) {
                 $data_feed = DB::table('tbl_feed')
                     ->join('tbl_class', 'tbl_feed.class_id', '=', 'tbl_class.id')
@@ -107,6 +132,9 @@ class FeedController extends Controller
     public function showEditClass(Request $request)
     {
         $id_kelas = $request->id_kelas;
+        $years = array_combine(range(date("Y"), 2018), range(date("Y"), 2018));
+        $data_kelas = StudentClass::where('id', '=', $id_kelas)
+            ->get();
         if ($request->ajax()) {
             $data = StudentClass::where('id', '=', $id_kelas)
                 ->with('hasUser')
@@ -122,10 +150,8 @@ class FeedController extends Controller
                     ->make(true);
             }
         }
-        $data_kelas = StudentClass::where('id', '=', $id_kelas)
-            ->get();
         if ($this->getUserPermission('index class')) {
-            return view('student_class.edit_class', ['active' => 'student_class', 'id_kelas' => $id_kelas, 'data_kelas' => $data_kelas]);
+            return view('student_class.edit_class', ['active' => 'student_class', 'years' => $years, 'id_kelas' => $id_kelas, 'data_kelas' => $data_kelas]);
         } else {
             return view('error.unauthorized', ['active' => 'student_class']);
         }
@@ -231,6 +257,25 @@ class FeedController extends Controller
             ->value('id');
         DB::table('tbl_tugas')->where('id', $tugas_id)->update([
             'nilai' => $request->nilai
+        ]);
+        return redirect()->back()->with('alert_success', 'Data Berhasil Disimpan');
+    }
+
+    public function updateClass(UpdateStudentClassRequest $request)
+    {
+        $this->validate($request, [
+            'class_name' => 'string',
+            'angkatan' => 'string',
+            'jurusan' => 'string',
+            'note' => 'string',
+        ]);
+
+        $id = $request->id_kelas;
+        DB::table('tbl_class')->where('id', $id)->update([
+            'class_name' => $request->class_name,
+            'angkatan' => $request->angkatan,
+            'jurusan' => $request->jurusan,
+            'note' => $request->note
         ]);
         return redirect()->back()->with('alert_success', 'Data Berhasil Disimpan');
     }

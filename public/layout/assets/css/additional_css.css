@@ -45,14 +45,17 @@ legend
 .inputfile + label {
     font-size: 1.25em;
     font-weight: 700;
-    color: white;
-    background-color: black;
-    display: inline-block;
+    color: #9a9a9a;
+	border: 2px solid #286cd2;
+	border-radius: 5px;
+	display: inline-block;
+	padding: 0 10px;
 }
 
 .inputfile:focus + label,
 .inputfile + label:hover {
-    background-color: red;
+	background-color: #2185d0;
+	color: white;
 }
 
 .inputfile + label {

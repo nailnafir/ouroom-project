@@ -95,7 +95,6 @@ class LoginController extends Controller
         $user->jurusan = $request->get('jurusan');
         $user->username = $request->get('username');
         $user->password = $request->get('password');
-        $years = array_combine(range(date("Y"), 2001), range(date("Y"), 2001));
         $user->account_type = 'Siswa';
         $user->assignRole('Siswa');
         $user->save();

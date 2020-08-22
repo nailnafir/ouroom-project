@@ -102,7 +102,7 @@ class StudentClassController extends Controller {
     public function create(){
         $user_id = Auth::id();
         if($this->getUserPermission('create class')){
-            $years = array_combine(range(date("Y"), 2015), range(date("Y"), 2015));
+            $years = array_combine(range(date("Y"), 2018), range(date("Y"), 2018));
             return view('student_class.store', ['active'=>'student_class','years'=>$years, 'user_id'=>$user_id]);
         } else {
             return view('error.unauthorized', ['active'=>'student_class']);
@@ -135,9 +135,6 @@ class StudentClassController extends Controller {
         if($this->getUserLogin()->account_type == User::ACCOUNT_TYPE_CREATOR || $this->getUserLogin()->account_type == User::ACCOUNT_TYPE_ADMIN){
             DB::beginTransaction();
             $student_class = new StudentClass();
-            if(StudentClass::validateClass($request->get('angkatan'),$request->get('class_name'),$request->get('teacher_id'))) {
-                return redirect('student-class')->with('alert_error', 'Kelas dengan tahun yang sama dan guru yang sama sudah dibuat sebelumnya');
-            }
             $student_class->class_name = $request->get('class_name');
             $student_class->angkatan = $request->get('angkatan');
             $student_class->jurusan = $request->get('jurusan');
@@ -147,9 +144,6 @@ class StudentClassController extends Controller {
         } else if($this->getUserLogin()->account_type == User::ACCOUNT_TYPE_TEACHER){
             DB::beginTransaction();
             $student_class = new StudentClass();
-            if(StudentClass::validateClass($request->get('angkatan'),$request->get('class_name'),$request->get('teacher_id'))) {
-                return redirect('student-class')->with('alert_error', 'Kelas dengan tahun yang sama dan guru yang sama sudah dibuat sebelumnya');
-            }
             $student_class->class_name = $request->get('class_name');
             $student_class->angkatan = $request->get('angkatan');
             $student_class->jurusan = $request->get('jurusan');

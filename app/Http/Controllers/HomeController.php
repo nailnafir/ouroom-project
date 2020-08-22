@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Model\Siswa\Siswa;
-use App\Model\User\User;
 use App\Model\StudentClass\StudentClass;
-use App\Model\AssessmentLog\AssessmentLog;
+use App\Model\User\User;
 use App\Model\User\UserLoginHistory;
 use Carbon\Carbon;
 
@@ -28,15 +26,16 @@ class HomeController extends Controller{
     public function index(){
         if($this->getUserPermission('index home')){
             if($this->getUserLogin()->account_type == User::ACCOUNT_TYPE_TEACHER){
-                $siswa = Siswa::where('teacher_id',$this->getUserLogin()->id)->join('tbl_class', 'tbl_siswa.class_id', '=', 'tbl_class.id')->count();
+                $siswa = StudentClass::where('teacher_id', $this->getUserLogin()->id)
+                    ->with('hasUser')
+                    ->count();
                 $class = StudentClass::where('teacher_id',$this->getUserLogin()->id)->count();
                 $teacher = User::where('account_type', User::ACCOUNT_TYPE_TEACHER)->count();
             } else {
                 $siswa = User::where('account_type', User::ACCOUNT_TYPE_SISWA)->count();
                 $class = StudentClass::count();
                 $teacher = User::where('account_type', User::ACCOUNT_TYPE_TEACHER)->count();
-            }           
-            $hafalan    = AssessmentLog::where('date',date("Y-m-d"))->count();
+            }
             $last_login = UserLoginHistory::findLastlogin();
             if($last_login != null){
                 $last_login = Carbon::parse($last_login->date);

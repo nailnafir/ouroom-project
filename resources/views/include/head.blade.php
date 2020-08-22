@@ -42,18 +42,6 @@
         </li>
         @endif
 
-        <!-- @if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN || $user->account_type == User::ACCOUNT_TYPE_TEACHER)
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <span class="glyphicon glyphicon-book" aria-hidden="true"></span> &nbsp Laporan
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="{{route('daily-report')}}"> Laporan Harian </a></li>
-              <li><a href="{{route('student-report')}}"> Laporan Persiswa </a></li>
-            </ul>
-          </li>
-        @endif -->
-
         @if($user->account_type == User::ACCOUNT_TYPE_CREATOR)
           <li>
             <a href="<?= URL::to('/notification'); ?>">

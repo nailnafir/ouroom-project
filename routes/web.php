@@ -49,15 +49,6 @@ $router->group(['prefix' => 'user'], function () use ($router) {
     $router->post('/delete',  ['as'=>'delete-user','uses' => 'UserController@delete']);
 });
 
-// Untuk Parent
-$router->group(['prefix' => 'parent'], function () use ($router) {
-	$router->get('/',  ['as'=>'index-parent','uses' => 'ParentController@index']);
-	$router->get('/create',  ['as'=>'create-parent','uses' => 'ParentController@create']);
-	$router->post('/store',  ['as'=>'store-parent','uses' => 'ParentController@store']);
-	$router->post('/update',  ['as'=>'update-parent','uses' => 'ParentController@update']);
-	$router->get('/get-siswa',  ['as'=>'get-siswa','uses' => 'ParentController@getSiswa']);
-});
-
 // Untuk Class
 $router->group(['prefix' => 'student-class'], function () use ($router) {
 	$router->get('/',  ['as'=>'student-class','uses' => 'StudentClassController@index']);
@@ -81,6 +72,7 @@ $router->group(['prefix' => 'student-class'], function () use ($router) {
 $router->group(['prefix' => 'student-class/{id_kelas}'], function () use ($router) {
 	$router->get('/class-data',  ['as'=>'class-data','uses' => 'FeedController@showClassData']);
 	$router->get('/edit-class',  ['as'=>'edit-class','uses' => 'FeedController@showEditClass']);
+	$router->post('/update-kelas',  ['as'=>'update-kelas','uses' => 'FeedController@updateClass']);
 	$router->post('/delete-siswa',  ['as'=>'delete-siswa','uses' => 'FeedController@deleteSiswaClass']);
 	$router->get('/{id_feed}',  ['as'=>'class-feed','uses' => 'FeedController@showFeed']);
 	$router->post('/{id_feed}',  ['as'=>'update-feed','uses' => 'FeedController@updateFeed']);
@@ -94,8 +86,6 @@ $router->group(['prefix' => 'siswa'], function () use ($router) {
 	$router->get('/',  ['as'=>'siswa','uses' => 'SiswaController@index']);
 	$router->post('/get-user-parent',  ['as'=>'get-user-parent','uses' => 'SiswaController@getUserParent']);	
 	$router->get('/get-class',  ['as'=>'get-class','uses' => 'SiswaController@getClass']);
-	// $router->post('/store',  ['as'=>'store-siswa','uses' => 'SiswaController@store']);
-	// $router->post('/delete',  ['as'=>'delete-siswa','uses' => 'SiswaController@delete']);
 	$router->post('/get-detail',  ['as'=>'detail-siswa','uses' => 'SiswaController@show']);
 	$router->post('/update',  ['as'=>'update-siswa','uses' => 'SiswaController@update']);
 });
@@ -110,27 +100,6 @@ $router->group(['prefix' => 'role'], function () use ($router) {
 	$router->post('/delete',  ['as'=>'delete-role','uses' => 'RoleController@delete']);
 });
 
-// Untuk Iqro
-$router->group(['prefix' => 'iqro'], function () use ($router) {
-	$router->get('/',  ['as'=>'iqro','uses' => 'IqroController@index']);
-	$router->get('/create',  ['as'=>'create-iqro','uses' => 'IqroController@create']);
-	$router->post('/store',  ['as'=>'store-iqro','uses' => 'IqroController@store']);
-	$router->post('/delete',  ['as'=>'delete-iqro','uses' => 'IqroController@delete']);
-	$router->post('/get-detail',  ['as'=>'detail-iqro','uses' => 'IqroController@show']);
-	$router->post('/update',  ['as'=>'update-iqro','uses' => 'IqroController@update']);
-});
-
-// Untuk Alquran (Surah)
-$router->group(['prefix' => 'alquran'], function () use ($router) {
-	$router->get('/',  ['as'=>'alquran','uses' => 'AlquranController@index']);
-	$router->get('/create',  ['as'=>'create-alquran','uses' => 'AlquranController@create']);
-	$router->post('/store',  ['as'=>'store-alquran','uses' => 'AlquranController@store']);
-	$router->post('/delete',  ['as'=>'delete-alquran','uses' => 'AlquranController@delete']);
-	$router->post('/get-detail',  ['as'=>'detail-surah','uses' => 'AlquranController@show']);
-	$router->post('/update',  ['as'=>'update-surah','uses' => 'AlquranController@update']);
-});
-
-
 // Untuk Profile
 $router->group(['prefix' => 'profile'], function () use ($router) {
 	$router->get('/',  ['as'=>'profile','uses' => 'ProfileController@index']);
@@ -139,30 +108,6 @@ $router->group(['prefix' => 'profile'], function () use ($router) {
 	$router->post('/delete-image',  ['as'=>'delete-image','uses' => 'ProfileController@deleteImage']);
 });
 
-
-// Untuk Assessment
-$router->group(['prefix' => 'assessment'], function () use ($router) {
-	$router->get('/',  ['as'=>'assessment','uses' => 'AssessmentController@index']);
-	$router->get('/assessment/{type}',  ['as'=>'create-assessment','uses' => 'AssessmentController@assessment']);
-	$router->get('/get-surah',  ['as'=>'get-surah','uses' => 'AssessmentController@getSurah']);
-	$router->get('/get-total-ayat',  ['as'=>'get-ayat','uses' => 'AssessmentController@getAyat']);
-	$router->get('/get-total-page',  ['as'=>'get-page','uses' => 'AssessmentController@getPage']);
-	$router->post('/do-assessment',  ['as'=>'do-assessment','uses' => 'AssessmentController@doAssessment']);
-});
-
-// Untuk Daily Report
-$router->group(['prefix' => 'daily-report'], function () use ($router) {
-	$router->get('/',  ['as'=>'daily-report','uses' => 'DailyReportController@index']);
-	$router->post('/show',  ['as'=>'daily-report-show','uses' => 'DailyReportController@show']);
-	$router->get('/print',  ['as'=>'daily-report-print','uses' => 'DailyReportController@printPdf']);
-});
-
-// Untuk Student Report
-$router->group(['prefix' => 'student-report'], function () use ($router) {
-	$router->get('/',  ['as'=>'student-report','uses' => 'StudentReportController@index']);
-	$router->post('/show',  ['as'=>'student-report-show','uses' => 'StudentReportController@show']);
-	$router->get('/print',  ['as'=>'student-report-print','uses' => 'StudentReportController@printPdf']);
-});
 
 // Untuk Action Log
 $router->group(['prefix' => 'action-log'], function () use ($router) {

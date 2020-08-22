@@ -25,12 +25,6 @@
                     <p>Pengguna</p>
                 </a>
             </li>
-            <!-- <li class="<?= $active == 'parent' ? 'active' : '' ?>">
-                <a href="<?= URL::to('/parent'); ?>">
-                    <i class="pe-7s-id"></i>
-                    <p>Siswa</p>
-                </a>
-            </li> -->
             <li class="<?= $active == 'student_class' ? 'active' : '' ?>">
                 <a href="<?= URL::to('/student-class'); ?>">
                     <i class="pe-7s-study"></i>
