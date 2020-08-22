@@ -50,14 +50,14 @@
                     </a>
                 </div>
 
-                <!-- <div class="text-center p-t-12">
+                <div class="text-center p-t-12">
                     <span class="txt1">
                         Lupa
                     </span>
                     <a class="txt2" href="{{ route('show-reset') }}">
-                        Username / Password ?
+                        Password ?
                     </a>
-                </div> -->
+                </div>
 
                 <div class="text-center p-t-12">
                     @if($errors->any())

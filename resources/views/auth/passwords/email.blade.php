@@ -1,30 +1,43 @@
-@extends('master_reset_password')
+@extends('login.indexlogin')
+
+@section('title', '')
+
+@section('alert')
+
+@endsection
 
 @section('content')
 
-     <form id="register-form" autocomplete="off" method="POST" action="{{ route('password.email') }}">
-       
-        @csrf
+<div class="limiter">
+    <div class="container-login">
+        <div class="wrap-reset">
+            <form method="POST" action="{{ route('password.email') }}" class="email-form validate-form" autocomplete="off">
 
-        <div class="form-group">
-        <div class="input-group">
-          <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
-          <input id="email" name="email" placeholder="alamat email" class="form-control"  type="email">
-        </div>
-        </div>
-        
-        <div class="form-group">                       
-            <button type="submit" class="btn btn-primary">
-                Kirim
-            </button>
-        </div>
+                @csrf
 
-        @error('email')
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-        @enderror
+                <span class="login100-form-title">
+                    Reset Password
+                </span>
 
-    </form>
-                
+                <div class="wrap-input100" data-validate="Valid email is required: ex@abc.xyz">
+                <input id="email" class="input100" name="email" placeholder="Email" class="form-control"  type="email">
+                    <span class="focus-email"></span>
+                </div>
+
+                <div class="container-login100-form-btn">
+                    <button type="submit" class="login100-form-btn">
+                        Submit
+                    </button>
+                </div>
+
+                <div class="text-center p-t-12" role="alert">
+                    @if(session('status'))
+                        <p style="color: blue">Link reset password telah dikirim. Silahkan cek Email anda.</p>
+                    @endif
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 @endsection

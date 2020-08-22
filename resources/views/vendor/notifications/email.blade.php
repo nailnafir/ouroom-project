@@ -6,7 +6,7 @@
 @if ($level === 'error')
 # @lang('Whoops!')
 @else
-# @lang('Hai Pengguna Tahfidz Monitoring')
+# @lang('RESET PASSWORD')
 @endif
 @endif
 
@@ -44,15 +44,15 @@
 @if (! empty($salutation))
 {{ $salutation }}
 @else
-@lang('Regards'),<br>{{ config('app.name') }}
+@lang('Salam'),<br>SMK Auliya Teladan Mandiri
 @endif
 
 {{-- Subcopy --}}
 @isset($actionText)
 @slot('subcopy')
 @lang(
-    "If you’re having trouble clicking the \":actionText\" button, copy and paste the URL below\n".
-    'into your web browser: [:actionURL](:actionURL)',
+    "Apabila anda mengalami masalah dengan tombol \":actionText\" , copy dan paste URL berikut\n".
+    'pada browser anda: [:actionURL](:actionURL)',
     [
         'actionText' => $actionText,
         'actionURL' => $actionUrl,
