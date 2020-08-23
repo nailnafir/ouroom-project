@@ -99,7 +99,6 @@ $router->group(['prefix' => 'profile'], function () use ($router) {
 	$router->post('/delete-image',  ['as'=>'delete-image','uses' => 'ProfileController@deleteImage']);
 });
 
-
 // Untuk Action Log
 $router->group(['prefix' => 'action-log'], function () use ($router) {
 	$router->get('/',  ['as'=>'action-log','uses' => 'ActionLogController@index']);

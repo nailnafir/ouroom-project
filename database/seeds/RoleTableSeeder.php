@@ -12,27 +12,21 @@ class RoleTableSeeder extends Seeder{
      * @return void
      */
     public function run(){
-        // Get First User at first time 
         $user = User::all()->first();
         if ($user != null) {
-            // Reset cached roles and permissions
             app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
-            // Create permissions
             $this->createPermission();
-            // create roles and assign created permissions
             $role_creator   = Role::create(['name' => 'Creator']);
             $role_admin     = Role::create(['name' => 'Administrator']);
             $role_guru      = Role::create(['name' => 'Guru']);
             $role_siswa     = Role::create(['name' => 'Siswa']);
-            // Assigning User to ROLE first time
+
             $user->assignRole('Creator');
             $user->assignRole('Administrator');
 
-            // Assign All Permission to creator role
             $role_creator->givePermissionTo(Permission::all());
             $role_admin->givePermissionTo(Permission::all());
 
-            // Assign Default Permission to Teacher
             $role_guru->givePermissionTo('index home');
             $role_guru->givePermissionTo('index profile');
             $role_guru->givePermissionTo('update profile');
@@ -43,7 +37,6 @@ class RoleTableSeeder extends Seeder{
             $role_guru->givePermissionTo('update class');
             $role_guru->givePermissionTo('delete class');
 
-            // Assign Default Permission to Siswa
             $role_siswa->givePermissionTo('index home');
             $role_siswa->givePermissionTo('index profile');
             $role_siswa->givePermissionTo('update profile');

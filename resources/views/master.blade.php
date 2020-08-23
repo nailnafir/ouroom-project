@@ -4,9 +4,7 @@
 	<meta charset="utf-8" />
 	<link rel="icon" type="image/png" href="<?= URL::to('/'); ?>/layout/assets/img/favicon.ico">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-
-	<title>ATM Classroom</title>
-
+	<title>Ouroom</title>
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
 
@@ -28,6 +26,11 @@
 
     <!-- Sweet Alert -->
     <script src="<?= URL::to('/'); ?>/layout/assets/js/sweetalert.min.js"></script>
+
+    <!-- DataTable -->
+    <link rel="stylesheet" type="text/css" href="<?= URL::to('/'); ?>/layout/assets/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="<?= URL::to('/'); ?>/layout/assets/js/jquery.dataTables.js" defer></script>
+
 
     <link href="<?= URL::to('/'); ?>/layout/assets/css/select2.min.css" rel="stylesheet" />
     <script src="<?= URL::to('/'); ?>/layout/assets/js/select2.min.js"></script>
