@@ -3,6 +3,6 @@
         
     </nav>
     <p class="copyright pull-right">
-        &copy; <script>document.write(new Date().getFullYear())</script> <a href="#">SMK Auliya Teladan Mandiri</a>
+        &copy; <script>document.write(new Date().getFullYear())</script> <a href="#">Ouroom</a>
     </p>
 </div>
