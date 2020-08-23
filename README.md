@@ -23,7 +23,7 @@ $ php artisan classroom:setup
 * Creator Level
   Username | Password
   -------- | ---------
-  creator  | creatoratm
+  creator  | creatorouroom
   * Can access all feature available
 * Administrator Level
   * Can access all feature except update role and notifying Creator
