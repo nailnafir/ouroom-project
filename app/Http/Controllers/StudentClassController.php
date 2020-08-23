@@ -36,7 +36,7 @@ class StudentClassController extends Controller {
                 return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){  
-                        $btn = '<button onclick="btnUbah('.$row->id.')" name="btnUbah" type="button" class="btn btn-info" style="text-align: center"><span class="glyphicon glyphicon-edit"></span></button>';
+                        $btn = '<button onclick="btnUbah('.$row->id.')" name="btnUbah" type="button" class="ui big inverted primary button" style="text-align: center"><span class="glyphicon glyphicon-edit"></span></button>';
                         return $btn; 
                     })
                     ->addColumn('guru', function(StudentClass $class) {
@@ -56,7 +56,7 @@ class StudentClassController extends Controller {
                 return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){  
-                        $btn = '<button onclick="btnUbah('.$row->id.')" name="btnUbah" type="button" class="btn btn-info" style="text-align: center"><span class="glyphicon glyphicon-edit"></span></button>';
+                        $btn = '<button onclick="btnUbah('.$row->id.')" name="btnUbah" type="button" class="ui big inverted primary button" style="text-align: center"><span class="glyphicon glyphicon-edit"></span></button>';
                         return $btn; 
                     })
                     ->addColumn('guru', function(StudentClass $class) {

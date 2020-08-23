@@ -66,23 +66,29 @@ class FeedController extends Controller
                 ->value('token');
             $checkUser = User::where('id', '=', $user_id)
                 ->first();
-            $token = $checkUser->hasClass->where('token', '=', $validation)->first();
-            if ($validation == $token) {
-                $data_feed = DB::table('tbl_feed')
-                    ->join('tbl_class', 'tbl_feed.class_id', '=', 'tbl_class.id')
-                    ->where('tbl_class.id', $request->id_kelas)
-                    ->select('tbl_feed.*')
-                    ->get();
-                $nama_kelas = DB::table('tbl_class')
-                    ->where('id', $id_kelas)
-                    ->value('class_name');
-                $data_kelas = DB::table('tbl_class')
-                    ->where('id', $id_kelas)
-                    ->get();
-                return view('student_class.list', ['active' => 'student_class', 'id_kelas' => $id_kelas, 'nama_kelas' => $nama_kelas, 'data_kelas' => $data_kelas, 'data_feed' => $data_feed]);
-            } else if ($token == null){
+            $data_class = $checkUser->hasClass->where('token', '=', $validation)->first();
+            if ($data_class != null) {
+                $token = $data_class->token;
+                if ($validation == $token) {
+                    $data_feed = DB::table('tbl_feed')
+                        ->join('tbl_class', 'tbl_feed.class_id', '=', 'tbl_class.id')
+                        ->where('tbl_class.id', $request->id_kelas)
+                        ->select('tbl_feed.*')
+                        ->get();
+                    $nama_kelas = DB::table('tbl_class')
+                        ->where('id', $id_kelas)
+                        ->value('class_name');
+                    $data_kelas = DB::table('tbl_class')
+                        ->where('id', $id_kelas)
+                        ->get();
+                    return view('student_class.list', ['active' => 'student_class', 'id_kelas' => $id_kelas, 'nama_kelas' => $nama_kelas, 'data_kelas' => $data_kelas, 'data_feed' => $data_feed]);
+                } else if ($token == null){
+                    return view('error.unauthorized', ['active' => 'student_class']);
+                }
+            } else {
                 return view('error.unauthorized', ['active' => 'student_class']);
             }
+            
         }
     }
 
@@ -108,6 +114,7 @@ class FeedController extends Controller
             ->where('feed_id', $id_feed)
             ->where('siswa_id', $siswa_id)
             ->value('file');
+        // dd($tugas);
         return view('student_class.feed', ['active' => 'student_class', 'id_kelas' => $id_kelas, 'nama_kelas' => $nama_kelas, 'id_feed' => $id_feed, 'feed' => $feed, 'data_tugas' => $data_tugas, 'tugas' => $tugas, 'nilai' => $nilai_tugas]);
     }
 
@@ -116,20 +123,23 @@ class FeedController extends Controller
         $id_kelas = $request->id_kelas;
         $id_feed = $request->id_feed;
         $siswa_id = $request->siswa_id;
+        $nama_feed = DB::table('tbl_feed')
+            ->where('id', $id_feed)
+            ->value('judul');
         $nama_kelas = DB::table('tbl_class')
             ->where('id', $id_kelas)
             ->value('class_name');
         $deadline = DB::table('tbl_feed')
-            ->where('judul', $feed_title)
+            ->where('id', $id_feed)
             ->value('deadline');
         $data_tugas = DB::table('tbl_tugas')
             ->where('siswa_id', $siswa_id)
             ->where('feed_id', $id_feed)
             ->get();
-        return view('student_class.assessment', ['active' => 'student_class', 'id_kelas' => $id_kelas, 'nama_kelas' => $nama_kelas, 'deadline' => $deadline, 'feed_title' => $feed_title, 'siswa_id' => $siswa_id, 'data_tugas' => $data_tugas]);
+        return view('student_class.assessment', ['active' => 'student_class', 'id_kelas' => $id_kelas, 'nama_kelas' => $nama_kelas, 'deadline' => $deadline, 'id_feed' => $id_feed, 'nama_feed' => $nama_feed, 'siswa_id' => $siswa_id, 'data_tugas' => $data_tugas]);
     }
 
-    public function showEditClass(Request $request)
+    public function showSiswaClass(Request $request)
     {
         $id_kelas = $request->id_kelas;
         $years = array_combine(range(date("Y"), 2018), range(date("Y"), 2018));
@@ -143,7 +153,7 @@ class FeedController extends Controller
                 return Datatables::of($du->hasUser)
                     ->addIndexColumn()
                     ->addColumn('action', function ($row) {
-                        $delete = '<button onclick="btnDel(' . $row->id . ')" name="btnDel" type="button" class="btn btn-info"><span class="glyphicon glyphicon-trash"></span></button>';
+                        $delete = '<button onclick="btnDel(' . $row->id . ')" name="btnDel" type="button" class="ui big red button"><span class="glyphicon glyphicon-trash"></span></button>';
                         return $delete;
                     })
                     ->rawColumns(['action'])
@@ -151,7 +161,7 @@ class FeedController extends Controller
             }
         }
         if ($this->getUserPermission('index class')) {
-            return view('student_class.edit_class', ['active' => 'student_class', 'years' => $years, 'id_kelas' => $id_kelas, 'data_kelas' => $data_kelas]);
+            return view('student_class.siswa_class', ['active' => 'student_class', 'years' => $years, 'id_kelas' => $id_kelas, 'data_kelas' => $data_kelas]);
         } else {
             return view('error.unauthorized', ['active' => 'student_class']);
         }
@@ -221,27 +231,25 @@ class FeedController extends Controller
             ->value('full_name');
         $nama_kelas = $request->nama_kelas;
         $nama_feed = $request->nama_feed;
-        $id_class = StudentClass::where('class_name', '=', $nama_kelas)
-            ->value('id');
-        $id_feed = Feed::where('judul', '=', $nama_feed)
-            ->value('id');
-        $tugas = new Tugas();
-        $files = $request->file('file');
-        $path = public_path($nama_kelas . '/' . $nama_feed . '/' . $nama_siswa);
-        if (!File::isDirectory($path)) {
-            File::makeDirectory($path, 0777, true, true);
-        }
-        $files_name = $files->getClientOriginalName();
-        $files->move($path, $files_name);
-        $tugas->file = $files_name;
-        $tugas->siswa_id = $id_siswa;
-        $tugas->class_id = $id_class;
-        $tugas->feed_id = $id_feed;
-        $tugas->save();
-        if (!$tugas->save()) {
-            return redirect()->back()->with('alert_error', 'Gagal Disimpan');
-        } else {
+        $id_class = $request->id_kelas;
+        $id_feed = $request->id_feed;
+        if($request->has('file')) {
+            $tugas = new Tugas();
+            $files = $request->file('file');
+            $path = public_path($nama_kelas . '/' . $nama_feed . '/' . $nama_siswa);
+            if (!File::isDirectory($path)) {
+                File::makeDirectory($path, 0777, true, true);
+            }
+            $files_name = $files->getClientOriginalName();
+            $files->move($path, $files_name);
+            $tugas->file = $files_name;
+            $tugas->siswa_id = $id_siswa;
+            $tugas->class_id = $id_class;
+            $tugas->feed_id = $id_feed;
+            $tugas->save();
             return redirect()->back()->with('alert_success', 'Data Berhasil Disimpan');
+        } else {
+            return redirect()->back()->with('alert_error', 'Gagal Disimpan');
         }
     }
 

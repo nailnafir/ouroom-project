@@ -42,6 +42,9 @@
 
 	@if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN || $user->account_type == User::ACCOUNT_TYPE_TEACHER)
 		@foreach($data_kelas as $dk)
+			<a class="ui big inverted primary button btn-edit" href="{{ route('siswa-class', ['id_kelas'=>$id_kelas]) }}">
+				SISWA KELAS
+			</a>
 			<h1 class="ui header class-attribute">
 				{{$dk->class_name}}
 				<div class="sub header sub-class-attribute">{{User::where('id', '=', $dk->teacher_id)->value('full_name')}}</div>
@@ -50,7 +53,7 @@
 			</h1>
 		@endforeach
 		<hr style="border-top: 1px solid #c6c6c6">
-		<form method="POST" action="{{ route('upload-feed') }}" class="upload-container" enctype="multipart/form-data">
+		<form method="POST" action="{{ route('upload-feed',['id_kelas'=>$id_kelas]) }}" class="upload-container" enctype="multipart/form-data">
 
 			@csrf
 
@@ -80,7 +83,7 @@
 					<input type="file" class="form-control" id="file" name="file">
 
 					<label>Tenggat Waktu</label>
-					<input type="date" min="2020-01-01" class="form-control" id="deadline" name="deadline">
+					<input type="date" placeholder="dd-mm-yyyy" min="2020-01-01" class="form-control" id="deadline" name="deadline">
 				</div>
 				<div class="ui segments">
 					<button type="submit" class="ui primary fluid bottom huge button">
@@ -106,9 +109,9 @@
 					<a class="ui red ribbon huge label">{{$df->kategori}}</a>
 				@endif
 				<span class="judul">{{$df->judul}}</span>
-				<div class="ui red large label deadline">{{$df->deadline}}</div>
+				<div class="ui red large label deadline">{{ date('d-m-Y',strtotime($df->deadline)) }}</div>
 				<a class="ui top right attached huge image label">
-					<span class="date-post">{{$df->created_at}}</span>
+					<span class="date-post">{{ date('d-m-Y h:i:s',strtotime($df->created_at)) }}</span>
 				</a>
 			</div>
 			<pre class="detail-section">{{$df->detail}}</pre>
@@ -122,9 +125,9 @@
 @push('scripts')
 <script type="text/javascript">
 	function copyToken(elementID) {
-		let element = document.getElementById("token"); //select the element
-		let elementText = element.textContent; //get the text content from the element
-		copyText(elementText); //use the copyText function below
+		let element = document.getElementById("token");
+		let elementText = element.textContent;
+		copyText(elementText);
 	}
 	function copyText(text) {
 		navigator.clipboard.writeText(text);

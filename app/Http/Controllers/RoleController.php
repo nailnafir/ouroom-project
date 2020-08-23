@@ -32,8 +32,7 @@ class RoleController extends Controller{
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){  
-                        $btn = '<button onclick="btnUbah('.$row->id.')" name="btnUbah" type="button" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></button>';
-                        $delete = '<button onclick="btnDel('.$row->id.')" name="btnDel" type="button" class="btn btn-info"><span class="glyphicon glyphicon-trash"></span></button>';
+                        $btn = '<button onclick="btnUbah('.$row->id.')" name="btnUbah" type="button" class="ui huge inverted primary button"><span class="glyphicon glyphicon-edit"></span></button>';
                         return $btn; 
                     })
                     ->rawColumns(['action'])

@@ -61,6 +61,9 @@
 @endsection
 
 @push ('scripts')
+<link rel="stylesheet" type="text/css" href="<?= URL::to('/'); ?>/layout/assets/css/jquery.dataTables.css">
+
+<script type="text/javascript" charset="utf8" src="<?= URL::to('/'); ?>/layout/assets/js/jquery.dataTables.js" defer></script>
 <script type="text/javascript">
     function change() {
         if (confirm('Tandai Selesai Tugas Ini ?')) {

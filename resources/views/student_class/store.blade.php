@@ -46,7 +46,6 @@
 		<div class="form-group">
             <label>Jurusan</label>
             <select class="form-control" name="jurusan">
-				<option selected="true" disabled="disabled">Jurusan</option> 
 				<option value="Pemasaran">Pemasaran</option>
 				<option value="Pariwisata">Pariwisata</option>
         	    <option value="Peternakan">Peternakan</option>
@@ -60,7 +59,7 @@
 			@endif
 		</div>
 		<div class="form-group">
-			<button type="submit" class="btn btn-info"> TAMBAH </button>
+			<button type="submit" class="ui huge inverted primary button"> TAMBAH </button>
 		</div>
 	</form>
 @endsection

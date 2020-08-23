@@ -16,11 +16,10 @@
 		$user = Auth::user();
 	?>
 
-	<fieldset>
-	<legend>Overview</legend>
-
 	<!-- User Type Guru -->
 	@if($user->account_type == User::ACCOUNT_TYPE_TEACHER)
+	<fieldset>
+	<legend>Overview</legend>
 		<div class="col-md-12">
 			<div class="card">
 				<div class="header">   
@@ -36,6 +35,8 @@
 
 	<!-- User Type Creator / Admin -->
 	@if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN)
+	<fieldset>
+	<legend>Overview</legend>
 		<div class="col-md-4">
 			<div class="card">
 				<div class="header">   
@@ -72,15 +73,13 @@
 
 	<!-- User Type Siswa -->
 	@if($user->account_type == User::ACCOUNT_TYPE_SISWA)
-		<h1>Hi :)</h1>
 	@endif
-
-	</fieldset>
-
-	<hr>
-
 	<fieldset>
 		<legend>Informasi User</legend>
+		<div class="form-group">
+			<label>Nama</label>
+			<input disabled="true" type="text" class="form-control" value="{{ User::where('id', $id_user)->value('full_name') }}" name="user_type">
+		</div>
 		<div class="form-group">
 			<label>Tipe User</label>
 			<input disabled="true" type="text" class="form-control" value="{{ User::getAccountMeaning(Auth::user()->account_type) }}" name="user_type">

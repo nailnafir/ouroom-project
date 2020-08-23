@@ -38,24 +38,23 @@
 
 		// get user auth
 		$user = Auth::user();
-	?>
+    ?>
 
-    <form method="post" action="{{ route('update-tugas', ['id_kelas'=>$id_kelas, 'feed_title'=>$feed_title, 'siswa_id'=>$siswa_id]) }}">
+    <form method="post" action="{{ route('update-tugas', ['id_kelas'=>$id_kelas, 'id_feed'=>$id_feed, 'siswa_id'=>$siswa_id]) }}">
 
         @csrf
-
-        <div class="form-group">
-            <label>Kelas</label>
-            <input type="text" class="form-control" value="{{ $nama_kelas }}" name="nama_kelas" disabled>
-        </div>
-        <div class="form-group">
-            <label>Feed</label>
-            <input type="text" class="form-control" value="{{ $feed_title }}" name="feed_title" disabled>
-        </div>
-        <div class="form-group">
-            <label>Deadline</label>
-            <input type="text" class="form-control" value="{{ $deadline }}" name="deadline" disabled>
-        </div>
+            <div class="form-group">
+                <label>Kelas</label>
+                <input type="text" class="form-control" value="{{ $nama_kelas }}" name="nama_kelas" disabled>
+            </div>
+            <div class="form-group">
+                <label>Feed</label>
+                <input type="text" class="form-control" value="{{ $nama_feed }}" name="feed_title" disabled>
+            </div>
+            <div class="form-group">
+                <label>Deadline</label>
+                <input type="text" class="form-control" value="{{ date('d-m-Y',strtotime($deadline)) }}" name="deadline" disabled>
+            </div>
         <hr style="border-top: 1px solid #c6c6c6">
 
         @foreach($data_tugas as $dt)
@@ -64,7 +63,7 @@
             </div>
             <div class="ui blue segment">
                 <h5>
-                    <a href="{{ url($nama_kelas.'/'.$feed_title.'/'.User::where('id', $dt->siswa_id)->value('full_name').'/'.$dt->file) }}" target="_blank">
+                    <a href="{{ url($nama_kelas.'/'.$nama_feed.'/'.User::where('id', $dt->siswa_id)->value('full_name').'/'.$dt->file) }}" target="_blank">
                         <img height"80" width="80" src="{{ asset('asset/file_thumb.png') }}"> {{ $dt->file }} </img>
                     </a>
                 </h5>
@@ -95,8 +94,8 @@
         @endforeach
 
         <div class="form-group">
-            <button type="submit" class="btn btn-info"> NILAI TUGAS </button>
-            <a href="{{ route('class-feed', ['id_kelas'=>$id_kelas, 'feed_title'=>$feed_title]) }}" class="btn btn-info" style="float:right"> KEMBALI </a>
+            <button type="submit" class="ui huge inverted primary button"> NILAI TUGAS </button>
+            <a href="{{ route('class-feed', ['id_kelas'=>$id_kelas, 'id_feed'=>$id_feed]) }}" class="ui huge button right floated"> KEMBALI </a>
         </div>
     </form>
 @endsection
@@ -106,6 +105,5 @@
 @endsection
 
 @push ('scripts')
-<script type="text/javascript">
-</script>
+
 @endpush

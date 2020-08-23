@@ -31,8 +31,9 @@
 @endif
 
 @endsection
- 
+
 @section('content')
+
   <?php 
     use Yajra\Datatables\Datatables; 
     use App\Model\User\User;
@@ -43,7 +44,7 @@
 
   @if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN || $user->account_type == User::ACCOUNT_TYPE_TEACHER)
     <div style="padding-bottom: 20px">
-      <a  href="{{ route('create-student-class') }}" type="button" class="btn btn-info custombtn"> TAMBAH </a>
+      <a  href="{{ route('create-student-class') }}" type="button" class="ui huge inverted primary button"> TAMBAH </a>
     </div>
     <div class="table-responsive">
       <table class="table table-bordered data-table display nowrap" style="width:100%">
@@ -54,7 +55,7 @@
                   <th style="text-align: center">Angkatan</th>
                   <th style="text-align: center">Jurusan</th>
                   <th style="text-align: center">Token</th>
-                  <th style="text-align: center" width="90px">Action</th>
+                  <th style="text-align: center; width: 50px">Action</th>
               </tr>
           </thead>
           <tbody>
@@ -145,6 +146,7 @@
 @endsection
 
 @section('modal')
+
   <div class="modal fade" id="detailModal" role="dialog" >
     <div class="modal-dialog modal-md">
       <div class="modal-content">
@@ -191,32 +193,19 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger pull-right" id="hapus_action">Hapus</button>
-          <button type="button" id="update_data" class="btn btn-default pull-left">Update</button>
+          <button type="button" class="ui huge red button right floated" id="hapus_action">Hapus</button>
+          <button type="button" id="update_data" class="ui huge inverted primary button left floated">Update</button>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="modal fade" id="editClassModal" role="dialog" >
-    <div class="modal-dialog modal-md">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <p class="modal-title">Detail Kelas</p>
-        </div>
-        <div class="modal-body">
-          
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger pull-right" id="hapus_action">Hapus</button>
-          <button type="button" id="update_data" class="btn btn-default pull-left">Update</button>
-        </div>
-      </div>
-    </div>
-  </div>
 @endsection
 
 @push('scripts')
+  <link rel="stylesheet" type="text/css" href="<?= URL::to('/'); ?>/layout/assets/css/jquery.dataTables.css">
+
+  <script type="text/javascript" charset="utf8" src="<?= URL::to('/'); ?>/layout/assets/js/jquery.dataTables.js" defer></script>
   <script type="text/javascript">
     var idclass;
     var table;
@@ -377,4 +366,5 @@
       });
     }
   </script>
+
 @endpush

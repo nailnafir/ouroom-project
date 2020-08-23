@@ -9,9 +9,6 @@
         @slot('class')
             success
         @endslot
-        @slot('title')
-            Terimakasih
-        @endslot
         @slot('message')
             {{ session('alert_success') }}
         @endslot
@@ -35,7 +32,7 @@
 @section('content')
 
 <div style="padding-bottom: 20px">
-  <button type="button" class="btn btn-danger" id="reset">RESET</button>
+  <button type="button" class="ui huge inverted red button" id="reset">RESET</button>
 </div>
 
 <div class="table-responsive">
@@ -57,7 +54,9 @@
 @endsection
 
 @push('scripts')
+<link rel="stylesheet" type="text/css" href="<?= URL::to('/'); ?>/layout/assets/css/jquery.dataTables.css">
 
+<script type="text/javascript" charset="utf8" src="<?= URL::to('/'); ?>/layout/assets/js/jquery.dataTables.js" defer></script>
 <script type="text/javascript">
 
 var table;

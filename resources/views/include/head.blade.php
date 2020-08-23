@@ -35,8 +35,6 @@
             @if($user->account_type == User::ACCOUNT_TYPE_CREATOR)
               <li><a href="<?= URL::to('/role'); ?>"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span>&nbsp Role</a></li>
             @endif
-            <!-- <li><a href="<?= URL::to('/alquran'); ?>"><span class="glyphicon glyphicon-book" aria-hidden="true"></span>&nbsp Qur'an </a></li>
-            <li><a href="<?= URL::to('/iqro'); ?>"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp Iqro </a></li> -->
             <li><a href="<?= URL::to('/action-log'); ?>"><span class="glyphicon glyphicon-record" aria-hidden="true"></span>&nbsp Log Sistem </a></li>
           </ul>
         </li>

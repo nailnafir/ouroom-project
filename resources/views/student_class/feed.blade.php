@@ -77,7 +77,7 @@
                     <button type="submit" class="ui right attached huge primary button btn-bottom-right">
                         UPDATE
                     </button>
-                    <a href="/delete/{{$id_kelas}}/{{$f->id}}" type="button" class="ui left attached huge button btn-bottom-left">
+                    <a href="/delete/{{$id_kelas}}/{{$f->id}}" type="button" id="hapus" class="ui left attached huge red button btn-bottom-left">
                         HAPUS
                     </a>
                 </div>
@@ -89,7 +89,7 @@
 	<fieldset>
     @foreach($feed as $f)
         <legend>{{ $f->judul }}</legend>
-        <form method="POST" action="{{ route('upload-tugas') }}" class="upload-container" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('upload-tugas', ['id_kelas'=>$id_kelas, 'id_feed'=>$id_feed]) }}" id="formTugas" class="upload-container" enctype="multipart/form-data">
 
         @csrf
 
@@ -109,9 +109,9 @@
                     @if($user->account_type == User::ACCOUNT_TYPE_SISWA)
                         <span class="judul" style="font-weight:bold">NILAI : {{ $nilai }}</span>
                     @endif
-                    <div class="ui red large label deadline">{{ $f->deadline }}</div>
+                    <div class="ui red large label deadline">{{ date('d-m-Y',strtotime($f->deadline)) }}</div>
                     <a class="ui top right attached huge label">
-                        <span class="date-post">{{ $f->created_at }}</span>
+                        <span class="date-post">{{ date('d-m-Y h:i:s',strtotime($f->created_at)) }}</span>
                     </a>
                 </div>
                 <pre class="detail-section2">{{ $f->detail }}</pre>
@@ -133,7 +133,7 @@
                     </div>
 
                     <div class="ui bottom attached huge buttons">
-                        <button type="submit" onclick="change()" class="ui button markbtn" id="mark" value="Belum Selesai">Tandai Selesai</button>
+                        <button type="submit" class="ui button markbtn" id="tugas" value="Belum Selesai">Tandai Selesai</button>
                     </div>
                 @endif
             </div>
@@ -143,14 +143,14 @@
     @if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN || $user->account_type == User::ACCOUNT_TYPE_TEACHER)
         <hr>
         <div class="table-responsive">
-            <table class="table table-bordered data-table display nowrap" style="width:100%">
+            <table id="customTable" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr>
                         <th style="text-align: center">Nama</th>
                         <th style="text-align: center">Tugas</th>
                         <th style="text-align: center">Tanggal</th>
                         <th style="text-align: center">Nilai</th>
-                        <th style="text-align: center" width="90px">Action</th>
+                        <th style="text-align: center" width="50px">Action</th>
                     </tr>
                 </thead>
                 @foreach($data_tugas as $dt)
@@ -158,10 +158,10 @@
                         <tr>
                             <td>{{User::where('id', $dt->siswa_id)->value('full_name')}}</td>
                             <td>{{$dt->file}}</td>
-                            <td>{{$dt->created_at}}</td>
+                            <td>{{date('d-m-Y h:i:s',strtotime($f->created_at))}}</td>
                             <td>{{$dt->nilai}}</td>
                             <td style="text-align: center" width="90px">
-                                <a href="{{ route('show-tugas', ['id_kelas'=>$id_kelas, 'feed_title'=>$feed_title, 'siswa_id'=>$dt->siswa_id]) }}" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a href="{{ route('show-tugas', ['id_kelas'=>$id_kelas, 'id_feed'=>$id_feed, 'siswa_id'=>$dt->siswa_id]) }}" class="ui huge inverted primary button"><span class="glyphicon glyphicon-edit"></span></a>
                             </td>
                         </tr>
                     </tbody>
@@ -176,16 +176,35 @@
 @endsection
 
 @push ('scripts')
+<link rel="stylesheet" type="text/css" href="<?= URL::to('/'); ?>/layout/assets/css/datatables.min.css">
+<script type="text/javascript" charset="utf8" src="<?= URL::to('/'); ?>/layout/assets/js/datatables.min.js"></script>
+
 <script type="text/javascript">
-    function change() {
-        if (confirm('Tandai Selesai Tugas Ini ?')) {
-            var btn = document.getElementById("mark")
-            btn.value = 'Selesai';
-            btn.innerHTML = 'Selesai';
-            btn.style.background = '#c0c1c2';
-        } else {
-            console.log('Thing was not saved to the database.');
-        }
-    }
+    window.onload = function() {
+        document.querySelector("#tugas").addEventListener("click", function(event) {
+            event.preventDefault();
+            swal({
+                title: "PERHATIAN!",
+                text: "Data yang telah diupload tidak bisa diganti!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+                closeOnConfirm: false,
+            })
+            .then(
+                function (isConfirm) {
+                    if (isConfirm) {
+                        document.querySelector("#formTugas").submit();
+                    }
+                },
+                function() {
+                    console.log('BACK');
+                }
+            );
+        });
+    };
+    $(document).ready(function() {
+        $('#customTable').DataTable();
+    } );
 </script>
 @endpush

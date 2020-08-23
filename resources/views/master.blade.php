@@ -29,11 +29,6 @@
     <!-- Sweet Alert -->
     <script src="<?= URL::to('/'); ?>/layout/assets/js/sweetalert.min.js"></script>
 
-    <!-- DataTable -->
-    <link rel="stylesheet" type="text/css" href="<?= URL::to('/'); ?>/layout/assets/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="<?= URL::to('/'); ?>/layout/assets/js/jquery.dataTables.js" defer></script>
-
-
     <link href="<?= URL::to('/'); ?>/layout/assets/css/select2.min.css" rel="stylesheet" />
     <script src="<?= URL::to('/'); ?>/layout/assets/js/select2.min.js"></script>
 

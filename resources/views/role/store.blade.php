@@ -37,7 +37,7 @@
 		</fieldset>
 		
 		<div class="form-group" style="padding-top: 20px">
-			<button type="submit" class="btn btn-info"> TAMBAH </button>
+			<button type="submit" class="ui huge inverted primary button"> TAMBAH </button>
 		</div>
 	</form>
 	

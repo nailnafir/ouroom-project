@@ -36,9 +36,9 @@ class UserController extends Controller {
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){  
-                    $btn = '<button onclick="btnUbah('.$row->id.')" name="btnUbah" type="button" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></button>';
-                    $pass = '<button onclick="btnPass('.$row->id.')" name="btnPass" type="button" class="btn btn-info"><span class="glyphicon glyphicon-cog"></span></button>';
-                    $delete = '<button onclick="btnDel('.$row->id.')" name="btnDel" type="button" class="btn btn-info"><span class="glyphicon glyphicon-trash"></span></button>';
+                    $btn = '<button onclick="btnUbah('.$row->id.')" name="btnUbah" type="button" class="ui big inverted primary button"><span class="glyphicon glyphicon-edit"></span></button>';
+                    $pass = '<button onclick="btnPass('.$row->id.')" name="btnPass" type="button" class="ui big inverted primary button"><span class="glyphicon glyphicon-cog"></span></button>';
+                    $delete = '<button onclick="btnDel('.$row->id.')" name="btnDel" type="button" class="ui big red button"><span class="glyphicon glyphicon-trash"></span></button>';
                     return $btn .'&nbsp'. $pass .'&nbsp'. $delete; 
                 })
                 ->rawColumns(['action'])
@@ -64,9 +64,9 @@ class UserController extends Controller {
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){  
-                    $btn = '<button onclick="btnUbah('.$row->id.')" name="btnUbah" type="button" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></button>';
-                    $pass = '<button onclick="btnPass('.$row->id.')" name="btnPass" type="button" class="btn btn-info"><span class="glyphicon glyphicon-cog"></span></button>';
-                    $delete = '<button onclick="btnDel('.$row->id.')" name="btnDel" type="button" class="btn btn-info"><span class="glyphicon glyphicon-trash"></span></button>';
+                    $btn = '<button onclick="btnUbah('.$row->id.')" name="btnUbah" type="button" class="ui big inverted primary button"><span class="glyphicon glyphicon-edit"></span></button>';
+                    $pass = '<button onclick="btnPass('.$row->id.')" name="btnPass" type="button" class="ui big inverted primary button"><span class="glyphicon glyphicon-cog"></span></button>';
+                    $delete = '<button onclick="btnDel('.$row->id.')" name="btnDel" type="button" class="ui big red button"><span class="glyphicon glyphicon-trash"></span></button>';
                     return $btn .'&nbsp'. $pass .'&nbsp'. $delete; 
                 })
                 ->rawColumns(['action'])

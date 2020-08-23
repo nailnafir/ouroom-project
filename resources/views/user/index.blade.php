@@ -35,7 +35,7 @@
 @section('content')
 
 <div style="padding-bottom: 20px">
-  <a href="{{ route('create-user') }}" type="button" class="btn btn-info custombtn"> TAMBAH </a>
+  <a href="{{ route('create-user') }}" type="button" class="ui huge inverted primary button"> TAMBAH </a>
 </div>
 
 <div style="width: 100%; padding-left: -10px;">
@@ -47,7 +47,7 @@
           <th style="text-align: center">Username</th>
           <th style="text-align: center">Email</th>
           <th style="text-align: center">Account Type</th>
-          <th style="text-align: center">Action</th>
+          <th style="text-align: center; width: 100px">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -68,22 +68,18 @@
         <p class="modal-title">User Detail</p>
       </div>
       <div class="modal-body">
-
         <div class="form-group">
           <label>Username</label>
           <input type="text" class="form-control" value="" id="username">
         </div>
-
         <div class="form-group">
           <label>Email</label>
           <input type="text" class="form-control" value="" id="email">
         </div>
-
         <div class="form-group">
           <label>Nama</label>
           <input type="text" class="form-control" value="" id="nama_lengkap">
         </div>
-
         <div class="form-group">
           <label for="sel1">Tipe Akun</label>
           <select class="form-control" id="tipe_akun">
@@ -92,10 +88,9 @@
             <option value="{{ User::ACCOUNT_TYPE_SISWA }}">Siswa</option>
           </select>
         </div>
-
       </div>
       <div class="modal-footer">
-        <button type="button" id="update_data" class="btn btn-default pull-left">Update</button>
+        <button type="button" id="update_data" class="ui huge inverted primary button">Update</button>
       </div>
     </div>
   </div>
@@ -113,19 +108,17 @@
           <label>Username</label>
           <input type="text" class="form-control" value="" id="username_password" disabled>
         </div>
-
         <div class="form-group">
           <label>Password Baru</label>
           <input type="password" class="form-control" value="" id="password">
         </div>
-
         <div class="form-group">
           <label>Konfirmasi Password</label>
           <input type="password" class="form-control" value="" id="password_confirmation">
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" id="update_data_password" class="btn btn-default pull-left">Update Password</button>
+        <button type="button" id="update_data_password" class="ui huge inverted primary button">Update Password</button>
       </div>
     </div>
   </div>
@@ -134,6 +127,9 @@
 @endsection
 
 @push('scripts')
+  <link rel="stylesheet" type="text/css" href="<?= URL::to('/'); ?>/layout/assets/css/jquery.dataTables.css">
+
+  <script type="text/javascript" charset="utf8" src="<?= URL::to('/'); ?>/layout/assets/js/jquery.dataTables.js" defer></script>
   <script type="text/javascript">
     var iduser;
     var table;
@@ -366,4 +362,5 @@
       })
     });
   </script>
+
 @endpush

@@ -17,22 +17,9 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('tbl_user')->insert([
             'username' => 'creator',
-            'email' => 'creator@gmail.com',
-            'password' => Hash::make('creatoratm'),
+            'email' => 'creator@ouroom.com',
+            'password' => Hash::make('creatorouroom'),
             'full_name' => 'Super Admin',
             'account_type' => 'Creator'
         ]);
-
-        $faker = Faker::create('id_ID');
-
-        for($i = 1; $i <= 50; $i++){
-            DB::table('tbl_user')->insert([
-                'username' => $faker->username,
-                'email' => $faker->email,
-                'password' => $faker->password,
-                'full_name' => $faker->name,
-                'account_type' => 'Guru'
-            ]);
-        }
-    }
 }

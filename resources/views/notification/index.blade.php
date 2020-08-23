@@ -9,9 +9,6 @@
         @slot('class')
             success
         @endslot
-        @slot('title')
-            Terimakasih
-        @endslot
         @slot('message')
             {{ session('alert_success') }}
         @endslot
@@ -60,7 +57,7 @@
 		</div>
 		
 		<div class="form-group">
-			<button type="submit" class="btn btn-info"> KIRIM </button>
+			<button type="submit" class="ui huge inverted primary button"> KIRIM </button>
 		</div>
 
 	</form>
@@ -85,27 +82,28 @@
 @endsection
 
 @push('scripts')
+<link rel="stylesheet" type="text/css" href="<?= URL::to('/'); ?>/layout/assets/css/jquery.dataTables.css">
 
+<script type="text/javascript" charset="utf8" src="<?= URL::to('/'); ?>/layout/assets/js/jquery.dataTables.js" defer></script>
 <script type="text/javascript">
-
-$(function () {
-  table = $('.data-table').DataTable({
-      processing: true,
-      serverSide: true,
-      rowReorder: {
-          selector: 'td:nth-child(2)'
-      },
-      responsive: true,
-      "aaSorting": [[ 2, "desc" ]],
-      ajax: "{{ route('notification') }}",
-      columns: [
-          {data: 'notification_title', name: 'notification_title'},
-          {data: 'notification_message', name: 'notification_message'},
-          {data: 'date', name: 'date'},
-          {data: 'notification_type', name: 'notification_type'}
-      ]
-  });
-});
+	$(function () {
+	table = $('.data-table').DataTable({
+		processing: true,
+		serverSide: true,
+		rowReorder: {
+			selector: 'td:nth-child(2)'
+		},
+		responsive: true,
+		"aaSorting": [[ 2, "desc" ]],
+		ajax: "{{ route('notification') }}",
+		columns: [
+			{data: 'notification_title', name: 'notification_title'},
+			{data: 'notification_message', name: 'notification_message'},
+			{data: 'date', name: 'date'},
+			{data: 'notification_type', name: 'notification_type'}
+		]
+	});
+	});
 
 </script>
 

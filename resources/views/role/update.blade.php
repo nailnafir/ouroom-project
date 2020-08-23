@@ -10,46 +10,43 @@
 
 		<div class="form-group">
 			<label>Nama Role</label>
-			<input type="text" class="form-control" value="{{ $data->name }}" name="name">
+			<input type="text" class="form-control" value="{{ $data->name }}" name="name" disabled>
 			@if ($errors->has('name'))
 			    <div class="error"><p style="color: red"><span>&#42;</span> {{ $errors->first('name') }}</p></div>
 			@endif
 		</div>
-
 		<fieldset>
 		<legend>Daftar Permission</legend>
-
 			<div class="checkbox-inline">
 				<input id='check_all' name="check_all" type="checkbox">
 				<label> <strong> Pilih Semua </strong></label>
 			</div>
-			
 			@php
 				$i = 1;
 			@endphp
-
-			<hr>			
+			<hr>
+			<div class="row" style="padding: 0 10px">
 				@foreach ($data_permission as $permission)
 					@php
 						$i++;
 					@endphp
-
-				    <div class="checkbox-inline">
-					    <input id='{{ $permission->id }}' name="permission[]" type="checkbox" value="{{ $permission->id }}" <?= in_array($permission->id, $data_role_permission) ? 'checked' : '' ?> >
-					    <label for="permission_{{ $permission->id }}"> {{ $permission->name }} </label>
+					<div class="col-lg-2">
+						<div class="checkbox-inline">
+							<input id='{{ $permission->id }}' name="permission[]" type="checkbox" value="{{ $permission->id }}" <?= in_array($permission->id, $data_role_permission) ? 'checked' : '' ?> >
+							<label for="permission_{{ $permission->id }}"> {{ $permission->name }} </label>
+						</div>
 					</div>
-
+				    
 					@if( ($i % 5) == 0)
-
+					<br>
 					<hr>
-
 					@endif
-
 				@endforeach
+			</div>
+				
 		</fieldset>
-		
 		<div class="form-group" style="padding-top: 20px">
-			<button type="submit" class="btn btn-info"> Update </button>
+			<button type="submit" class="ui huge inverted primary button"> UPDATE </button>
 		</div>
 	</form>
 	

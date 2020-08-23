@@ -88,11 +88,11 @@ Breadcrumbs::for('class-data', function ($trail, $id_kelas) {
     $trail->push('Data Feed Kelas', route('class-data', $id_kelas));
 });
 
-Breadcrumbs::for('edit-class', function ($trail, $id_kelas) {
+Breadcrumbs::for('siswa-class', function ($trail, $id_kelas) {
     $nama_kelas = StudentClass::findOrFail($id_kelas);
     $trail->parent('student-class');
     $trail->push($nama_kelas->class_name, route('list-student-class', $id_kelas));
-    $trail->push('Edit Kelas', route('edit-class', $id_kelas));
+    $trail->push('Siswa Kelas', route('siswa-class', $id_kelas));
 });
 
 // Siswa

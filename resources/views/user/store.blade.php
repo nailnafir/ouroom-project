@@ -57,7 +57,7 @@
 		</div>
 
 		<div class="form-group col-md-6" style="padding-left: 0px">
-			<label>Re Password</label>
+			<label>Retype Password</label>
 			<input type="password" class="form-control" value="" name="password_confirmation">
 			@if ($errors->has('password'))
 			<div class="password">
@@ -67,7 +67,7 @@
 		</div>
 
 		<div class="form-group">
-			<button type="submit" class="btn btn-info"> TAMBAH </button>
+			<button type="submit" class="ui huge inverted primary button"> TAMBAH </button>
 		</div>
 
 	</form>

@@ -35,7 +35,7 @@
 @section('content')
 
 <div style="padding-bottom: 20px">
-  <a  href="{{ route('create-siswa') }}" type="button" class="btn btn-info"> TAMBAH </a>
+  <a  href="{{ route('create-siswa') }}" type="button" class="ui huge inverted primary button"> TAMBAH </a>
 </div>
 
 <div style="width: 100%; padding-left: -10px;">
@@ -48,7 +48,7 @@
           <th style="text-align: center">Angkatan</th>
           <th style="text-align: center">Username</th>
           <th style="text-align: center">Email</th>
-          <th style="text-align: center">Action</th>
+          <th style="text-align: center; width: 100px">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -92,7 +92,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" id="update_data" class="btn btn-default pull-left">Update</button>
+        <button type="button" id="update_data" class="ui huge inverted primary button left floated">Update</button>
       </div>
     </div>
   </div>
@@ -122,7 +122,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" id="update_data_password" class="btn btn-default pull-left">Update Password</button>
+        <button type="button" id="update_data_password" class="ui huge inverted primary button left floated">Update Password</button>
       </div>
     </div>
   </div>
@@ -131,6 +131,9 @@
 @endsection
 
 @push('scripts')
+  <link rel="stylesheet" type="text/css" href="<?= URL::to('/'); ?>/layout/assets/css/jquery.dataTables.css">
+
+  <script type="text/javascript" charset="utf8" src="<?= URL::to('/'); ?>/layout/assets/js/jquery.dataTables.js" defer></script>
   <script type="text/javascript">
     var iduser;
     var table;

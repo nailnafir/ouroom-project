@@ -72,7 +72,6 @@ class ProfileController extends Controller
             DB::beginTransaction();
             $user = User::findOrFail(Auth::user()->id);
             $user->email = $request->get('email');
-            $user->address = $request->get('address');
             $user->full_name = $request->get('full_name');
             $user->account_type = $user->account_type;
             $files = $request->file('file');
@@ -87,7 +86,6 @@ class ProfileController extends Controller
             DB::beginTransaction();
             $user = User::findOrFail(Auth::user()->id);
             $user->email = $request->get('email');
-            $user->address = $request->get('address');
             $user->full_name = $request->get('full_name');
             $user->account_type = $user->account_type;
         }

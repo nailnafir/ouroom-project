@@ -82,15 +82,15 @@
     <input type="hidden" value="{{ $data_user->id }}" class="form-control" value="" name="iduser">
   
     <div class="form-group">
-      <button type="submit" class="btn btn-info"> UPDATE </button>
-      <button type="button" id="change_pass" class="btn btn-info pull-right"> UBAH PASSWORD </button>
+      <button type="submit" class="ui big primary button"> UPDATE </button>
+      <button type="button" id="change_pass" class="ui big inverted red button right floated"> UBAH PASSWORD </button>
     </div>
 @endsection
 
 @section('profile_picture')
 
 <div style="text-align: center; height: 100%; width: 100%">
-    <img src="{{ url('asset_user/'.$data_user->account_type.'/'.$data_user->full_name.'/'.$data_user->profile_picture) }}" class="img-thumbnail" id="profile_pic" style="object-fit: cover; height: 300px; width: 300px"/> 
+    <img src="{{ url('asset_user/'.$data_user->account_type.'/'.$data_user->full_name.'/'.$data_user->profile_picture) }}" class="img-thumbnail" id="profile_pic" style="object-fit: cover; height: 200px; width: 200px"/> 
 </div>
 <div style="text-align: center; padding-top: 10px">
   @if ($data_user->profile_picture != null)
@@ -146,7 +146,7 @@
       </div>
       <div class="clearfix"></div>
       <div class="modal-footer">
-        <button type="button" id="update_password" class="btn btn-default pull-left">Update</button>
+        <button type="button" id="update_password" class="ui big primary button">Update</button>
       </div>
     </div>
   </div>

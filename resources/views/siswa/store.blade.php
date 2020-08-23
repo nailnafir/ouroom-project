@@ -85,7 +85,7 @@
 		</div>
 
 		<div class="form-group">
-			<button type="submit" class="btn btn-info"> TAMBAH </button>
+			<button type="submit" class="ui huge inverted primary button"> TAMBAH </button>
 		</div>
 
 	</form>

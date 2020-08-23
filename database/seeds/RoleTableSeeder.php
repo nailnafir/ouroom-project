@@ -34,11 +34,8 @@ class RoleTableSeeder extends Seeder{
 
             // Assign Default Permission to Teacher
             $role_guru->givePermissionTo('index home');
-            $role_guru->givePermissionTo('all report');
             $role_guru->givePermissionTo('index profile');
             $role_guru->givePermissionTo('update profile');
-            $role_guru->givePermissionTo('index assessment');
-            $role_guru->givePermissionTo('create assessment');
             $role_guru->givePermissionTo('change password');
             $role_guru->givePermissionTo('index class');
             $role_guru->givePermissionTo('view class');
@@ -62,12 +59,6 @@ class RoleTableSeeder extends Seeder{
     private function createPermission(){
         // ------ Home ----- 
         Permission::create(['name' => 'index home']);
-        // --------- Surah ---------------------
-        Permission::create(['name' => 'index surah']);
-        Permission::create(['name' => 'view surah']);
-        Permission::create(['name' => 'create surah']);
-        Permission::create(['name' => 'update surah']);
-        Permission::create(['name' => 'delete surah']);
 
         // --------- User ---------------------
         Permission::create(['name' => 'index user']);
@@ -75,6 +66,7 @@ class RoleTableSeeder extends Seeder{
         Permission::create(['name' => 'create user']);
         Permission::create(['name' => 'update user']);
         Permission::create(['name' => 'delete user']);
+        Permission::create(['name' => 'change password']);
 
         // --------- Class ---------------------
         Permission::create(['name' => 'index class']);
@@ -83,13 +75,6 @@ class RoleTableSeeder extends Seeder{
         Permission::create(['name' => 'update class']);
         Permission::create(['name' => 'delete class']);
 
-        // --------- Iqro ---------------------
-        Permission::create(['name' => 'index iqro']);
-        Permission::create(['name' => 'view iqro']);
-        Permission::create(['name' => 'create iqro']);
-        Permission::create(['name' => 'update iqro']);
-        Permission::create(['name' => 'delete iqro']);
-
         // --------- Siswa ---------------------
         Permission::create(['name' => 'index siswa']);
         Permission::create(['name' => 'view siswa']);
@@ -97,23 +82,9 @@ class RoleTableSeeder extends Seeder{
         Permission::create(['name' => 'update siswa']);
         Permission::create(['name' => 'delete siswa']);
 
-        // --------- Parent ---------------------
-        Permission::create(['name' => 'index parent']);
-        Permission::create(['name' => 'change password']);
-        Permission::create(['name' => 'create parent']);
-        Permission::create(['name' => 'update parent']);
-        Permission::create(['name' => 'delete parent']);
-
-        // --------- Assessment ---------------------
-        Permission::create(['name' => 'index assessment']);
-        Permission::create(['name' => 'create assessment']);
-
         // --------- Role ---------------------
         Permission::create(['name' => 'index role']);
         Permission::create(['name' => 'update role']);
-
-        // --------- Report ---------------------
-        Permission::create(['name' => 'all report']);
 
         // --------- Profile ---------------------
         Permission::create(['name' => 'index profile']);
