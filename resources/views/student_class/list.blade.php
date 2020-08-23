@@ -42,9 +42,6 @@
 
 	@if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN || $user->account_type == User::ACCOUNT_TYPE_TEACHER)
 		@foreach($data_kelas as $dk)
-			<a class="ui big inverted primary button btn-edit" href="{{ route('edit-class', ['id_kelas'=>$id_kelas]) }}">
-				Edit Kelas
-			</a>
 			<h1 class="ui header class-attribute">
 				{{$dk->class_name}}
 				<div class="sub header sub-class-attribute">{{User::where('id', '=', $dk->teacher_id)->value('full_name')}}</div>

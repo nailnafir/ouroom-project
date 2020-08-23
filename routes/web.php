@@ -71,8 +71,6 @@ $router->group(['prefix' => 'student-class'], function () use ($router) {
 // Untuk Feed
 $router->group(['prefix' => 'student-class/{id_kelas}'], function () use ($router) {
 	$router->get('/class-data',  ['as'=>'class-data','uses' => 'FeedController@showClassData']);
-	$router->get('/edit-class',  ['as'=>'edit-class','uses' => 'FeedController@showEditClass']);
-	$router->post('/update-kelas',  ['as'=>'update-kelas','uses' => 'FeedController@updateClass']);
 	$router->post('/delete-siswa',  ['as'=>'delete-siswa','uses' => 'FeedController@deleteSiswaClass']);
 	$router->get('/{id_feed}',  ['as'=>'class-feed','uses' => 'FeedController@showFeed']);
 	$router->post('/{id_feed}',  ['as'=>'update-feed','uses' => 'FeedController@updateFeed']);

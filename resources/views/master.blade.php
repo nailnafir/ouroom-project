@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
@@ -24,7 +24,6 @@
     <!-- Date Picker -->
     <script type="text/javascript" src="<?= URL::to('/'); ?>/layout/assets/js/moment.min.js"></script>
     <script type="text/javascript" src="<?= URL::to('/'); ?>/layout/assets/js/daterangepicker.min.js"></script>
-    
     <link rel="stylesheet" type="text/css" href="<?= URL::to('/'); ?>/layout/assets/css/daterangepicker.css" />
 
     <!-- Sweet Alert -->
@@ -37,7 +36,6 @@
 
     <link href="<?= URL::to('/'); ?>/layout/assets/css/select2.min.css" rel="stylesheet" />
     <script src="<?= URL::to('/'); ?>/layout/assets/js/select2.min.js"></script>
-    
 
     <!-- Bootstrap core CSS     -->
     <link href="<?= URL::to('/'); ?>/layout/assets/css/bootstrap.min.css" rel="stylesheet" />
@@ -48,10 +46,8 @@
     <!--  Light Bootstrap Table core CSS    -->
     <link href="<?= URL::to('/'); ?>/layout/assets/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet"/>
 
-
     <!-- Main CSS -->
     <link rel="stylesheet" href="<?= URL::to('/'); ?>/layout/assets/css/main.css">
-
 
     <!--     Fonts and icons     -->
     <link href="<?= URL::to('/'); ?>/layout/assets/css/font-awesome.min.css" rel="stylesheet">
@@ -60,36 +56,20 @@
     <link href="<?= URL::to('/'); ?>/layout/assets/css/additional_css.css" rel="stylesheet" />
     <link href="<?= URL::to('/'); ?>/layout/assets/css/icon.css" rel="stylesheet">
     <link href="<?= URL::to('/'); ?>/layout/assets/css/comment.css" rel="stylesheet">
-    
 
     @stack('scripts')
-    
 </head>
 <body>
 
 <div class="wrapper">
     <div class="sidebar" data-color="blue">
-
-    <!--
-
-        Tip 1: you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple"
-        Tip 2: you can also add an image using data-image tag
-
-    -->
-
-    <!-- Sidebar Navbar Navigation  -->
-    	
         @include('include.navbar')
-
-    <!-- End Navbar Navigation -->
-
     </div>
 
     <div class="main-panel">
-        
         @include('include.head')
 
-        <!-- Content Disini -->
+        <!-- Content -->
             @if (isset($profile_content))
                 @if ($profile_content != false)
                     @include('content_profile')
@@ -100,11 +80,8 @@
         <!-- End Content -->
 
         <footer class="footer">
-            
             @include('include.footer')
-
         </footer>
-
     </div>
 </div>
 
@@ -114,17 +91,8 @@
 	<!-- Charts Plugin -->
     <script src="<?= URL::to('/'); ?>/layout/assets/js/chartist.min.js"></script>
 
-    <!-- Semantic UI  -->
-    <!-- <script src="<?= URL::to('/'); ?>/layout/assets/js/semantic.min.js"></script> -->
-
     <!-- Notifications Plugin    -->
     <script src="<?= URL::to('/'); ?>/layout/assets/js/bootstrap-notify.js"></script>
-
-    <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
-	<script src="<?= URL::to('/'); ?>/layout/assets/js/light-bootstrap-dashboard.js?v=1.4.0"></script>
-
-	<!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
-	<!-- <script src="<?= URL::to('/'); ?>/layout/assets/js/demo.js"></script> -->
 
 	<script type="text/javascript">
     	

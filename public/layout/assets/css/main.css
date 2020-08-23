@@ -58,7 +58,9 @@ input[type="date"] {
 .date-post{
     font-size: 13px;
 }
-
+.disabled{
+    pointer-events: none !important;
+}
 /* -- Feed Page -- */
 .class-attribute{
     font-size: 3rem !important;

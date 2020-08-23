@@ -39,7 +39,6 @@
 		// get user auth
 		$user = Auth::user();
 	?>
-
     @if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN || $user->account_type == User::ACCOUNT_TYPE_TEACHER)
     <form method="POST" action="{{ route('update-feed', ['id_kelas'=>$id_kelas, 'id_feed'=>$id_feed]) }}" class="upload-container" enctype="multipart/form-data">
 

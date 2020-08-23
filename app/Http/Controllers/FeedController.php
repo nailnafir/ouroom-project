@@ -261,16 +261,10 @@ class FeedController extends Controller
         return redirect()->back()->with('alert_success', 'Data Berhasil Disimpan');
     }
 
-    public function updateClass(UpdateStudentClassRequest $request)
+    public function updateClass(Request $request)
     {
-        $this->validate($request, [
-            'class_name' => 'string',
-            'angkatan' => 'string',
-            'jurusan' => 'string',
-            'note' => 'string',
-        ]);
-
-        $id = $request->id_kelas;
+        $id = $request->class_name;
+        dd($id);
         DB::table('tbl_class')->where('id', $id)->update([
             'class_name' => $request->class_name,
             'angkatan' => $request->angkatan,

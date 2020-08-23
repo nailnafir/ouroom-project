@@ -41,7 +41,7 @@
     $user = Auth::user();
   ?>
 
-  @if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN)
+  @if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN || $user->account_type == User::ACCOUNT_TYPE_TEACHER)
     <div style="padding-bottom: 20px">
       <a  href="{{ route('create-student-class') }}" type="button" class="btn btn-info custombtn"> TAMBAH </a>
     </div>
@@ -71,40 +71,6 @@
           <div class="content">
             <div class="header" style="padding: 0px">
               {{$dk->class_name}}
-            </div>
-            <div class="meta">
-              <span class="category">{{$dk->full_name}}</span>
-            </div>
-            <div class="description">
-              <p>{{$dk->note}}</p>
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="right floated author">
-              {{$dk->angkatan}}
-            </div>
-            <div class="left floated author">
-              {{$dk->jurusan}}
-            </div>
-          </div>
-        </a>
-      @endforeach
-    </div>
-  @endif
-
-  @if($user->account_type == User::ACCOUNT_TYPE_TEACHER)
-    <div style="padding-bottom: 20px; text-align:center">
-      <a  href="{{ route('create-student-class') }}" type="button" class="btn btn-info custombtn"> TAMBAH </a>
-    </div>
-
-    <fieldset>
-    <legend>List Kelas</legend>
-    <div id="card-list" class="ui three stackable cards">
-      @foreach($data_kelas as $dk)
-        <a id="customCards" class="ui card" href="{{ route('list-student-class', ['id_kelas'=>$dk->id]) }}">
-          <div class="content">
-            <div class="header" style="padding: 0px">
-              {{($dk->class_name)}}
             </div>
             <div class="meta">
               <span class="category">{{$dk->full_name}}</span>
@@ -191,10 +157,18 @@
             <label>Kelas</label>
             <input type="text" class="form-control" value="" name="class_name" id="class_name">
           </div> 
-          <div class="form-group">
-            <label>Guru</label>
-            <?= $guru_option ?>
-          </div>
+          @if($user->account_type == User::ACCOUNT_TYPE_CREATOR || $user->account_type == User::ACCOUNT_TYPE_ADMIN)
+            <div class="form-group">
+              <label>Guru</label>
+              <?= $guru_option ?>
+            </div>
+          @endif
+          @if($user->account_type == User::ACCOUNT_TYPE_TEACHER)
+            <div class="form-group" style="pointer-events: none;">
+              <label>Guru</label>
+              <?= $guru_option ?>
+            </div>
+          @endif
           <div class="form-group">
             <label>Angkatan</label>
             <select class="form-control" id="angkatan" name="angkatan" style="width: 100%">
@@ -314,7 +288,7 @@
               table.ajax.reload();
             },
             error: function(error) {
-              swal('Terjadi kegagalan sistem', { button:false, icon: "error", timer: 1000});
+              swal('Terjadi kegagalan, pastikan jurusan dan guru diinput.', { button:false, icon: "error", timer: 1000});
               console.log(data);
             }
           });
@@ -391,7 +365,9 @@
                 swal(data.message, { button:false, icon: "error", timer: 1000});
               }
               table.ajax.reload();
-              $("#card-list").load(" #card-list");
+              setTimeout(function(){
+                location.reload();
+              }, 1000); 
             },
             error: function(error) {
               swal('Terjadi kegagalan sistem', { button:false, icon: "error", timer: 1000});

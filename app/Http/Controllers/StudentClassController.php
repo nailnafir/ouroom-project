@@ -21,34 +21,51 @@ class StudentClassController extends Controller {
     }
 
     public function index(Request $request) {
-        if ($request->ajax()) {
-            $data = StudentClass::all();
-            return Datatables::of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function($row){  
-                    $btn = '<button onclick="btnUbah('.$row->id.')" name="btnUbah" type="button" class="btn btn-info" style="text-align: center"><span class="glyphicon glyphicon-edit"></span></button>';
-                    return $btn; 
-                })
-                ->addColumn('guru', function(StudentClass $class) {
-                    if($class->getTeacher->account_type != User::ACCOUNT_TYPE_TEACHER){
-                        return 'Guru sudah tidak aktif';
-                    } else {
-                        return $class->getTeacher->full_name;
-                    }
-                }) 
-                ->rawColumns(['action'])
-                ->toJson();
-        }
         $data_guru = User::getTeacher();
         $data_user = Auth::user()->full_name;
         $user_id = Auth::id();
-
         $guru_option = '<select class="js-example-basic-single form-control" name="teacher_id" id="guru" style="width: 100%">';
         foreach ($data_guru as $guru) {
             $guru_option .= '<option value="'.$guru->id.'">'.$guru->full_name.'</option>';
         }
         $guru_option .= '</select>';
-        $years = array_combine(range(date("Y"), 2001), range(date("Y"), 2001));
+        $years = array_combine(range(date("Y"), 2018), range(date("Y"), 2018));
+        if($this->getUserLogin()->account_type == User::ACCOUNT_TYPE_CREATOR || $this->getUserLogin()->account_type == User::ACCOUNT_TYPE_ADMIN){
+            if ($request->ajax()) {
+                $data = StudentClass::all();
+                return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){  
+                        $btn = '<button onclick="btnUbah('.$row->id.')" name="btnUbah" type="button" class="btn btn-info" style="text-align: center"><span class="glyphicon glyphicon-edit"></span></button>';
+                        return $btn; 
+                    })
+                    ->addColumn('guru', function(StudentClass $class) {
+                        if($class->getTeacher->account_type != User::ACCOUNT_TYPE_TEACHER){
+                            return 'Guru sudah tidak aktif';
+                        } else {
+                            return $class->getTeacher->full_name;
+                        }
+                    })
+                    ->rawColumns(['action'])
+                    ->toJson();
+            }
+        } else if ($this->getUserLogin()->account_type == User::ACCOUNT_TYPE_TEACHER) {
+            if ($request->ajax()) {
+                $data = StudentClass::where('teacher_id', '=', $user_id)
+                    ->get();
+                return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){  
+                        $btn = '<button onclick="btnUbah('.$row->id.')" name="btnUbah" type="button" class="btn btn-info" style="text-align: center"><span class="glyphicon glyphicon-edit"></span></button>';
+                        return $btn; 
+                    })
+                    ->addColumn('guru', function(StudentClass $class) {
+                        return $class->getTeacher->full_name;
+                    }) 
+                    ->rawColumns(['action'])
+                    ->toJson();
+            }
+        }
 
         if($this->getUserPermission('index class')){
             if($this->getUserLogin()->account_type == User::ACCOUNT_TYPE_CREATOR || $this->getUserLogin()->account_type == User::ACCOUNT_TYPE_ADMIN){
