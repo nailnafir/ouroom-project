@@ -37,7 +37,7 @@ class UserController extends Controller {
                 ->addIndexColumn()
                 ->addColumn('action', function($row){  
                     $btn = '<button onclick="btnUbah('.$row->id.')" name="btnUbah" type="button" class="ui big inverted primary button"><span class="glyphicon glyphicon-edit"></span></button>';
-                    $pass = '<button onclick="btnPass('.$row->id.')" name="btnPass" type="button" class="ui big inverted primary button"><span class="glyphicon glyphicon-cog"></span></button>';
+                    $pass = '<button onclick="btnPass('.$row->id.')" name="btnPass" type="button" class="ui big inverted primary button"><span class="glyphicon glyphicon-lock"></span></button>';
                     $delete = '<button onclick="btnDel('.$row->id.')" name="btnDel" type="button" class="ui big red button"><span class="glyphicon glyphicon-trash"></span></button>';
                     return $btn .'&nbsp'. $pass .'&nbsp'. $delete; 
                 })
@@ -53,11 +53,6 @@ class UserController extends Controller {
         }
     }
 
-    /**
-     * Show the application index.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function indexSiswa(Request $request) {
         if ($request->ajax()) {
             $data = User::getSiswa();
@@ -65,7 +60,7 @@ class UserController extends Controller {
                 ->addIndexColumn()
                 ->addColumn('action', function($row){  
                     $btn = '<button onclick="btnUbah('.$row->id.')" name="btnUbah" type="button" class="ui big inverted primary button"><span class="glyphicon glyphicon-edit"></span></button>';
-                    $pass = '<button onclick="btnPass('.$row->id.')" name="btnPass" type="button" class="ui big inverted primary button"><span class="glyphicon glyphicon-cog"></span></button>';
+                    $pass = '<button onclick="btnPass('.$row->id.')" name="btnPass" type="button" class="ui big inverted primary button"><span class="glyphicon glyphicon-lock"></span></button>';
                     $delete = '<button onclick="btnDel('.$row->id.')" name="btnDel" type="button" class="ui big red button"><span class="glyphicon glyphicon-trash"></span></button>';
                     return $btn .'&nbsp'. $pass .'&nbsp'. $delete; 
                 })

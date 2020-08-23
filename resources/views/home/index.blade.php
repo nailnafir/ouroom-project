@@ -30,6 +30,8 @@
 				</div>
 			</div>
 		</div>
+	</fieldset>
+	<br>
 	@endif
 
 
@@ -69,6 +71,8 @@
 				</div>
 			</div>
 		</div>
+	</fieldset>
+	<br>
 	@endif
 
 	<!-- User Type Siswa -->

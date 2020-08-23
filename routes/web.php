@@ -74,30 +74,11 @@ $router->group(['prefix' => 'student-class'], function () use ($router) {
 	$router->get('/{id_kelas}/{id_feed}/{siswa_id}',  ['as'=>'show-tugas','uses' => 'FeedController@showTugas']);
 	$router->post('/update-tugas',  ['as'=>'update-tugas','uses' => 'FeedController@updateTugas']);
 });
-
-// Untuk Feed
-// $router->group(['prefix' => 'student-class'], function () use ($router) {
-// 	$router->get('/{id_kelas}', ['as'=>'list-student-class','uses' => 'FeedController@showClass']);
-// 	$router->post('/upload',  ['as'=>'upload-feed','uses' => 'FeedController@uploadFeed']);
-// 	$router->post('/upload-tugas',  ['as'=>'upload-tugas','uses' => 'FeedController@uploadTugas']);
-// 	$router->post('/delete-feed',  ['as'=>'delete-feed','uses' => 'FeedController@deleteFeed']);
-// 	$router->get('/class-data',  ['as'=>'class-data','uses' => 'FeedController@showClassData']);
-// 	$router->get('/siswa-class',  ['as'=>'siswa-class','uses' => 'FeedController@showSiswaClass']);
-// 	$router->post('/delete-siswa',  ['as'=>'delete-siswa','uses' => 'FeedController@deleteSiswaClass']);
-// 	$router->get('/{id_kelas}/{id_feed}',  ['as'=>'class-feed','uses' => 'FeedController@showFeed']);
-// 	$router->post('/{id_kelas}/{id_feed}',  ['as'=>'update-feed','uses' => 'FeedController@updateFeed']);
-// 	$router->get('/{id_kelas}/{id_feed}/{siswa_id}',  ['as'=>'show-tugas','uses' => 'FeedController@showTugas']);
-// 	$router->post('/update-tugas',  ['as'=>'update-tugas','uses' => 'FeedController@updateTugas']);
-// });
 Route::get('/delete/{id_kelas}/{id}','FeedController@deleteFeed');
 
 // Untuk Siswa
 $router->group(['prefix' => 'siswa'], function () use ($router) {
-	$router->get('/',  ['as'=>'siswa','uses' => 'SiswaController@index']);
-	$router->post('/get-user-parent',  ['as'=>'get-user-parent','uses' => 'SiswaController@getUserParent']);	
-	$router->get('/get-class',  ['as'=>'get-class','uses' => 'SiswaController@getClass']);
-	$router->post('/get-detail',  ['as'=>'detail-siswa','uses' => 'SiswaController@show']);
-	$router->post('/update',  ['as'=>'update-siswa','uses' => 'SiswaController@update']);
+	$router->get('/',  ['as'=>'siswa','uses' => 'UserController@indexSiswa']);
 });
 
 // Untuk Role Dan Permission

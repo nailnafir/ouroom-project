@@ -21,7 +21,7 @@
     {{-- Footer --}}
     @slot('footer')
         @component('mail::footer')
-            © {{ date('Y') }} SMK AULIYA TELADAN MANDIRI. @lang('All rights reserved.')
+            © {{ date('Y') }} Ouroom. @lang('All rights reserved.')
         @endcomponent
     @endslot
 @endcomponent

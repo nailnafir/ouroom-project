@@ -44,7 +44,7 @@
 @if (! empty($salutation))
 {{ $salutation }}
 @else
-@lang('Salam'),<br>SMK Auliya Teladan Mandiri
+@lang('Salam'),<br>Ouroom
 @endif
 
 {{-- Subcopy --}}

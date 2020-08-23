@@ -1,7 +1,7 @@
 <tr>
     <td class="header">
         <a href="{{ $url }}">
-            SMK AULIYA TELADAN MANDIRI
+            OUROOM
         </a>
     </td>
 </tr>

@@ -337,7 +337,6 @@
             username: username,
             email: email,
             full_name: full_name,
-            address: address,
             account_type: account_type
           },
           success: function(data) {
